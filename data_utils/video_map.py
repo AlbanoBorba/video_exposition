@@ -17,9 +17,9 @@ def read_video(video_path):
 			
 			print(count)
 			count = count + 1
-			avg = avg + frame
 			
-
+			avg = avg + frame.reshape((1280,720,3))
+	
 			if cv2.waitKey(1) & 0xFF == ord('q'):
 				break
 			break
