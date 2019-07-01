@@ -26,7 +26,7 @@ def read_image(path):
 	img = io.imread(path)
 	medians.append(np.median(img))
 
-global avg = np.zeros([1280, 720, 3])
+avg = np.zeros([1280, 720, 3])
 
 if __name__ == '__main__':	
 	path = '/media/albano/external'
