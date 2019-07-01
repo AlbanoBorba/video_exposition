@@ -8,12 +8,17 @@ def read_video(video_path):
 	cap = cv2.VideoCapture(video_path)
 
 	global avg
+	global count
 
 	while True:
 		ret, frame = cap.read()
 		
 		if ret:
+			
+			print(count)
+			count = count + 1
 			avg = avg + frame
+			
 
 			if cv2.waitKey(1) & 0xFF == ord('q'):
 				break
@@ -29,6 +34,7 @@ def read_image(path):
 	medians.append(np.median(img))
 
 avg = np.zeros([1280, 720, 3])
+count = 0
 
 if __name__ == '__main__':	
 	path = '/media/albano/external'
