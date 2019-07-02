@@ -80,7 +80,7 @@ def train_model(model, dataloader, criterion, optimizer, num_epochs=25, phases=[
 
                     # statisti
                     running_loss += loss.item()
-                    torch.cuda.empty_cache()
+                    #torch.cuda.empty_cache()
 
             #save model    
             torch.save(model.state_dict(), '/3dcnn_weiths_{}.pth'.format(epoch))

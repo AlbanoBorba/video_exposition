@@ -1,0 +1,60 @@
+Dois primeiros samples:
+
+Dataloader iterate:
+        2019-07-02 16:06:43.331525
+VideoDataset get item:
+        2019-07-02 16:06:43.340980
+VideoLoader process:
+        2019-07-02 16:06:43.340997
+VideoDataset get item:
+        2019-07-02 16:06:43.422497
+VideoLoader process:
+        2019-07-02 16:06:43.422532
+VideoDataset get item:
+        2019-07-02 16:06:43.467187
+VideoLoader process:
+        2019-07-02 16:06:43.467223
+VideoDataset get item:
+        2019-07-02 16:06:43.512590
+VideoLoader process:
+        2019-07-02 16:06:43.512625
+Video Step: 0 | Sample Step: 0
+        2019-07-02 16:06:43.585323
+ToDevice
+        2019-07-02 16:06:43.601287
+Model
+        2019-07-02 16:06:43.625160
+Loss
+        2019-07-02 16:06:44.193621
+Backward
+        2019-07-02 16:06:44.488994
+Optimizer
+        2019-07-02 16:06:44.493234
+VideoDataset get item:
+        2019-07-02 16:06:45.526879
+VideoLoader process:
+        2019-07-02 16:06:45.526920
+VideoDataset get item:
+        2019-07-02 16:06:45.572501
+VideoLoader process:
+        2019-07-02 16:06:45.572530
+VideoDataset get item:
+        2019-07-02 16:06:45.623249
+VideoLoader process:
+        2019-07-02 16:06:45.623279
+VideoDataset get item:
+        2019-07-02 16:06:45.675175
+VideoLoader process:
+        2019-07-02 16:06:45.675212
+Video Step: 0 | Sample Step: 1
+        2019-07-02 16:06:45.752248
+ToDevice
+        2019-07-02 16:06:45.767940
+Model
+        2019-07-02 16:06:45.790455
+Loss
+        2019-07-02 16:06:46.321150
+Backward
+        2019-07-02 16:06:46.605110
+Optimizer
+        2019-07-02 16:06:46.608816
