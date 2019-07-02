@@ -80,7 +80,7 @@ def train_model(model, dataloader, criterion, optimizer, num_epochs=25, phases=[
 
                     # statisti
                     print(loss.item())
-                    running_loss += loss.data[0]
+                    running_loss += loss.data
                     print('loss.item()')
                     print('\t', end='')
                     print(datetime.datetime.now())
