@@ -118,10 +118,11 @@ class SingleVideoDataset(Dataset):
             
         for frame in frames:
             frame = torch.from_numpy(frame)
+            print(type(frame))
 
-        print(frames)
-        print(type(frames))
-        print(type(frames[0]))
+        #print(frames)
+        #print(type(frames))
+        #print(type(frames[0]))
 
         frames = torch.stack(frames, dim=0)
 
