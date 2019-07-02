@@ -121,7 +121,7 @@ class SingleVideoDataset(Dataset):
         #print(frame_gt.shape)
 
         for frame in frames:
-            frame = self.change_gamma(frame, self.gamma))
+            frame = self.change_gamma(frame, self.gamma)
             frame = self.transform(frame)
 
         frames = torch.stack(frames, dim=0)
