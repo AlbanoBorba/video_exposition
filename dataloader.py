@@ -20,8 +20,7 @@ def transforms_list():
         transforms.Resize((400, 720)),
         transforms.ToTensor(),
         #transforms.Lambda(lambda x: rescale(x)),
-        transforms.Normalize(mean=(0.279, 0.293, 0.290), std=(0.197, 0.198, 0.201)),
-        transforms.ToTensor(),
+        transforms.Normalize(mean=(0.279, 0.293, 0.290), std=(0.197, 0.198, 0.201))
         #transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
     ]
 
@@ -116,6 +115,7 @@ class SingleVideoDataset(Dataset):
         for frame in frames:
             frame = self.change_gamma(frame, self.gamma)
             frame = self.transform(frame)
+            frame = torch.from_numpy(frame)
 
         frames = torch.stack(frames, dim=0)
 
