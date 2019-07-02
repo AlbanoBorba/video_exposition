@@ -18,18 +18,11 @@ def transforms_list():
     return [
         #transforms.ToPILImage(),
         transforms.Resize((400, 720)),
-        transforms.ToTensor(),
+        #transforms.ToTensor(),
         #transforms.Lambda(lambda x: rescale(x)),
-        transforms.Normalize(mean=(0.279, 0.293, 0.290), std=(0.197, 0.198, 0.201))
-        #transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
-    ]
-
-def frames_transforms_list():
-    return [
-        transforms.ToPILImage(),
-        #transforms.Resize((w,h))
         transforms.Normalize(mean=(0.279, 0.293, 0.290), std=(0.197, 0.198, 0.201)),
-        transforms.ToTensor()
+        transforms.ToTensor(),
+        #transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
     ]
 
 def custom_collate(batch):
