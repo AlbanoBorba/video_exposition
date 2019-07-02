@@ -16,7 +16,7 @@ def rescale(x):
 
 def transforms_list():
     return [
-        transforms.ToPILImage(),
+        #transforms.ToPILImage(),
         transforms.Resize((400, 720)),
         transforms.ToTensor(),
         #transforms.Lambda(lambda x: rescale(x)),
@@ -114,7 +114,7 @@ class SingleVideoDataset(Dataset):
         #print(self.frames[idx])
         #print(frame_gt)        
 
-        #frame_gt = transforms.functional.to_pil_image(frame_gt)
+        frame_gt = transforms.functional.to_pil_image(frame_gt)
             
         frame_gt = self.transform(frame_gt)
         #print(frame_gt)
