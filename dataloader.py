@@ -115,6 +115,7 @@ class SingleVideoDataset(Dataset):
         for frame in frames:
             frame = self.change_gamma(frame, self.gamma)
             frame = self.transform(frame)
+            print(type(frame))
 
         print(frames)
         print(len(frames))
