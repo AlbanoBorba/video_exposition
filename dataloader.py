@@ -157,12 +157,6 @@ class SingleVideoDataset(Dataset):
 class VideoLoader():
 
     def __init__(self, video_path, window_size):
-        print('Pims:')
-        print('\t', end='')
-        print(datetime.datetime.now())
-        self.video_loader = pims.PyAVReaderIndexed(video_path)
-        print('\t', end='')
-        print(datetime.datetime.now())
         self.cap = cv2.VideoCapture(video_path)
         self.window_size = window_size
         self.index = 0
