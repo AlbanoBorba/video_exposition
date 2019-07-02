@@ -125,7 +125,9 @@ class SingleVideoDataset(Dataset):
         stack = torch.stack(stack, dim=0)
 
         print(stack.shape)
+        print(stack)
         print(frame_gt.shape)
+        print(frame_gt)
         exit()
 
         #print(frames_concat.shape)
