@@ -62,7 +62,8 @@ class BddDaloaderFactory():
         for df in pd.read_csv(self.video_path, sep=',', chunksize=self.chunksize): #ajustar
         
             print('Dataloader iterate:')
-            print('\t'+datetime.datetime.now(), end='\n')
+            print('\t', end='')
+            print(datetime.datetime.now())
 
             #df x 200
             video_path = df['video_path'].tolist()[0] # str
@@ -101,7 +102,8 @@ class SingleVideoDataset(Dataset):
     def __getitem__(self, idx):
 
         print('VideoDataset get item:')
-        print('\t'+datetime.datetime.now(), end='\n')
+        print('\t', end='')
+        print(datetime.datetime.now())
         #print(idx)
         #print(self.targets[idx])
         #frame_gt = self.video_loader[self.targets[idx]]
@@ -163,7 +165,9 @@ class VideoLoader():
     
     def process(self):
         print('VideoLoader process:')
-        print('\t'+datetime.datetime.now(), end='\n')
+        print('\t', end='')
+        print(datetime.datetime.now())
+        
         if self.index == 0:
             for i in range(self.window_size):
                 _, frame = self.cap.read()
