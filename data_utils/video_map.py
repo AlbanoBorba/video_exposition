@@ -15,7 +15,7 @@ def read_video(video_path):
 		
 		if ret:
 			
-			print(count)
+			#print(count)
 			count = count + 1
 			
 			avg = avg + frame.reshape((1280,720,3))
@@ -45,6 +45,7 @@ if __name__ == '__main__':
 			if f.endswith('.mov') and f.startswith('n_'):
 				read_video(os.path.join(root,f))
 
+	print('Count:' count)
 	print('Sum:', avg)
 	print('Mean: ', avg.mean())
 	print('Std: ', avg.std())
