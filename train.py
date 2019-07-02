@@ -39,9 +39,6 @@ def train_model(model, dataloader, criterion, optimizer, num_epochs=25, phases=[
                     #print(sample)
 
                     y, x = sample['y'].to(device), sample['x'].to(device)
-                    print('ToDevice')
-                    print('\t', end='')
-                    print(datetime.datetime.now())
                     #print(x)                                   
                     #print('Shape X')
                     #print(x.shape)
@@ -58,25 +55,14 @@ def train_model(model, dataloader, criterion, optimizer, num_epochs=25, phases=[
                         
                         # Get model outputs and calculate loss
                         outputs = model(x)
-                        print('Model')
-                        print('\t', end='')
-                        print(datetime.datetime.now())
                         
                         loss = criterion(outputs, y)
-                        print('Loss')
-                        print('\t', end='')
-                        print(datetime.datetime.now())
 
                         # backward + optimize only if in training phase
                         if phase == 'train':
                             loss.backward()
-                            print('Backward')
-                            print('\t', end='')
-                            print(datetime.datetime.now())
                             optimizer.step()
-                            print('Optimizer')
-                            print('\t', end='')
-                            print(datetime.datetime.now())
+                            
 
                     # statisti
                     #print(loss.item())
