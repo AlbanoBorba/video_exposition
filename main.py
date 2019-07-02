@@ -14,7 +14,7 @@ torch.cuda.empty_cache()
 
 SEED = 7
 BATCH_SIZE = 4
-TRAIN_FILE_PATH = 'data_utils/bdd_night_train_5k.csv'
+TRAIN_FILE_PATH = 'data_utils/bdd_night_train_5k_40.csv'
 EXPOSURE = 'under'
 
 torch.manual_seed(SEED)
