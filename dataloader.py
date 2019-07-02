@@ -82,7 +82,7 @@ class SingleVideoDataset(Dataset):
 
         self.video_loader = VideoLoader(video_path, (len(window_frames[0])+1))
         #self.video_loader = pims.PyAVReaderIndexed(video_path)
-        #self.targets = target_frames
+        self.targets = target_frames
         #self.frames = window_frames
         self.transform = transform
         self.gamma = gamma
