@@ -3,7 +3,7 @@ import csv
 import cv2
 import pandas as pd
 
-def insert_video_samples_in_csv(out_file_name, video_path, video_length, window_length=3, max_samples=20, fixe_window=False):
+def insert_video_samples_in_csv(out_file_name, video_path, video_length, window_length=3, max_samples=40, fixe_window=False):
     
     samples = []
 
@@ -38,7 +38,7 @@ def read_video(path):
 
 if __name__ == '__main__':
     
-    out_path = 'bdd_night_train_5k.csv'
+    out_path = 'bdd_night_train_5k_40.csv'
     in_path = '/media/albano/external'
     op = 'train' #train, val or test
     max_videos = 5 * 1000
