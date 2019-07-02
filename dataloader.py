@@ -97,8 +97,8 @@ class SingleVideoDataset(Dataset):
         #print(idx)
         #print(self.targets[idx])
         #frame_gt = self.video_loader[self.targets[idx]]
-        window = self.video_loader.process()
-        frames = window
+        frames = self.video_loader.process()
+
         frame_gt = frames[int(len(frames)/2)]
         #frame_gt = ndimage.rotate(frame_gt, 90, reshape=True)
 
@@ -112,21 +112,20 @@ class SingleVideoDataset(Dataset):
         #print(frame_gt)
         #print(frame_gt.shape)
 
+        stack = []
         for frame in frames:
             frame = self.change_gamma(frame, self.gamma)
             frame = self.transform(frame)
-            
-        for frame in frames:
             frame = torch.from_numpy(frame)
-            print(type(frame))
+            stack.append(frame)
 
         #print(frames)
         #print(type(frames))
         #print(type(frames[0]))
 
-        frames = torch.stack(frames, dim=0)
+        stack = torch.stack(stack, dim=0)
 
-        print(frames.shape)
+        print(stack.shape)
         print(frame_gt.shape)
         exit()
 
