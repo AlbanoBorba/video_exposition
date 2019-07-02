@@ -82,8 +82,8 @@ class SingleVideoDataset(Dataset):
 
         self.video_loader = VideoLoader(video_path, (len(window_frames[0])+1))
         #self.video_loader = pims.PyAVReaderIndexed(video_path)
-        self.targets = target_frames
-        self.frames = window_frames
+        #self.targets = target_frames
+        #self.frames = window_frames
         self.transform = transform
         self.gamma = gamma
         #self.shape = (len(self.samples),) + video[0].shape()
@@ -97,8 +97,8 @@ class SingleVideoDataset(Dataset):
         #print(idx)
         #print(self.targets[idx])
         #frame_gt = self.video_loader[self.targets[idx]]
-        frames = self.video_loader.process()
-
+        window = self.video_loader.process()
+        frames = window
         frame_gt = frames[int(len(frames)/2)]
         #frame_gt = ndimage.rotate(frame_gt, 90, reshape=True)
 
