@@ -17,10 +17,10 @@ def rescale(x):
 def transforms_list():
     return [
         transforms.ToPILImage(),
-        transforms.Resize((720, 400)),
+        transforms.Resize((400, 720)),
         transforms.ToTensor(),
         #transforms.Lambda(lambda x: rescale(x)),
-        #transforms.Normalize(mean=(0.279, 0.293, 0.290), std=(0.197, 0.198, 0.201))
+        transforms.Normalize(mean=(0.279, 0.293, 0.290), std=(0.197, 0.198, 0.201))
         #transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
     ]
 
@@ -108,7 +108,7 @@ class SingleVideoDataset(Dataset):
         frames = self.video_loader.process()
 
         frame_gt = frames[int(len(frames)/2)]
-        frame_gt = ndimage.rotate(frame_gt, 90, reshape=True)
+        #frame_gt = ndimage.rotate(frame_gt, 90, reshape=True)
 
         #frames_concat = [self.transform(self.change_gamma(frame_gt, self.gamma))] #ajustar
         #print(self.frames[idx])
@@ -117,20 +117,22 @@ class SingleVideoDataset(Dataset):
         #frame_gt = transforms.functional.to_pil_image(frame_gt)
             
         frame_gt = self.transform(frame_gt)
-        print(frame_gt)
+        #print(frame_gt)
+        #print(frame_gt.shape)
+
+        for frame in frames:
+            frame = self.change_gamma(frame, self.gamma))
+            frame = self.transform(frame)
+
+        frames = torch.stack(frames, dim=0)
+
+        print(frames.shape)
         print(frame_gt.shape)
         exit()
 
-        for frame in self.frames[idx]:
-            f = self.video_loader[frame]
-            f = self.change_gamma(f, random.choice(self.gamma))
-            f = self.transform(f)
-            frames_concat.append(f) #ajustar
-
-        frames_concat = torch.stack(frames_concat, dim=0)
         #print(frames_concat.shape)
         sample = {
-            'x': frames_concat,
+            'x': frames,
             'y': frame_gt
         }
         #print(frame_gt)
