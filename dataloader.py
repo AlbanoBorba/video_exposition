@@ -120,7 +120,7 @@ class SingleVideoDataset(Dataset):
         print(len(frames))
         print(frames[0].shape)
 
-        frames = torch.stack(torch.from_numpy(frames), dim=0)
+        frames = torch.stack(frames, dim=0)
 
         print(frames.shape)
         print(frame_gt.shape)
