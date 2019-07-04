@@ -2,6 +2,7 @@ import os
 import numpy as np
 from skimage import io, transform
 import cv2
+import matplotlib.pyplot as plt
 
 def read_video(video_path):
 	cap = cv2.VideoCapture(video_path)
@@ -16,7 +17,7 @@ def read_video(video_path):
 			
 			#print(count)
 			count = count + 1
-			avg.append(np.average(frame))
+			avg.append(np.average(cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)))
 			#avg = avg + frame.reshape((1280,720,3))
 	
 			if cv2.waitKey(1) & 0xFF == ord('q'):
@@ -44,10 +45,10 @@ if __name__ == '__main__':
 			if f.endswith('.mov') and f.startswith('n_'):
 				read_video(os.path.join(root,f))
 
-	print('Count: ', count)
-	print('Sum: ', avg)
-	print('Mean: ', avg.mean())
-	print('Std: ', avg.std())
+	#r = [x for x in range(count)]
+
+	print(avg)
+	print(count)
 
 
 
