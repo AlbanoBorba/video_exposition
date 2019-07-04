@@ -3,7 +3,6 @@ import numpy as np
 from skimage import io, transform
 import cv2
 
-
 def read_video(video_path):
 	cap = cv2.VideoCapture(video_path)
 
@@ -17,8 +16,8 @@ def read_video(video_path):
 			
 			#print(count)
 			count = count + 1
-			
-			avg = avg + frame.reshape((1280,720,3))
+			avg.append(np.average(frame))
+			#avg = avg + frame.reshape((1280,720,3))
 	
 			if cv2.waitKey(1) & 0xFF == ord('q'):
 				break
@@ -33,7 +32,7 @@ def read_image(path):
 	img = io.imread(path)
 	medians.append(np.median(img))
 
-avg = np.zeros([1280, 720, 3])
+avg = []
 count = 0
 
 if __name__ == '__main__':	

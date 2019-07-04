@@ -45,7 +45,7 @@ def custom_collate(batch):
 
 class BddDaloaderFactory():
 
-    def __init__(self, exposure, video_path, batch_size, chunksize=38):
+    def __init__(self, exposure, video_path, batch_size, chunksize=40):
 
         if exposure == 'under':
             self.gamma = [0.1, 0.2, 0.4]
