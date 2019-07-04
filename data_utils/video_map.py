@@ -17,7 +17,7 @@ def read_video(video_path):
 			
 			#print(count)
 			count = count + 1
-			avg.append(np.average(cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)))
+			avg.append(np.average(cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)))
 			#avg = avg + frame.reshape((1280,720,3))
 	
 			if cv2.waitKey(1) & 0xFF == ord('q'):
