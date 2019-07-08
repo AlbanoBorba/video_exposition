@@ -19,7 +19,7 @@ def read_video(video_path):
 			#print(count)
 			count = count + 1
 			x = np.average(cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY))
-			file.write(str(x))
+			file.write(str(x)+'\n')
 			avg.append(x)
 			#avg = avg + frame.reshape((1280,720,3))
 	
