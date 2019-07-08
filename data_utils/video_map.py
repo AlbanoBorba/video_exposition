@@ -38,7 +38,7 @@ def read_image(path):
 
 avg = []
 count = 0
-file = open("day_distrib.txt", "w")
+file = open("all_distrib.txt", "w")
 
 if __name__ == '__main__':	
 	path = '/media/albano/external'
@@ -46,7 +46,7 @@ if __name__ == '__main__':
 
 	for root, dirs, files in os.walk(path):
 		for f in files:
-			if f.endswith('.mov') and f.startswith('d_'):
+			if f.endswith('.mov'):
 				read_video(os.path.join(root,f))
 
 	#r = [x for x in range(count)]
