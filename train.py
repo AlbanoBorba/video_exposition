@@ -74,7 +74,7 @@ def train_model(model, dataloader, criterion, optimizer, num_epochs=25, phases=[
             torch.save(model.state_dict(), '/3dcnn_weiths_{}.pth'.format(epoch))
 
 
-            epoch_loss = running_loss / len(n_samples)
+            epoch_loss = running_loss / n_samples
             #epoch_acc = running_corrects.double() / len(dataloaders[phase].dataset)
 
             print('{} Running Loss: {:.4f}, Epoch Loss: {:.4f}'.format(phase, running_loss, epoch_loss))
