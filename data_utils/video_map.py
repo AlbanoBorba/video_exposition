@@ -9,6 +9,7 @@ def read_video(video_path):
 
 	global avg
 	global count
+	global file
 
 	while True:
 		ret, frame = cap.read()
@@ -17,7 +18,9 @@ def read_video(video_path):
 			
 			#print(count)
 			count = count + 1
-			avg.append(np.average(cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)))
+			x = np.average(cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY))
+			file.write(x)
+			avg.append(x)
 			#avg = avg + frame.reshape((1280,720,3))
 	
 			if cv2.waitKey(1) & 0xFF == ord('q'):
@@ -35,6 +38,7 @@ def read_image(path):
 
 avg = []
 count = 0
+file = open("day_distrib.txt", "w")
 
 if __name__ == '__main__':	
 	path = '/media/albano/external'
