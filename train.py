@@ -31,9 +31,9 @@ def train_model(model, dataloader, criterion, optimizer, num_epochs=25, phases=[
             # Iterate over data.
             for video_step, video_loader in enumerate(dataloader.iterate()):
                 for sample_step, sample in  enumerate(video_loader):
-                    print('Video Step: {} | Sample Step: {}'.format(video_step, sample_step))
-                    print('\t', end='')
-                    print(datetime.datetime.now())
+                    #print('Video Step: {} | Sample Step: {}'.format(video_step, sample_step))
+                    #print('\t', end='')
+                    #print(datetime.datetime.now())
                     n_samples = sample_step * video_step                                
                     #print(step)
                     #print(sample)
