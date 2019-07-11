@@ -6,9 +6,6 @@ def train_model(model, dataloader, criterion, optimizer, num_epochs=25):
     
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-    if ('train' not in phases) and ('val' not in phases):
-        print("O parâmetro <phases> deve ser 'train' ou 'val'.")
-
     since = time.time()
 
     #best_model_wts = copy.deepcopy(model.state_dict())
@@ -52,10 +49,10 @@ def train_model(model, dataloader, criterion, optimizer, num_epochs=25):
                 
                 loss = criterion(outputs, y)
 
-                # backward + optimize only if in training phase
-                if phase == 'train':
-                    loss.backward()
-                    optimizer.step()
+                # backward + optimize
+               
+                loss.backward()
+                optimizer.step()
                     
 
                 # statisti
@@ -71,7 +68,7 @@ def train_model(model, dataloader, criterion, optimizer, num_epochs=25):
         epoch_loss = running_loss / n_samples
         #epoch_acc = running_corrects.double() / len(dataloaders[phase].dataset)
 
-        print('{} Running Loss: {:.4f}, Epoch Loss: {:.4f}'.format(phase, running_loss, epoch_loss))
+        print('{} Running Loss: {:.4f}, Epoch Loss: {:.4f}'.format(running_loss, epoch_loss))
 
     time_elapsed = time.time() - since
     print('Training complete in {:.0f}m {:.0f}s'.format(time_elapsed // 60, time_elapsed % 60))
