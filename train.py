@@ -21,9 +21,9 @@ def train_model(model, dataloader, criterion, optimizer, num_epochs=25):
             for sample_step, sample in  enumerate(video_loader):
                 n_samples = sample_step * video_step                                                
                 
-                print('Video Step: {} | Sample Step: {}'.format(video_step, sample_step))
-                print('\t', end='')
-                print(datetime.datetime.now())
+                # print('Video Step: {} | Sample Step: {}'.format(video_step, sample_step))
+                # print('\t', end='')
+                # print(datetime.datetime.now())
 
                 y, x = sample['y'].to(device), sample['x'].to(device)
               
