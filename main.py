@@ -10,7 +10,7 @@ from train import train_model
 from loss import LossFunction
 
 SEED = 6
-BATCH_SIZE = 10
+BATCH_SIZE = 8
 TRAIN_FILE_PATH = 'data_utils/bdd_night_train_5k_40.csv'
 EXPOSURE = 'under'
 
