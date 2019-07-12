@@ -13,13 +13,10 @@ from scipy import ndimage, misc
 from torch.utils.data import Dataset, DataLoader
 from torchvision import transforms, utils
 
-def rescale(x):
-    return x / 255.0
-
 def transforms_list():
     return [
         #transforms.ToPILImage(),
-        transforms.Resize((400, 720)),
+        transforms.Resize((200, 360)),
         transforms.ToTensor(),
         #transforms.Lambda(lambda x: rescale(x)),
         transforms.Normalize(mean=(0.279, 0.293, 0.290), std=(0.197, 0.198, 0.201))
@@ -27,18 +24,8 @@ def transforms_list():
     ]
 
 def custom_collate(batch):
-    #print('**')
-    #print(len(batch))
-    #print(batch[0]['x'].shape)
-    #print(batch[0]['y'].shape)
-    #for item in batch:
-    #    print(item['x'].shape)
-
     data = torch.stack([item['x'] for item in batch], dim=0)
     target = torch.stack([item['y'] for item in batch], dim=0)
-    #print('**')
-    #print(data.shape)
-    #print(target.shape)
 
     return {'x':data, 'y':target}
 
@@ -59,12 +46,10 @@ class BddDaloaderFactory():
         self.batch_size = batch_size
 
     def iterate(self):
-        for df in pd.read_csv(self.video_path, sep=',', chunksize=self.chunksize): #ajustar
+        for df in pd.read_csv(self.video_path, sep=',', chunksize=self.chunksize):
 
-            #df x 200
             video_path = df['video_path'].tolist()[0] # str
             target_frames = df['target_frame'].tolist() # list
-            #print(target_frames)
                 
             window_frames = [[int(i) for i in x.split('-')] for x in df['frames_list']] # list of lists
 
@@ -83,37 +68,21 @@ class SingleVideoDataset(Dataset):
     def __init__(self, video_path, target_frames, window_frames, gamma, transform=transforms.Compose(transforms_list())):
 
         self.video_loader = VideoLoader(video_path, (len(window_frames[0])+1))
-        #self.video_loader = pims.PyAVReaderIndexed(video_path)
         self.targets = target_frames
-        #self.frames = window_frames
         self.transform = transform
         self.gamma = gamma
-        #self.shape = (len(self.samples),) + video[0].shape()
 
     def __len__(self):
-        #print('>>')
-        #print(self.targets.size)
         return len(self.targets)
     
     def __getitem__(self, idx):
 
-        #print(idx)
-        #print(self.targets[idx])
-        #frame_gt = self.video_loader[self.targets[idx]]
         frames = self.video_loader.process()
 
         frame_gt = frames[int(len(frames)/2)]
-        #frame_gt = ndimage.rotate(frame_gt, 90, reshape=True)
-
-        #frames_concat = [self.transform(self.change_gamma(frame_gt, self.gamma))] #ajustar
-        #print(self.frames[idx])
-        #print(frame_gt)        
-
-        frame_gt = transforms.functional.to_pil_image(frame_gt)
-            
+        #frame_gt = ndimage.rotate(frame_gt, 90, reshape=True)      
+        frame_gt = transforms.functional.to_pil_image(frame_gt)      
         frame_gt = self.transform(frame_gt)
-        #print(frame_gt)
-        #print(frame_gt.shape)
 
         stack = []
         for frame in frames:
@@ -121,23 +90,12 @@ class SingleVideoDataset(Dataset):
             frame = self.transform(frame)
             stack.append(frame)
 
-        #print(frames)
-        #print(type(frames))
-        #print(type(frames[0]))
-
         stack = torch.stack(stack, dim=0)
 
-        #print(stack.shape)
-        #print(stack)
-        #print(frame_gt.shape)
-        #print(frame_gt)
-
-        #print(frames_concat.shape)
         sample = {
             'x': stack,
             'y': frame_gt
         }
-        #print(frame_gt)
 
         return sample
 

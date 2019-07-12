@@ -9,13 +9,13 @@ from dataloader import BddDaloaderFactory
 from train import train_model
 from loss import LossFunction
 
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-torch.cuda.empty_cache()
-
-SEED = 7
+SEED = 6
 BATCH_SIZE = 4
 TRAIN_FILE_PATH = 'data_utils/bdd_night_train_5k_40.csv'
 EXPOSURE = 'under'
+
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+torch.cuda.empty_cache()
 
 torch.manual_seed(SEED)
 torch.cuda.manual_seed(SEED)

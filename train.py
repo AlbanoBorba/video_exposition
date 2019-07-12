@@ -6,14 +6,10 @@ def train_model(model, dataloader, criterion, optimizer, num_epochs=25):
     
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-    since = time.time()
-
-    #best_model_wts = copy.deepcopy(model.state_dict())
-
     for epoch in range(num_epochs):
         print('Epoch {}/{}'.format(epoch, num_epochs - 1))
         print('-' * 10)
-        #print(datetime.datetime.now(), end='\n')
+        print(datetime.datetime.now(), end='\n')
         
         model.train()  # Set model to training mode
         
@@ -23,42 +19,48 @@ def train_model(model, dataloader, criterion, optimizer, num_epochs=25):
         # Iterate over data.
         for video_step, video_loader in enumerate(dataloader.iterate()):
             for sample_step, sample in  enumerate(video_loader):
-                #print('Video Step: {} | Sample Step: {}'.format(video_step, sample_step))
-                #print('\t', end='')
-                #print(datetime.datetime.now())
-                n_samples = sample_step * video_step                                
-                #print(step)
-                #print(sample)
+                n_samples = sample_step * video_step                                                
+                
+                print('Video Step: {} | Sample Step: {}'.format(video_step, sample_step))
+                print('\t', end='')
+                print(datetime.datetime.now())
 
                 y, x = sample['y'].to(device), sample['x'].to(device)
-                #print(x)                                   
-                #print('Shape X')
-                #print(x.shape)
-
-                #print('Shape Y')
-                #print(y.shape)
+              
+                print('To device')
+                print('\t', end='')
+                print(datetime.datetime.now())
 
                 # zero the parameter gradients
                 optimizer.zero_grad()
+                print('Zero grad')
+                print('\t', end='')
+                print(datetime.datetime.now())
 
                 # forward
-            
-                
-                # Get model outputs and calculate loss
                 outputs = model(x)
+                print('Forward')
+                print('\t', end='')
+                print(datetime.datetime.now())
                 
+                # loss
                 loss = criterion(outputs, y)
+                print('Loss')
+                print('\t', end='')
+                print(datetime.datetime.now())
 
                 # backward + optimize
-               
+                print('Backward + optimize')
+                print('\t', end='')
+                print(datetime.datetime.now()) 
                 loss.backward()
                 optimizer.step()
                     
-
-                # statisti
-                #print(loss.item())
+                # statistic
                 running_loss += loss.data
-                
+                print('Statistic')
+                print('\t', end='')
+                print(datetime.datetime.now())
                 #torch.cuda.empty_cache()
 
         #save model    
