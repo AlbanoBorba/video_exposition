@@ -27,40 +27,40 @@ def train_model(model, dataloader, criterion, optimizer, num_epochs=25):
 
                 y, x = sample['y'].to(device), sample['x'].to(device)
               
-                print('To device')
-                print('\t', end='')
-                print(datetime.datetime.now())
+                # print('To device')
+                # print('\t', end='')
+                # print(datetime.datetime.now())
 
                 # zero the parameter gradients
                 optimizer.zero_grad()
-                print('Zero grad')
-                print('\t', end='')
-                print(datetime.datetime.now())
+                # print('Zero grad')
+                # print('\t', end='')
+                # print(datetime.datetime.now())
 
                 # forward
                 outputs = model(x)
-                print('Forward')
-                print('\t', end='')
-                print(datetime.datetime.now())
+                # print('Forward')
+                # print('\t', end='')
+                # print(datetime.datetime.now())
                 
                 # loss
                 loss = criterion(outputs, y)
-                print('Loss')
-                print('\t', end='')
-                print(datetime.datetime.now())
+                # print('Loss')
+                # print('\t', end='')
+                # print(datetime.datetime.now())
 
                 # backward + optimize
-                print('Backward + optimize')
-                print('\t', end='')
-                print(datetime.datetime.now()) 
+                # print('Backward + optimize')
+                # print('\t', end='')
+                # print(datetime.datetime.now()) 
                 loss.backward()
                 optimizer.step()
                     
                 # statistic
                 running_loss += loss.data
-                print('Statistic')
-                print('\t', end='')
-                print(datetime.datetime.now())
+                # print('Statistic')
+                # print('\t', end='')
+                # print(datetime.datetime.now())
                 #torch.cuda.empty_cache()
 
         #save model    
