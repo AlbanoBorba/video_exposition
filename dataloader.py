@@ -17,7 +17,7 @@ def transforms_list():
     return [
         #transforms.ToPILImage(),
         transforms.Resize((400, 720)),
-        transforms.Crop((400, 400))
+        transforms.Crop((400, 400)),
         transforms.ToTensor(),
         #transforms.Lambda(lambda x: rescale(x)),
         transforms.Normalize(mean=(0.279, 0.293, 0.290), std=(0.197, 0.198, 0.201))
