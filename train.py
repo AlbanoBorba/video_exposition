@@ -57,7 +57,7 @@ def train_model(model, dataloader, criterion, optimizer, num_epochs=25):
                 print(datetime.datetime.now()) 
                     
                 # statistic
-                running_loss += loss.detach()
+                running_loss += loss.data
                 print(running_loss)
                 print('Statistic')
                 print('\t', end='')
