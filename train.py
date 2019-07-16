@@ -70,7 +70,7 @@ def train_model(model, dataloader, criterion, optimizer, num_epochs=25):
         epoch_loss = running_loss / n_samples
         #epoch_acc = running_corrects.double() / len(dataloaders[phase].dataset)
 
-        print('{} Running Loss: {:.4f}, Epoch Loss: {:.4f}'.format(running_loss, epoch_loss))
+        print('Running Loss: {:.4f}, Epoch Loss: {:.4f}'.format(running_loss, epoch_loss))
 
     time_elapsed = time.time() - since
     print('Training complete in {:.0f}m {:.0f}s'.format(time_elapsed // 60, time_elapsed % 60))
