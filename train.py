@@ -63,7 +63,7 @@ def train_model(model, dataloader, criterion, optimizer, num_epochs=100):
 				# print(datetime.datetime.now())
 				#torch.cuda.empty_cache()
 
-			if n_samples % 100 == 0:
+			if n_samples % 1000 == 0:
 				print('Running Loss: {:.4f}, Sample Loss: {:.4f}'.format(running_loss, running_loss / n_samples), end='\n')
 
 		#save model    
