@@ -44,7 +44,7 @@ def read_video(path, n_frames=40):
 
 			if count == n_frames: break
 			else: count += 1
-				
+
 			if cv2.waitKey(1) & 0xFF == ord('q'):
 				break
 		else:
@@ -76,7 +76,8 @@ if __name__ == '__main__':
 				if 90 <= video_avg <= 110:
 					insert_video_samples_in_csv(out_path, os.path.join(root,f), video_length, fixe_window=True)
 
-					break if count == max_videos else count += 1
+					if count == max_videos: break
+					else:  count += 1
 
 
 	for df in pd.read_csv(out_path, sep=',', chunksize=1):
