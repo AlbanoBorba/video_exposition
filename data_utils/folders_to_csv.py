@@ -2,6 +2,7 @@ import os
 import csv
 import cv2
 import pandas as pd
+import random
 
 def insert_video_samples_in_csv(out_file_name, video_path, video_length, window_length=3, max_samples=40, fixe_window=False):
     
@@ -29,12 +30,28 @@ def insert_video_samples_in_csv(out_file_name, video_path, video_length, window_
         for sample in samples:
             writer.writerow(sample)
 
-def read_video(path):
+def read_video(path, n_frames=40):
     cap = cv2.VideoCapture(path)
-    video_length = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+    count = 0
+    video_avg = []
+
+    while True:
+		ret, frame = cap.read()
+		
+		if ret:
+			frame_avg = np.average(cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY))
+			video_avg.append(frame_avg)
+	
+			break if count == n_frames else count += 1
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+				break
+		else:
+			break
+
+    video_length = 100 #int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
     cap.release()
     
-    return video_length
+    return video_length, np.average(video_avg)
 
 if __name__ == '__main__':
     
@@ -50,14 +67,14 @@ if __name__ == '__main__':
     samples = []
     count = 0
     for root, dirs, files in os.walk(in_path):
-        for f in files:
-            if op in root:
-                if f.endswith('.mov') and f[0] == 'n':
-                    video_length = read_video(os.path.join(root,f))
+        for f in random.shuffle(files):
+            #if op in root:
+            if f.endswith('.mov') and f[0] == 'd':
+                video_length, video_avg = read_video(os.path.join(root,f))
+                if 90 <= video_avg <= 110:
                     insert_video_samples_in_csv(out_path, os.path.join(root,f), video_length, fixe_window=True)
-                            
-                    if count == max_videos: break
-                    else: count = count + 1
+                        
+                    break if count == max_videos else count += 1
 
 
     for df in pd.read_csv(out_path, sep=',', chunksize=1):
