@@ -11,7 +11,7 @@ def train_model(model, dataloader, criterion, optimizer, num_epochs=100):
     for epoch in range(num_epochs):
         print('Epoch {}/{}'.format(epoch, num_epochs - 1))
         print('-' * 10)
-        print('Datetime: {}'.format(datetime.datetime.now()), end='\n\n')
+        print('Datetime: {}'.format(datetime.datetime.now()), end='\n')
                 
         running_loss = 0.0
         n_samples = 0
@@ -63,13 +63,16 @@ def train_model(model, dataloader, criterion, optimizer, num_epochs=100):
                 # print(datetime.datetime.now())
                 #torch.cuda.empty_cache()
 
+            if n_samples % 100 == 0:
+                print('Running Loss: {:.4f}, Sample Loss: {:.4f}'.format(running_loss, running_loss / n_samples), end='\n\n')
+
     	#save model    
-    	torch.save(model.state_dict(), '3dcnn_weigths_{}.pth'.format(epoch))
+    	torch.save(model.state_dict(), './3dcnn_weigths_{}.pth'.format(epoch))
 
         epoch_loss = running_loss / n_samples
         #epoch_acc = running_corrects.double() / len(dataloaders[phase].dataset)
 
-        print('Running Loss: {:.4f}, Epoch Loss: {:.4f}'.format(running_loss, epoch_loss))
+        print('Running Loss: {:.4f}, Epoch Loss: {:.4f}'.format(running_loss, epoch_loss), end='\n\n')
 
     #time_elapsed = time.time() - since
     #print('Training complete in {:.0f}m {:.0f}s'.format(time_elapsed // 60, time_elapsed % 60))

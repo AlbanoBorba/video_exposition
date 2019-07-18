@@ -11,7 +11,7 @@ from loss import LossFunction
 
 SEED = 12
 BATCH_SIZE = 8
-TRAIN_FILE_PATH = 'data_utils/bdd_night_train_5k_40.csv'
+TRAIN_FILE_PATH = 'data_utils/bdd_day[90-110]_train_5k_40.csv'
 EXPOSURE = 'under'
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
