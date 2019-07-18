@@ -55,7 +55,7 @@ def read_video(path, n_frames=40):
 
 if __name__ == '__main__':
     
-    out_path = 'bdd_night_train_5k_40.csv'
+    out_path = 'bdd_day[90-110]_train_5k/40.csv'
     in_path = '/media/albano/external'
     op = 'train' #train, val or test
     max_videos = 5 * 1000
