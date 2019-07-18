@@ -69,7 +69,7 @@ if __name__ == '__main__':
 	samples = []
 	count = 0
 	for root, dirs, files in os.walk(in_path):
-		for f in random.shuffle(files):
+		for f in files:
 			#if op in root:
 			if f.endswith('.mov') and f[0] == 'd':
 				video_length, video_avg = read_video(os.path.join(root,f))
