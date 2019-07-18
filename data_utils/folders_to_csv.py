@@ -5,25 +5,25 @@ import pandas as pd
 import random
 
 def insert_video_samples_in_csv(out_file_name, video_path, video_length, window_length=3, max_samples=40, fixe_window=False):
-    
+
     samples = []
 
     for i in range(max_samples): #target frame per video
-        
-        target = i 
+
+        target = i
         frames = ''
-        
+
         for l in range(1, int(window_length/2)+1): #frame per window size
-            if(i - l >= 0): 
+            if(i - l >= 0):
                 frames = frames + str(i - l) + '-'
             if(i + l <= video_length):
-                frames = frames + str(i + l) + '-'     
+                frames = frames + str(i + l) + '-'
         if fixe_window == False:
             samples.append([video_path, target, frames[:-1]])
         elif len(frames.split('-'))-1 == (window_length-1):
             #print(len(frames.split('-')))
             samples.append([video_path, target, frames[:-1]])
-    
+
     with open(out_file_name, mode='a') as outfile:
         writer = csv.writer(outfile, delimiter=',')
 
@@ -37,11 +37,11 @@ def read_video(path, n_frames=40):
 
     while True:
         ret, frame = cap.read()
-		
+
 		if ret:
-			frame_avg = np.average(cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY))
-			video_avg.append(frame_avg)
-	
+            frame_avg = np.average(cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY))
+            video_avg.append(frame_avg)
+
 			break if count == n_frames else count += 1
             if cv2.waitKey(1) & 0xFF == ord('q'):
 				break
@@ -50,16 +50,16 @@ def read_video(path, n_frames=40):
 
     video_length = 100 #int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
     cap.release()
-    
+
     return video_length, np.average(video_avg)
 
 if __name__ == '__main__':
-    
+
     out_path = 'bdd_day[90-110]_train_5k/40.csv'
     in_path = '/media/albano/external'
     op = 'train' #train, val or test
     max_videos = 5 * 1000
-    
+
     with open(out_path, mode='a') as outfile:
         writer = csv.writer(outfile, delimiter=',')
         writer.writerow(['video_path', 'target_frame', 'frames_list'])
@@ -73,7 +73,7 @@ if __name__ == '__main__':
                 video_length, video_avg = read_video(os.path.join(root,f))
                 if 90 <= video_avg <= 110:
                     insert_video_samples_in_csv(out_path, os.path.join(root,f), video_length, fixe_window=True)
-                        
+
                     break if count == max_videos else count += 1
 
 
