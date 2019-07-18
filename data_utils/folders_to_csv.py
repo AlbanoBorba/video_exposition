@@ -3,6 +3,7 @@ import csv
 import cv2
 import pandas as pd
 import random
+import numpy as np
 
 def insert_video_samples_in_csv(out_file_name, video_path, video_length, window_length=3, max_samples=40, fixe_window=False):
 
