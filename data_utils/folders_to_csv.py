@@ -36,7 +36,7 @@ def read_video(path, n_frames=40):
     video_avg = []
 
     while True:
-		ret, frame = cap.read()
+        ret, frame = cap.read()
 		
 		if ret:
 			frame_avg = np.average(cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY))
