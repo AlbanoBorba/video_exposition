@@ -63,8 +63,8 @@ def train_model(model, dataloader, criterion, optimizer, num_epochs=100):
                 # print(datetime.datetime.now())
                 #torch.cuda.empty_cache()
 
-            #save model    
-            torch.save(model.state_dict(), '/3dcnn_weiths_{}.pth'.format(epoch))
+    	#save model    
+    	torch.save(model.state_dict(), '3dcnn_weigths_{}.pth'.format(epoch))
 
         epoch_loss = running_loss / n_samples
         #epoch_acc = running_corrects.double() / len(dataloaders[phase].dataset)
