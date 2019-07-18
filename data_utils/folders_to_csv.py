@@ -42,7 +42,9 @@ def read_video(path, n_frames=40):
 			frame_avg = np.average(cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY))
 			video_avg.append(frame_avg)
 
-			break if count == n_frames else count += 1
+			if count == n_frames: break
+			else: count += 1
+				
 			if cv2.waitKey(1) & 0xFF == ord('q'):
 				break
 		else:
