@@ -31,21 +31,8 @@ optimizer = torch.optim.SGD(model.parameters(), lr=0.1, momentum=0.9)
 criterion = LossFunction().to(device)
 
 #print(model.eval())
+#model_parameters = filter(lambda p: p.requires_grad, model.parameters())
+#params = sum([np.prod(p.size()) for p in model_parameters])
+#print(params)
 
 train_model(model, train_loader, criterion, optimizer)
-
-'''
-img0 = io.imread('test/test_1.jpg')
-img1 = io.imread('test/test_2.jpg')
-img2 = io.imread('test/test_3.jpg')
-
-x = np.stack((img0, img1, img2), axis=0) #SEMPRE CONCATENAR O 'TARGET FRAME PRIMEIRO'
-x = np.moveaxis(x, -1, 0)
-x = x.reshape(1, 3, 3, 512, -1)
-
-x = torch.from_numpy(x).to(device=device, dtype=torch.float)
-
-y = model(x)
-
-print(y.shape)
-'''

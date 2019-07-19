@@ -2,6 +2,11 @@ import time
 import datetime
 import torch
 
+def log_time(name, video_step, sample_step):
+	print('Video Step: {} | Sample Step: {}'.format(video_step, sample_step))
+	print('\t', end='')
+	print(datetime.datetime.now())
+
 def train_model(model, dataloader, criterion, optimizer, num_epochs=100):
 	
 	device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -16,67 +21,39 @@ def train_model(model, dataloader, criterion, optimizer, num_epochs=100):
 		running_loss = 0.0
 		n_samples = 0
 
-		# Iterate over data.
+		# Iterate over videos.
 		for video_step, video_loader in enumerate(dataloader.iterate()):
+			# Iterate over frames.
 			for sample_step, sample in  enumerate(video_loader):
 				n_samples = sample_step * video_step                                                
 				
-				# print('Video Step: {} | Sample Step: {}'.format(video_step, sample_step))
-				# print('\t', end='')
-				# print(datetime.datetime.now())
-
+				# send data to device
 				y, x = sample['y'].to(device), sample['x'].to(device)
-				# print('To device')
-				# print('\t', end='')
-				# print(datetime.datetime.now())
 
 				# zero the parameter gradients
 				optimizer.zero_grad()
-				# print('Zero grad')
-				# print('\t', end='')
-				# print(datetime.datetime.now())
 
 				# forward
 				outputs = model(x)
-				# print('Forward')
-				# print('\t', end='')
-				# print(datetime.datetime.now())
 				
 				# loss
 				loss = criterion(outputs, y)
-				# print('Loss')
-				# print('\t', end='')
-				# print(datetime.datetime.now())
 
 				# backward + optimize
 				loss.backward()
 				optimizer.step()
-				# print('Backward + optimize')
-				# print('\t', end='')
-				# print(datetime.datetime.now()) 
 					
 				# statistic
 				running_loss += loss.data
-				# print(running_loss)
-				# print('Statistic')
-				# print('\t', end='')
-				# print(datetime.datetime.now())
-				#torch.cuda.empty_cache()
 
-			if n_samples % 1000 == 0:
+			if n_samples % 20000 == 0:
 				print('Running Loss: {:.4f}, Sample Loss: {:.4f}'.format(running_loss, running_loss / n_samples), end='\n')
+				# save image
 
 		#save model    
 		torch.save(model.state_dict(), './3dcnn_weigths_{}.pth'.format(epoch))
 		epoch_loss = running_loss / n_samples
-		#epoch_acc = running_corrects.double() / len(dataloaders[phase].dataset)
 
 		print('Running Loss: {:.4f}, Epoch Loss: {:.4f}'.format(running_loss, epoch_loss), end='\n\n')
 
-	#time_elapsed = time.time() - since
-	#print('Training complete in {:.0f}m {:.0f}s'.format(time_elapsed // 60, time_elapsed % 60))
-	#print('Best val Acc: {:4f}'.format(best_acc))
-
-	# load best model weights
-	#model.load_state_dict(best_model_wts)
 	return model
