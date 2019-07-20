@@ -3,7 +3,19 @@ import datetime
 import torch
 
 def test_model(model, data, criterion, optimizer)
-	pass
+	
+	model.eval() # Set model to training mode
+
+	# zero the parameter gradients
+	optimizer.zero_grad()
+
+	# forward
+	outputs = model(data['x'])
+	
+	# loss
+	loss = criterion(outputs, data['y'])
+
+	return loss.data
 
 def train_model(model, data, criterion, optimizer):
 				
@@ -13,10 +25,10 @@ def train_model(model, data, criterion, optimizer):
 	optimizer.zero_grad()
 
 	# forward
-	outputs = model(x)
+	outputs = model(data['x'])
 	
 	# loss
-	loss = criterion(outputs, y)
+	loss = criterion(outputs, data['y'])
 
 	# backward + optimize
 	loss.backward()

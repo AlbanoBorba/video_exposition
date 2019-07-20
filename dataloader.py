@@ -132,14 +132,3 @@ class SampleLoader():
             self.frames.append(frame)
 
         return self.frames
-            
-
-if __name__ == '__main__':
-    
-    file_path = 'data_utils/bdd_night_train.csv'
-
-    for epoch in range(epochs):
-        for videoDataloader in bddDaloaderFactory('under', file_path, 8):
-            for step, sample in enumerate(videoDataloader):
-                y, x = sample["y"], sample["x"]
-                print(step, y.shape, x.shape)

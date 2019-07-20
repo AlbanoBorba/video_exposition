@@ -34,7 +34,7 @@ torch.backends.cudnn.deterministic = True
 
 # Set dataloaders
 train_loader = BddDaloaderFactory(EXPOSURE, TRAIN_FILE_PATH, BATCH_SIZE)
-test_loader = BddDaloaderFactory(EXPOSURE, TRAIN_FILE_PATH, BATCH_SIZE)
+test_loader = BddDaloaderFactory(EXPOSURE, TEST_FILE_PATH, BATCH_SIZE, n_samples=1)
 
 # Set model
 model = UNet3D(3, 3).to(device)
@@ -55,7 +55,7 @@ for epoch in range(num_epochs):
     log.log_time('Epoch {}/{}'.format(epoch, num_epochs - 1))
     
     # Iterate over videos.
-    for video_step, video_loader in enumerate(dataloader):
+    for video_step, video_loader in enumerate(train_loader):
         video_loss = []
 
         # Iterate over frames.
@@ -74,9 +74,27 @@ for epoch in range(num_epochs):
             .format(n_samples, np.sum(video_loss), np.average(video_loss)))
         
         # Test model
-        #if video_step % TEST_INTERVAL == 0:
-            #loss = test_model(model, {'x':x, 'y':y}, criterion, optimizer)
-		    #log.log_images(x, y,'<PATH>/{}_'.format(n_samples))
+        # NOTE: len(train_loader) must be >> len(test_loader)
+
+        if video_step % TEST_INTERVAL == 0:
+            test_loss = []
+            # Iterate over videos.
+            for video_step, video_loader in enumerate(test_loader):
+                # Iterate over frames.
+                for _, sample in  enumerate(video_loader):
+                    
+                    # Send data to device
+                    y, x = sample['y'].to(device), sample['x'].to(device)
+                    
+                    # Test model with sample
+                    loss = test_model(model, {'x':x, 'y':y}, criterion, optimizer)
+	                test_loss.append(loss) 
+		            #log.log_images(x, y,'<PATH>/{}_'.format(n_samples))
+            
+            # Logs after test
+		    log.log_time('Test: {}\tTotal Loss: {:.6f}\tAvg Loss: {:.6f}'
+            .format(n_samples, np.sum(test_loss), np.average(test_loss)))
+            
 
 		# Checkpoint
         if video_step % TEST_INTERVAL == 0:   
