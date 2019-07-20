@@ -55,7 +55,7 @@ for epoch in range(num_epochs):
     log.log_time('Epoch {}/{}'.format(epoch, num_epochs - 1))
     
     # Iterate over videos.
-    for video_step, video_loader in enumerate(dataloader.iterate()):
+    for video_step, video_loader in enumerate(dataloader):
         video_loss = []
 
         # Iterate over frames.
