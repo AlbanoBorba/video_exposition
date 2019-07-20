@@ -2,8 +2,8 @@ import time
 import datetime
 import torch
 
-def test_model()
-
+def test_model(model, data, criterion, optimizer)
+	pass
 
 def train_model(model, data, criterion, optimizer):
 				

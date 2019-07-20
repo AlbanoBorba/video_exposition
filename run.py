@@ -3,12 +3,12 @@ import numpy as np
 import torch
 import torch.nn as nn
 from torchvision import transforms, utils
-from skimage import io
+
 
 # My imports
 from models import UNet3D
 from dataloader import BddDaloaderFactory
-from train import train_model
+from train import train_model, test_model
 from loss import LossFunction
 from utils import log
 
@@ -80,4 +80,4 @@ for epoch in range(num_epochs):
 
 		# Checkpoint
         if video_step % TEST_INTERVAL == 0:   
-		    torch.save(model.state_dict(), './3dcnn_weigths_{}_{}_{}.pth'.format(RUN_NAME, epoch, video_step))
+		    torch.save(model.state_dict(), './results/{}/3dcnn_weigths_{}_{}.pth'.format(RUN_NAME, epoch, video_step))
