@@ -19,7 +19,7 @@ MODEL_STATE_PATH = ''
 EXPOSURE = 'under'
 
 # Set dataloaders
-val_loader = BddDaloaderFactory(EXPOSURE, TRAIN_FILE_PATH, BATCH_SIZE)
+val_loader = BddDaloaderFactory(EXPOSURE, TRAIN_FILE_PATH, BATCH_SIZE, n_videos=1)
 
 # Set model and lod weights
 model = UNet3D(3, 3).to(device)
@@ -42,11 +42,11 @@ for video_step, video_loader in enumerate(val_loader):
         y, x = sample['y'].to(device), sample['x'].to(device)
 
         # Test model with sample
-        loss = test_model(model, {'x': x, 'y': y}, criterion, optimizer)
+        outputs, loss = test_model(model, {'x': x, 'y': y}, criterion, optimizer)
         test_loss.append(loss)
 
         if sample_step == 0:
-            #log.log_images(x, y,'<PATH>/{}_'.format(n_samples))
+            #log.log_images(x, y, outputs,'<PATH>/{}_'.format(n_samples))
 
 # Logs after test
 log.log_time('Total Loss: {:.6f}\tAvg Loss: {:.6f}'

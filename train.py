@@ -15,7 +15,7 @@ def test_model(model, data, criterion, optimizer)
 	# loss
 	loss = criterion(outputs, data['y'])
 
-	return loss.data
+	return outputs, loss.data
 
 def train_model(model, data, criterion, optimizer):
 				
@@ -34,4 +34,4 @@ def train_model(model, data, criterion, optimizer):
 	loss.backward()
 	optimizer.step()
 		
-	return loss.data
+	return outputs, loss.data

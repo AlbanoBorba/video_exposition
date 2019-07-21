@@ -86,9 +86,9 @@ for epoch in range(num_epochs):
                     y, x = sample['y'].to(device), sample['x'].to(device)
                     
                     # Test model with sample
-                    loss = test_model(model, {'x':x, 'y':y}, criterion, optimizer)
+                    outputs, loss = test_model(model, {'x':x, 'y':y}, criterion, optimizer)
 	                test_loss.append(loss) 
-		            #log.log_images(x, y,'<PATH>/{}_'.format(n_samples))
+		            #log.log_images(x, y, outputs,'<PATH>/{}_'.format(n_samples))
             
             # Logs after test
 		    log.log_time('Test: {}\tTotal Loss: {:.6f}\tAvg Loss: {:.6f}'
