@@ -36,7 +36,7 @@ val_loss = []
 # Iterate over videos.
 for video_step, video_loader in enumerate(val_loader):
     # Iterate over frames.
-    for _, sample in enumerate(video_loader):
+    for sample_step, sample in enumerate(video_loader):
 
         # Send data to device
         y, x = sample['y'].to(device), sample['x'].to(device)
@@ -44,8 +44,10 @@ for video_step, video_loader in enumerate(val_loader):
         # Test model with sample
         loss = test_model(model, {'x': x, 'y': y}, criterion, optimizer)
         test_loss.append(loss)
-        #log.log_images(x, y,'<PATH>/{}_'.format(n_samples))
+
+        if sample_step == 0:
+            #log.log_images(x, y,'<PATH>/{}_'.format(n_samples))
 
 # Logs after test
-log.log_time('Test: {}\tTotal Loss: {:.6f}\tAvg Loss: {:.6f}'
-             .format(n_samples, np.sum(test_loss), np.average(test_loss)))
+log.log_time('Total Loss: {:.6f}\tAvg Loss: {:.6f}'
+             .format(np.sum(test_loss), np.average(test_loss)))

@@ -66,7 +66,7 @@ if __name__ == '__main__':
 
 	out_path = 'bdd_day[90-110]_train_5k_40.csv'
 	in_path = '/media/albano/external'
-	max_videos = 5 * 1000
+	max_videos = 6 * 1000 + 100
 
 	with open(out_path, mode='a') as outfile:
 		writer = csv.writer(outfile, delimiter=',')
