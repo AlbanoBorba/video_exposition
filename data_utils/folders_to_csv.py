@@ -68,7 +68,7 @@ if __name__ == '__main__':
 	in_path = '/media/albano/external'
 	max_videos = 6 * 1000 + 100
 
-	with open(out_path, mode='a') as outfile:
+	with open(out_path, mode='w') as outfile:
 		writer = csv.writer(outfile, delimiter=',')
 		writer.writerow(['video_path'])
 
