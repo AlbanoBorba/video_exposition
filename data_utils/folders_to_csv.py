@@ -64,7 +64,7 @@ def read_video(path, n_frames=1):
 
 if __name__ == '__main__':
 
-	out_path = 'csv_loaders/bdd_day[90-110]_train_5k_40.csv'
+	out_path = './csv_loaders/bdd_day[90-110]_train_5k_40.csv'
 	in_path = '/media/albano/external'
 	max_videos = 6 * 1000 + 100
 
