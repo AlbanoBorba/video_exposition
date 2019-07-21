@@ -21,7 +21,7 @@ def read_video(video_path, frames=40):
 				break
 
 			count += 1
-			if count == n_frames: break
+			if count == frames: break
 
 		else:
 			break
