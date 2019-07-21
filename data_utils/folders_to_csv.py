@@ -31,7 +31,13 @@ def insert_video_samples_in_csv(out_file_name, video_path, video_length, window_
 		for sample in samples:
 			writer.writerow(sample)
 
-def read_video(path, n_frames=40):
+def write_video_path(out_file, video_path):
+	with open(out_file_name, mode='a') as outfile:
+		writer = csv.writer(outfile, delimiter=',')
+
+		writer.writerow([video_path])
+
+def read_video(path, n_frames=1):
 	cap = cv2.VideoCapture(path)
 	count = 0
 	video_avg = []
@@ -43,8 +49,8 @@ def read_video(path, n_frames=40):
 			frame_avg = np.average(cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY))
 			video_avg.append(frame_avg)
 
+			count += 1
 			if count == n_frames: break
-			else: count += 1
 
 			if cv2.waitKey(1) & 0xFF == ord('q'):
 				break
@@ -60,23 +66,21 @@ if __name__ == '__main__':
 
 	out_path = 'bdd_day[90-110]_train_5k_40.csv'
 	in_path = '/media/albano/external'
-	op = 'train' #train, val or test
-	max_videos = 5 * 1000
+	max_videos = 6 * 1000 + 100
 
 	with open(out_path, mode='a') as outfile:
 		writer = csv.writer(outfile, delimiter=',')
-		writer.writerow(['video_path', 'target_frame', 'frames_list'])
+		writer.writerow(['video_path'])
 
 	samples = []
 	count = 0
 	for root, dirs, files in os.walk(in_path):
-		for f in files:
-			#if op in root:
+		for f in random.shuffle(files):
 			if f.endswith('.mov') and f[0] == 'd':
 				video_length, video_avg = read_video(os.path.join(root,f))
 				if 90 <= video_avg <= 110:
-					insert_video_samples_in_csv(out_path, os.path.join(root,f), video_length, fixe_window=True)
-
+					#insert_video_samples_in_csv(out_path, os.path.join(root,f), video_length, fixe_window=True)
+					write_video_path(out_path, os.path.join(root,f))
 					if count == max_videos: break
 					else:  count += 1
 

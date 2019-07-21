@@ -1,2 +1,6 @@
 *.csv
+<<<<<<< HEAD
 *.pth
+=======
+*.pth
+>>>>>>> fae08bded227b23a2324118ce83b50d3c8b9e5d5

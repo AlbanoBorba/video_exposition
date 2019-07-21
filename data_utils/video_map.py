@@ -15,14 +15,14 @@ def read_video(video_path, frames=40):
 		ret, frame = cap.read()
 		
 		if ret:
-			
 			x.append(np.average(cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)))
 	
 			if cv2.waitKey(1) & 0xFF == ord('q'):
 				break
 
-			if count == frames: break
-			else: count += 1
+			count += 1
+			if count == n_frames: break
+
 		else:
 			break
 	
@@ -35,7 +35,7 @@ def read_image(path):
 	img = io.imread(path)
 	medians.append(np.median(img))
 
-file = open("all_distrib_40f.txt", "w")
+file = open("histogram_distrib/all_distrib_40f.txt", "w")
 
 if __name__ == '__main__':	
 	path = '/media/albano/external'

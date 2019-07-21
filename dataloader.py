@@ -1,7 +1,6 @@
 from __future__ import print_function, division
 import os
 import sys
-import pims
 import numpy as np
 import pandas as pd
 import torch
@@ -33,7 +32,7 @@ def custom_collate(batch):
 
 class BddDaloaderFactory():
 
-    def __init__(self, exposure, video_path, batch_size, chunksize=40):
+    def __init__(self, csv_path, exposure, batch_size, n_samples=40, window_size=3):
 
         if exposure == 'under':
             self.gamma = [0.1, 0.2, 0.4]
@@ -42,49 +41,53 @@ class BddDaloaderFactory():
         else:
             sys.exit("O tipo de exposiçao deve ser 'under' ou 'over'!")
 
-        self.chunksize = chunksize
-        self.video_path = video_path
         self.batch_size = batch_size
+        self.n_samples = n_samples
+        self.windo_size = window_size
+        self.video_loader = pd.read_csv(csv_path)
 
-    def iterate(self):
-        for df in pd.read_csv(self.video_path, sep=',', chunksize=self.chunksize):
+    def __len__(self):
+        return len(video_loader.index)
 
-            video_path = df['video_path'].tolist()[0] # str
-            target_frames = df['target_frame'].tolist() # list
-                
-            window_frames = [[int(i) for i in x.split('-')] for x in df['frames_list']] # list of lists
+    def __getitem__(self):
+        random_video = video_loader.sample(n=1)
+        video_path = random_video['video_path'].tolist()[0] # str
 
-            dataset = SingleVideoDataset(video_path, target_frames, window_frames, random.choice(self.gamma))
+        dataset = SingleVideoDataset(video_path, self.n_samples, self.window_size, random.choice(self.gamma))
 
-            dataloader = DataLoader(dataset=dataset, 
-                                    batch_size=self.batch_size, 
-                                    num_workers=0,
-                                    collate_fn=custom_collate)
+        dataloader = DataLoader(dataset=dataset, 
+                                batch_size=self.batch_size, 
+                                num_workers=0,
+                                collate_fn=custom_collate)
 
-            yield dataloader
+        return dataloader
 
 
 class SingleVideoDataset(Dataset):
 
-    def __init__(self, video_path, target_frames, window_frames, gamma, transform=transforms.Compose(transforms_list())):
+    def __init__(self, video_path, n_samples, window_size, gamma, transform=transforms.Compose(transforms_list())):
 
-        self.video_loader = VideoLoader(video_path, (len(window_frames[0])+1))
-        self.targets = target_frames
-        self.transform = transform
+        self.sample_loader = SampleLoader(video_path, window_size)
+        self.n_samples = n_samples
         self.gamma = gamma
+        self.transform = transform
 
     def __len__(self):
-        return len(self.targets)
+        return self.n_samples
     
+    # Enumerate call
     def __getitem__(self, idx):
 
-        frames = self.video_loader.process()
+        # Get window_size frames
+        frames = self.sample_loader.get_sample()
 
+        # Preprocess ground-truth
         frame_gt = frames[int(len(frames)/2)]
         #frame_gt = ndimage.rotate(frame_gt, 90, reshape=True)      
         frame_gt = transforms.functional.to_pil_image(frame_gt)      
         frame_gt = self.transform(frame_gt)
 
+        # Preprocess window
         stack = []
         for frame in frames:
             frame = self.change_gamma(frame, self.gamma)
@@ -93,8 +96,9 @@ class SingleVideoDataset(Dataset):
 
         stack = torch.stack(stack, dim=0)
 
+        # Set sampleW
         sample = {
-            'x': stack,
+            'x': window,
             'y': frame_gt
         }
 
@@ -106,7 +110,7 @@ class SingleVideoDataset(Dataset):
 
         return f
 
-class VideoLoader():
+class SampleLoader():
 
     def __init__(self, video_path, window_size):
         self.cap = cv2.VideoCapture(video_path)
@@ -115,7 +119,7 @@ class VideoLoader():
         self.frames = []
 
     
-    def process(self):
+    def get_sample(self):
 
         if self.index == 0:
             for i in range(self.window_size):
@@ -128,14 +132,3 @@ class VideoLoader():
             self.frames.append(frame)
 
         return self.frames
-            
-
-if __name__ == '__main__':
-    
-    file_path = 'data_utils/bdd_night_train.csv'
-
-    for epoch in range(epochs):
-        for videoDataloader in bddDaloaderFactory('under', file_path, 8):
-            for step, sample in enumerate(videoDataloader):
-                y, x = sample["y"], sample["x"]
-                print(step, y.shape, x.shape)

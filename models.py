@@ -154,7 +154,8 @@ class Up(nn.Module):
         
         #frames = skip.shape[2]
         #print(frames)
-        skip = torch.split(skip, 1, dim=2)[0] #SEMPRE PEGAR O PRIMEIRO FRAMAE
+        skip = torch.split(skip, 1, dim=2)
+        skip = skip[len(skip) // 2] #SEMPRE PEGAR O FRAME DO MEIO
         skip = skip.squeeze(dim=2)
 
         #print('*'*10)
