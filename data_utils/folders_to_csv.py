@@ -32,7 +32,7 @@ def insert_video_samples_in_csv(out_file_name, video_path, video_length, window_
 			writer.writerow(sample)
 
 def write_video_path(out_file, video_path):
-	with open(out_file_name, mode='a') as outfile:
+	with open(out_file, mode='a') as outfile:
 		writer = csv.writer(outfile, delimiter=',')
 
 		writer.writerow([video_path])
