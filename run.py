@@ -4,7 +4,6 @@ import torch
 import torch.nn as nn
 from torchvision import transforms, utils
 
-
 # My imports
 from models import UNet3D
 from dataloader import BddDaloaderFactory

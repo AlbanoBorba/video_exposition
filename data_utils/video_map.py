@@ -35,7 +35,7 @@ def read_image(path):
 	img = io.imread(path)
 	medians.append(np.median(img))
 
-file = open("all_distrib_40f.txt", "w")
+file = open("histogram_distrib/all_distrib_40f.txt", "w")
 
 if __name__ == '__main__':	
 	path = '/media/albano/external'
