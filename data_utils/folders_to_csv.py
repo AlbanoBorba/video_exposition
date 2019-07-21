@@ -75,16 +75,14 @@ if __name__ == '__main__':
 	samples = []
 	count = 0
 	for root, dirs, files in os.walk(in_path):
-		if files:
-			for f in random.shuffle(files):
-				if f.endswith('.mov') and f[0] == 'd':
-					video_length, video_avg = read_video(os.path.join(root,f))
-					if 90 <= video_avg <= 110:
-						print('passou')
-						#insert_video_samples_in_csv(out_path, os.path.join(root,f), video_length, fixe_window=True)
-						write_video_path(out_path, os.path.join(root,f))
-						if count == max_videos: break
-						else:  count += 1
+		for f in files:
+			if f.endswith('.mov') and f[0] == 'd':
+				video_length, video_avg = read_video(os.path.join(root,f))
+				if 90 <= video_avg <= 110:
+					#insert_video_samples_in_csv(out_path, os.path.join(root,f), video_length, fixe_window=True)
+					write_video_path(out_path, os.path.join(root,f))
+					if count == max_videos: break
+					else:  count += 1
 
 
 	for df in pd.read_csv(out_path, sep=',', chunksize=1):
