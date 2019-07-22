@@ -9,16 +9,13 @@ def log_time(msg):
 	print('Datetime: {}'.format(datetime.datetime.now()), end='\n')
 
 def log_images(x, y, out, path):
-	frames = torch.split(x, 1, dim=2)
-	frames = [frame.squeeze(dim=2) for frame in frames]
-	print(out.shape)
-	print(y.shape)
-
-
-	frames.append(out)
-	frames.append(y)
+	#frames = torch.split(x, 1, dim=2)
+	#frames = [frame.squeeze(dim=2) for frame in frames]
+	#frames.append(out)
+	#frames.append(y)
 	
-	print(frames)
+	x = torch.cat([x, out, y], dim=0)
+	print(x.shape)
 
 	grid = utils.make_grid(frames, padding=100)
 	utils.save_image(grid, path)
