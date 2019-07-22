@@ -91,13 +91,13 @@ class SingleVideoDataset(Dataset):
         frame_gt = self.transform(frame_gt)
 
         # Preprocess window
-        stack = []
+        window = []
         for frame in frames:
             frame = self.change_gamma(frame, self.gamma)
             frame = self.transform(frame)
-            stack.append(frame)
+            window.append(frame)
 
-        stack = torch.stack(stack, dim=0)
+        window = torch.stack(stack, dim=0)
 
         # Set sampleW
         sample = {
