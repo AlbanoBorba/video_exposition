@@ -19,7 +19,7 @@ MODEL_STATE_PATH = './results/3dcnn_weights_0.pth'
 EXPOSURE = 'under'
 
 # Set dataloaders
-val_loader = BddDaloaderFactory(EXPOSURE, VAL_FILE_PATH, BATCH_SIZE, n_videos=10)
+val_loader = BddDaloaderFactory(VAL_FILE_PATH, EXPOSURE, BATCH_SIZE, n_videos=10)
 
 # Set model and lod weights
 model = UNet3D(3, 3).to(device)
