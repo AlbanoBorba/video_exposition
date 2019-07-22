@@ -48,15 +48,14 @@ class BddDaloaderFactory():
         self.n_videos = n_videos
 
     def __len__(self):
-        if self.n_videos == 'total':
-            return len(self.video_loader.index)
-        return self.n_videos
+        #if self.n_videos == 'total':
+        #    return len(self.video_loader.index)
+        #return self.n_videos
+        return 1
 
     def __getitem__(self, idx):
         random_video = self.video_loader.sample(n=1)
         video_path = random_video['video_path'].tolist()[0] # str
-        print('Video path')
-        print(video_path)
 
         dataset = SingleVideoDataset(video_path, self.n_samples, self.window_size, random.choice(self.gamma))
 
