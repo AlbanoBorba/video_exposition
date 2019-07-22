@@ -26,7 +26,7 @@ val_loader = BddDaloaderFactory(VAL_FILE_PATH, EXPOSURE, BATCH_SIZE, n_videos=10
 
 # Set model and lod weights
 model = UNet3D(3, 3).to(device)
-model.load_state_dict(torch.load(MODEL))
+model.load_state_dict(torch.load(MODEL_STATE_PATH))
 
 # Set optimizer
 optimizer = torch.optim.SGD(model.parameters(), lr=0.1, momentum=0.9)
