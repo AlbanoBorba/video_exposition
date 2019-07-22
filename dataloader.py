@@ -43,7 +43,7 @@ class BddDaloaderFactory():
 
         self.batch_size = batch_size
         self.n_samples = n_samples
-        self.windo_size = window_size
+        self.window_size = window_size
         self.video_loader = pd.read_csv(csv_path)
         self.n_videos = n_videos
 
