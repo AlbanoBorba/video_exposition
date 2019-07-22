@@ -11,8 +11,9 @@ def log_time(msg):
 def log_images(x, y, out, path):
 	frames = torch.split(x, 1, dim=2)
 	frames = [frame.squeeze(dim=2) for frame in frames]
-	#print(frames[0].shape)
-	#print(frames[1].shape)
+	print(out.shape)
+	print(y.shape)
+
 
 	frames.append(out)
 	frames.append(y)
