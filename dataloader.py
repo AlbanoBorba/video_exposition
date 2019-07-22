@@ -48,6 +48,7 @@ class BddDaloaderFactory():
         self.n_videos = n_videos
 
     def __len__(self):
+        print(n_videos)
         return 1
 
     def __getitem__(self, idx):
