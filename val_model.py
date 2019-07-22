@@ -13,7 +13,7 @@ from utils import log
 
 # Hiperparameters and configurations
 RUN_NAME = ''
-BATCH_SIZE = 8
+BATCH_SIZE = 7
 VAL_FILE_PATH = './data_utils/csv_loaders/bdd_day[90-110]_train_5k_40.csv'
 MODEL_STATE_PATH = './results/3dcnn_weigths_0.pth'
 EXPOSURE = 'under'
