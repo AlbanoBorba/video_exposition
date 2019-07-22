@@ -14,9 +14,9 @@ def log_images(x, y, out, path):
 	#frames.append(out)
 	#frames.append(y)
 	s = torch.stack([out, y], dim=0)
-	f = torch.cat([x, s], dim=0)
+	#f = torch.cat([x, s], dim=0)
 	print(s.shape)
-	print(f.shape)
+	#print(f.shape)
 	print(x.shape)
 
 	grid = utils.make_grid(frames, padding=100)
