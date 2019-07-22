@@ -45,7 +45,7 @@ for video_step, video_loader in enumerate(val_loader):
         outputs, loss = test_model(model, {'x': x, 'y': y}, criterion, optimizer)
         test_loss.append(loss)
 
-        if sample_step == 0:
+        #if sample_step == 0:
             #log.log_images(x, y, outputs,'<PATH>/{}_'.format(n_samples))
 
 # Logs after test
