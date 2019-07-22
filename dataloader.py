@@ -30,7 +30,7 @@ def custom_collate(batch):
     return {'x':data, 'y':target}
 
 
-class BddDaloaderFactory():
+class BddDaloaderFactory(list):
 
     def __init__(self, csv_path, exposure, batch_size, n_videos='total', n_samples=40, window_size=3):
 
@@ -48,12 +48,9 @@ class BddDaloaderFactory():
         self.n_videos = n_videos
 
     def __len__(self):
-        #if self.n_videos == 'total':
-        #    return len(self.video_loader.index)
-        #return self.n_videos
-        print('aqui')
-        return 1
-
+        if self.n_videos == 'total':
+            return len(self.video_loader.index)
+        return self.n_videos
 
     def __getitem__(self, idx):
         random_video = self.video_loader.sample(n=1)
