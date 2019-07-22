@@ -38,6 +38,7 @@ criterion = LossFunction().to(device)
 val_loss = []
 # Iterate over videos.
 for video_step, video_loader in enumerate(val_loader):
+    print('aqui')
     # Iterate over frames.
     for sample_step, sample in enumerate(video_loader):
 
@@ -48,10 +49,10 @@ for video_step, video_loader in enumerate(val_loader):
         outputs, loss = test_model(model, {'x': x, 'y': y}, criterion, optimizer)
         val_loss.append(loss)
     
-    print('Video: ', video_step)
-    print(loss)
-    print(loss/40)
-    print('\n')
+    #print('Video: ', video_step)
+    #print(loss)
+    #print(loss/40)
+    #print('\n')
         #if sample_step == 0:
             #log.log_images(x, y, outputs,'<PATH>/{}_'.format(n_samples))
 
