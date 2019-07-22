@@ -32,7 +32,7 @@ def custom_collate(batch):
 
 class BddDaloaderFactory():
 
-    def __init__(self, csv_path, exposure, batch_size, n_videos = 'total', n_samples=40, window_size=3):
+    def __init__(self, csv_path, exposure, batch_size, n_videos='total', n_samples=40, window_size=3):
 
         if exposure == 'under':
             self.gamma = [0.1, 0.2, 0.4]
@@ -55,6 +55,8 @@ class BddDaloaderFactory():
     def __getitem__(self, idx):
         random_video = self.video_loader.sample(n=1)
         video_path = random_video['video_path'].tolist()[0] # str
+        print('Video path'):
+        print(video_path)
 
         dataset = SingleVideoDataset(video_path, self.n_samples, self.window_size, random.choice(self.gamma))
 
