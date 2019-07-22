@@ -51,7 +51,7 @@ class BddDaloaderFactory():
             return len(video_loader.index)
         return n_videos
 
-    def __getitem__(self):
+    def __getitem__(self, idx):
         random_video = video_loader.sample(n=1)
         video_path = random_video['video_path'].tolist()[0] # str
 
