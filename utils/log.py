@@ -8,11 +8,11 @@ def log_time(msg):
 	print('Datetime: {}'.format(datetime.datetime.now()), end='\n')
 
 def log_images(x, y, out, path):
-	# split x in window images
-	# concat y and out
-	img_list = [] 
+	frames = torch.split(x, 1, dim=2)
+	frames.append(out)
+	frames.append(y)
 
-	grid = utils.make_grid(img_list, padding=100)
+	grid = utils.make_grid(frames, padding=100)
 	utils.save_image(grid, path)
 
 def log_model_eval(model):
