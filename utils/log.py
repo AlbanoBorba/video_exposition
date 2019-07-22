@@ -3,7 +3,7 @@ from torchvision import utils
 def log_time(msg):
 	print(msg)
 	print('\t', end='')
-    print('Datetime: {}'.format(datetime.datetime.now()), end='\n')
+	print('Datetime: {}'.format(datetime.datetime.now()), end='\n')
 
 def log_images(x, y, out, path):
 	# split x in window images
