@@ -37,8 +37,7 @@ criterion = LossFunction().to(device)
 
 val_loss = []
 # Iterate over videos.
-for video_step, video_loader in enumerate(val_loader):
-    print('aqui')
+for video_step, video_loader in val_loader.iterate():
     # Iterate over frames.
     for sample_step, sample in enumerate(video_loader):
 

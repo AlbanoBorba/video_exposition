@@ -28,7 +28,7 @@ def custom_collate(batch):
     return {'x':data, 'y':target}
 
 
-class BddDaloaderFactory(object):
+class BddDaloaderFactory():
 
     def __init__(self, csv_path, exposure, batch_size, n_videos='total', n_samples=40, window_size=3):
 
@@ -43,25 +43,30 @@ class BddDaloaderFactory(object):
         self.n_samples = n_samples
         self.window_size = window_size
         self.video_loader = pd.read_csv(csv_path)
-        self.n_videos = n_videos
+        if (n_videos = total): self.n_videos = len(self.video_loader.index)
+        else: self.n_videos = n_videos
+        self.count = -1
 
-    def __len__(self):
-        if self.n_videos == 'total':
-            return len(self.video_loader.index)
-        return self.n_videos
+    #def __len__(self):
+    #    if self.n_videos == 'total':
+    #        return len(self.video_loader.index)
+    #    return self.n_videos
 
-    def __getitem__(self, idx):
-        random_video = self.video_loader.sample(n=1)
-        video_path = random_video['video_path'].tolist()[0] # str
+    #def __getitem__(self, idx):
+    def iterate(self):
+        for x in range(n_videos):
+            count += 1
+            random_video = self.video_loader.sample(n=1)
+            video_path = random_video['video_path'].tolist()[0] # str
 
-        dataset = SingleVideoDataset(video_path, self.n_samples, self.window_size, random.choice(self.gamma))
+            dataset = SingleVideoDataset(video_path, self.n_samples, self.window_size, random.choice(self.gamma))
 
-        dataloader = DataLoader(dataset=dataset, 
-                                batch_size=self.batch_size, 
-                                num_workers=0,
-                                collate_fn=custom_collate)
+            dataloader = DataLoader(dataset=dataset, 
+                                    batch_size=self.batch_size, 
+                                    num_workers=0,
+                                    collate_fn=custom_collate)
 
-        return dataloader
+            yield count, dataloader
 
 
 class SingleVideoDataset(Dataset):
