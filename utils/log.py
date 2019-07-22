@@ -1,3 +1,4 @@
+import torch
 from torchvision import utils
 import time
 import datetime
