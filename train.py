@@ -2,7 +2,7 @@ import time
 import datetime
 import torch
 
-def test_model(model, data, criterion, optimizer)
+def test_model(model, data, criterion, optimizer):
 	
 	model.eval() # Set model to training mode
 
