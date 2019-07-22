@@ -47,7 +47,7 @@ class BddDaloaderFactory():
         self.video_loader = pd.read_csv(csv_path)
 
     def __len__(self):
-        if n_videos == 'total'
+        if n_videos == 'total':
             return len(video_loader.index)
         return n_videos
 
