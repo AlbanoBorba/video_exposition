@@ -28,7 +28,7 @@ def custom_collate(batch):
     return {'x':data, 'y':target}
 
 
-class BddDaloaderFactory(list):
+class BddDaloaderFactory(object):
 
     def __init__(self, csv_path, exposure, batch_size, n_videos='total', n_samples=40, window_size=3):
 
