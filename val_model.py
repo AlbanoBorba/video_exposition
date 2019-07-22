@@ -47,11 +47,12 @@ for video_step, video_loader in val_loader.iterate():
         # Test model with sample
         outputs, loss = test_model(model, {'x': x, 'y': y}, criterion, optimizer)
         val_loss.append(loss)
-    
-    print('Video: ', video_step)
-    print(loss)
-    print(loss/40)
-    print('\n')
+        print(loss)
+
+    #print('Video: ', video_step)
+    #print(loss)
+    #print(loss/40)
+    #print('\n')
         #if sample_step == 0:
             #log.log_images(x, y, outputs,'<PATH>/{}_'.format(n_samples))
 
