@@ -20,7 +20,7 @@ def log_images(x, y, out, path):
 	# frames = torch.cat([x, s], dim=1)
 	#print(f.shape)
 
-	grid = utils.make_grid(frames, padding=100, nrow=4)
+	grid = utils.make_grid(frames)
 	print(grid.shape)
 	utils.save_image(grid, path)
 
