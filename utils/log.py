@@ -13,10 +13,11 @@ def log_images(x, y, out, path):
 	#frames = [frame.squeeze(dim=2) for frame in frames]
 	#frames.append(out)
 	#frames.append(y)
-	s = torch.stack([out, y], dim=1)
+	frames = torch.stack([out, y], dim=1)
 	#print(s.shape)
 	#print(x.shape)
-	frames = torch.cat([x, s], dim=1)
+	
+	# frames = torch.cat([x, s], dim=1)
 	#print(f.shape)
 
 	grid = utils.make_grid(frames, padding=100, nrow=4)
