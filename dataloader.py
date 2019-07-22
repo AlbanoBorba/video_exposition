@@ -48,8 +48,12 @@ class BddDaloaderFactory():
         self.n_videos = n_videos
 
     def __len__(self):
-        print(n_videos)
+        #if self.n_videos == 'total':
+        #    return len(self.video_loader.index)
+        #return self.n_videos
+        print('aqui')
         return 1
+
 
     def __getitem__(self, idx):
         random_video = self.video_loader.sample(n=1)
