@@ -1,4 +1,6 @@
 from torchvision import utils
+import time
+import datetime
 
 def log_time(msg):
 	print(msg)

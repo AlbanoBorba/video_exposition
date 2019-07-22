@@ -22,7 +22,7 @@ EXPOSURE = 'under'
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 # Set dataloaders
-val_loader = BddDaloaderFactory(VAL_FILE_PATH, EXPOSURE, BATCH_SIZE, n_videos=1)
+val_loader = BddDaloaderFactory(VAL_FILE_PATH, EXPOSURE, BATCH_SIZE, n_videos=5)
 
 # Set model and lod weights
 model = UNet3D(3, 3).to(device)
