@@ -5,9 +5,13 @@ def log_time(msg):
 	print('\t', end='')
     print('Datetime: {}'.format(datetime.datetime.now()), end='\n')
 
-def log_images(x, y, path):
-	utils.save_image(x, path+'x.png')
-	utils.save_image(y, path+'y.png')
+def log_images(x, y, out, path):
+	# split x in window images
+	# concat y and out
+	img_list = [] 
+
+	grid = utils.make_grid(img_list, padding=100)
+	utils.save_image(grid, path)
 
 def log_model_eval(model):
 	print('Model evaluation: ', model.eval())
