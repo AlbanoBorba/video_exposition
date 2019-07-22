@@ -43,9 +43,9 @@ class BddDaloaderFactory():
         self.n_samples = n_samples
         self.window_size = window_size
         self.video_loader = pd.read_csv(csv_path)
-        if (n_videos = total): self.n_videos = len(self.video_loader.index)
+
+        if (n_videos == 'total'): self.n_videos = len(self.video_loader.index)
         else: self.n_videos = n_videos
-        self.count = -1
 
     #def __len__(self):
     #    if self.n_videos == 'total':
@@ -54,8 +54,7 @@ class BddDaloaderFactory():
 
     #def __getitem__(self, idx):
     def iterate(self):
-        for x in range(n_videos):
-            count += 1
+        for i in range(self.n_videos):
             random_video = self.video_loader.sample(n=1)
             video_path = random_video['video_path'].tolist()[0] # str
 
@@ -66,7 +65,7 @@ class BddDaloaderFactory():
                                     num_workers=0,
                                     collate_fn=custom_collate)
 
-            yield count, dataloader
+            yield i, dataloader
 
 
 class SingleVideoDataset(Dataset):
