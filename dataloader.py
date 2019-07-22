@@ -97,7 +97,7 @@ class SingleVideoDataset(Dataset):
             frame = self.transform(frame)
             window.append(frame)
 
-        window = torch.stack(stack, dim=0)
+        window = torch.stack(window, dim=0)
 
         # Set sampleW
         sample = {
