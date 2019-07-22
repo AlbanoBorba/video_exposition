@@ -20,6 +20,7 @@ def log_images(x, y, out, path):
 	#print(f.shape)
 
 	grid = utils.make_grid(frames, padding=100)
+	print(grid.shape)
 	utils.save_image(grid, path)
 
 def log_model_eval(model):
