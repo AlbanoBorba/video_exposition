@@ -50,7 +50,7 @@ for video_step, video_loader in val_loader.iterate():
         print(loss)
 
         if sample_step == 0:
-            log.log_images(x, y, outputs,'./results/{}_{}'.format(video_step, 0))
+            log.log_images(x, y, outputs,'./results/{}_{}/'.format(video_step, 0))
 
 # Logs after test
 #log.log_time('Total Loss: {:.6f}\tAvg Loss: {:.6f}'.format(np.sum(val_loss), np.average(val_loss)))
