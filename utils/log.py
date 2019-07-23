@@ -22,7 +22,8 @@ def log_images(x, y, out, path):
 	
 	count = 0
 	for frame in frames:
-		utils.save_image(frame, path + 'frame_{}.png'.format(count))
+		grid = utils.make_grid(frame)
+		utils.save_image(grid, path + 'frame_{}.png'.format(count))
 		count += 1
 
 def log_model_eval(model):
