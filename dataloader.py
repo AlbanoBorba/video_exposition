@@ -90,11 +90,6 @@ class SingleVideoDataset(Dataset):
         # Get window_size frames
         frames = self.sample_loader.get_sample()
 
-        count = 0
-        for frame in frames:
-            imageio.imwrite('./results/teste/item_{}_{}.png'.format(idx, count), frame)
-            count += 1
-
         # Preprocess ground-truth
         frame_gt = frames[int(len(frames)/2)]
         #frame_gt = ndimage.rotate(frame_gt, 90, reshape=True)      
@@ -103,9 +98,13 @@ class SingleVideoDataset(Dataset):
 
         # Preprocess window
         window = []
+        count = 0
         for frame in frames:
             frame = self.change_gamma(frame, self.gamma)
             frame = self.transform(frame)
+            imageio.imwrite('./results/teste/item_{}_{}.png'.format(idx, count), frame)
+            count += 1
+
             window.append(frame)
 
         window = torch.stack(window, dim=0)
@@ -143,6 +142,6 @@ class SampleLoader():
         else:
             self.frames.pop(0)
             _, frame = self.cap.read()
-            self.frames.append(frame)
+            self.frames.append(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
 
         return self.frames
