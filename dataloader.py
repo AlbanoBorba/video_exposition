@@ -95,6 +95,8 @@ class SingleVideoDataset(Dataset):
         #frame_gt = ndimage.rotate(frame_gt, 90, reshape=True)      
         frame_gt = transforms.functional.to_pil_image(frame_gt)      
         frame_gt = self.transform(frame_gt)
+        utils.save_image(frame, './results/teste/gt_{}.png'.format(idx))
+
 
         # Preprocess window
         window = []
@@ -102,7 +104,7 @@ class SingleVideoDataset(Dataset):
         for frame in frames:
             frame = self.change_gamma(frame, self.gamma)
             frame = self.transform(frame)
-            imageio.imwrite('./results/teste/item_{}_{}.png'.format(idx, count), frame)
+            utils.save_image(frame, './results/teste/item_{}_{}.png'.format(idx, count))
             count += 1
 
             window.append(frame)
