@@ -12,7 +12,7 @@ from torchvision import transforms, utils
 import imageio
 
 def rotate(frame):
-    return ndimage.rotate(frame, 90, reshape=True)   
+    return ndimage.rotate(frame, -90, reshape=True)   
 
 def transforms_list():
     return [
@@ -21,7 +21,7 @@ def transforms_list():
         transforms.CenterCrop((400, 400)),
         transforms.Lambda(lambda x: rotate(x)),
         transforms.ToTensor(),
-        transforms.Normalize(mean=(0.279, 0.293, 0.290), std=(0.197, 0.198, 0.201))
+        #transforms.Normalize(mean=(0.279, 0.293, 0.290), std=(0.197, 0.198, 0.201))
         #transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
     ]
 
