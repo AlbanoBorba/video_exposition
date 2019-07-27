@@ -14,7 +14,7 @@ def log_images(x, y, out, path):
 	print(x.shape)
 	frames = torch.split(x, 1, dim=2)
 	frames = [frame.squeeze(dim=2) for frame in frames]
-	print(frame[0].shape)
+	print(frames[0].shape)
 	frames.append(out)
 	frames.append(y)
 	
