@@ -56,52 +56,52 @@ log.log_model_params(model)
 
 n_samples = 0
 for epoch in range(num_epochs):
-    log.log_time('Epoch {}/{}'.format(epoch, num_epochs - 1))
-    
-    # Iterate over videos.
-    for video_step, video_loader in enumerate(train_loader):
-        video_loss = []
+	log.log_time('Epoch {}/{}'.format(epoch, num_epochs - 1))
 
-        # Iterate over frames.
-        for _, sample in  enumerate(video_loader):
-            n_samples += 1                                                
-            
-            # Send data to device
-            y, x = sample['y'].to(device), sample['x'].to(device)
-    
-            # Train model with sample
-            loss = train_model(model, {'x':x, 'y':y}, criterion, optimizer)
-	        video_loss.append(loss) 
-    
-        # Logs per video
+	# Iterate over videos.
+	for video_step, video_loader in enumerate(train_loader):
+		video_loss = []
+
+		# Iterate over frames.
+		for _, sample in  enumerate(video_loader):
+			n_samples += 1
+
+			# Send data to device
+			y, x = sample['y'].to(device), sample['x'].to(device)
+
+			# Train model with sample
+			loss = train_model(model, {'x':x, 'y':y}, criterion, optimizer)
+			video_loss.append(loss)
+
+		# Logs per video
 		log.log_time('Video: {}\tTotal Loss: {:.6f}\tAvg Loss: {:.6f}'
-            .format(n_samples, np.sum(video_loss), np.average(video_loss)))
-        
-        # Test model
-        # NOTE: len(train_loader) must be >> len(test_loader)
+			.format(n_samples, np.sum(video_loss), np.average(video_loss)))
 
-        if video_step % TEST_INTERVAL == 0:
-           test_loss = []
-           # Iterate over videos.
-           for video_step, video_loader in enumerate(test_loader):
-               # Iterate over frames.
-               for _, sample in  enumerate(video_loader):
-                   
-                    # Send data to device
-                    y, x = sample['y'].to(device), sample['x'].to(device)
-                    
-                    # Test model with sample
-                    outputs, loss = test_model(model, {'x':x, 'y':y}, criterion, optimizer)
-                    test_loss.append(loss) 
-                    log.log_images(x, y, outputs,'{}{}/{}_'
-                        .format(RESULTS_PATH, RUN_NAME, n_samples))
-           
-           # Logs after test
+		# Test model
+		# NOTE: len(train_loader) must be >> len(test_loader)
+
+		if video_step % TEST_INTERVAL == 0:
+		   test_loss = []
+		   # Iterate over videos.
+		   for video_step, video_loader in enumerate(test_loader):
+			   # Iterate over frames.
+			   for _, sample in  enumerate(video_loader):
+
+					# Send data to device
+					y, x = sample['y'].to(device), sample['x'].to(device)
+
+					# Test model with sample
+					outputs, loss = test_model(model, {'x':x, 'y':y}, criterion, optimizer)
+					test_loss.append(loss)
+					log.log_images(x, y, outputs,'{}{}/{}_'
+						.format(RESULTS_PATH, RUN_NAME, n_samples))
+
+		   # Logs after test
 		   log.log_time('Test: {}\tTotal Loss: {:.6f}\tAvg Loss: {:.6f}'
-            .format(n_samples, np.sum(test_loss), np.average(test_loss)))
+			.format(n_samples, np.sum(test_loss), np.average(test_loss)))
 
 
 		# Checkpoint
-        if video_step % CHECKPOINT_INTERVAL == 0:   
-		    torch.save(model.state_dict(), '{}{}/3dcnn_weigths_{}_{}.pth'
-                .format(RESULTS_PATH, RUN_NAME, epoch, video_step))
+		if video_step % CHECKPOINT_INTERVAL == 0:
+			torch.save(model.state_dict(), '{}{}/3dcnn_weigths_{}_{}.pth'
+				.format(RESULTS_PATH, RUN_NAME, epoch, video_step))
