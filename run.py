@@ -59,7 +59,7 @@ for epoch in range(EPOCHS):
     log.log_time('Epoch {}/{}'.format(epoch, EPOCHS - 1))
 
     # Iterate over videos.
-    for video_step, video_loader in enumerate(train_loader):
+    for video_step, video_loader in train_loader.iterate():
         video_loss = []
 
         # Iterate over frames.
@@ -83,7 +83,7 @@ for epoch in range(EPOCHS):
         if video_step % TEST_INTERVAL == 0:
             test_loss = []
             # Iterate over videos.
-            for video_step, video_loader in enumerate(test_loader):
+            for video_step, video_loader in test_loader.iterate():
                     # Iterate over frames.
                 for _, sample in enumerate(video_loader):
 
