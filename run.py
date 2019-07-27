@@ -89,7 +89,7 @@ for epoch in range(num_epochs):
 
 					# Send data to device
 					y, x = sample['y'].to(device), sample['x'].to(device)
-
+					
 					# Test model with sample
 					outputs, loss = test_model(model, {'x':x, 'y':y}, criterion, optimizer)
 					test_loss.append(loss)
