@@ -10,11 +10,8 @@ def log_time(msg):
 	print('Datetime: {}'.format(datetime.datetime.now()), end='\n')
 
 def log_images(x, y, out, path):
-	print('Log:')
-	print(x.shape)
 	frames = torch.split(x, 1, dim=2)
 	frames = [frame.squeeze(dim=2) for frame in frames]
-	print(frames[0].shape)
 	frames.append(out)
 	frames.append(y)
 	

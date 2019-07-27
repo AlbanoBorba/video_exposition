@@ -38,7 +38,7 @@ torch.backends.cudnn.deterministic = True
 
 # Set dataloaders
 train_loader = BddDaloaderFactory(TRAIN_FILE_PATH, EXPOSURE, BATCH_SIZE)
-test_loader = BddDaloaderFactory(TEST_FILE_PATH, EXPOSURE, BATCH_SIZE)
+test_loader = BddDaloaderFactory(TEST_FILE_PATH, EXPOSURE, BATCH_SIZE, n_videos=1, n_samples=1)
 
 # Set model
 model = UNet3D(3, 3).to(device)
@@ -76,7 +76,7 @@ for epoch in range(EPOCHS):
             video_loss.append(float(loss))
 
         # Logs per video
-        log.log_time('Video: {}\tTotal Loss: {:.6f}\tAvg Loss: {:.6f}'
+        log.log_time('Video: {}Total Loss: {:.6f}Avg Loss: {:.6f}'
                      .format(n_samples, np.sum(video_loss), np.average(video_loss)))
 
         # Test model
@@ -104,7 +104,7 @@ for epoch in range(EPOCHS):
                                    .format(RESULTS_PATH, RUN_NAME, n_samples))
 
             # Logs after test
-            log.log_time('Test: {}\tTotal Loss: {:.6f}\tAvg Loss: {:.6f}'
+            log.log_time('Test: {}Total Loss: {:.6f}Avg Loss: {:.6f}'
                          .format(n_samples, np.sum(test_loss), np.average(test_loss)))
 
         # Checkpoint
