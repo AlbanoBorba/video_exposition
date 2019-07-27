@@ -33,7 +33,7 @@ torch.backends.cudnn.deterministic = True
 
 # Set dataloaders
 train_loader = BddDaloaderFactory(EXPOSURE, TRAIN_FILE_PATH, BATCH_SIZE)
-test_loader = BddDaloaderFactory(EXPOSURE, TEST_FILE_PATH, BATCH_SIZE)
+#test_loader = BddDaloaderFactory(EXPOSURE, TEST_FILE_PATH, BATCH_SIZE)
 
 # Set model
 model = UNet3D(3, 3).to(device)
@@ -75,24 +75,24 @@ for epoch in range(num_epochs):
         # Test model
         # NOTE: len(train_loader) must be >> len(test_loader)
 
-        if video_step % TEST_INTERVAL == 0:
-            test_loss = []
-            # Iterate over videos.
-            for video_step, video_loader in enumerate(test_loader):
-                # Iterate over frames.
-                for _, sample in  enumerate(video_loader):
-                    
-                    # Send data to device
-                    y, x = sample['y'].to(device), sample['x'].to(device)
-                    
-                    # Test model with sample
-                    outputs, loss = test_model(model, {'x':x, 'y':y}, criterion, optimizer)
-	                test_loss.append(loss) 
-		            #log.log_images(x, y, outputs,'<PATH>/{}_'.format(n_samples))
-            
-            # Logs after test
-		    log.log_time('Test: {}\tTotal Loss: {:.6f}\tAvg Loss: {:.6f}'
-            .format(n_samples, np.sum(test_loss), np.average(test_loss)))
+        #if video_step % TEST_INTERVAL == 0:
+        #    test_loss = []
+        #    # Iterate over videos.
+        #    for video_step, video_loader in enumerate(test_loader):
+        #        # Iterate over frames.
+        #        for _, sample in  enumerate(video_loader):
+        #            
+        #            # Send data to device
+        #            y, x = sample['y'].to(device), sample['x'].to(device)
+        #            
+        #            # Test model with sample
+        #            outputs, loss = test_model(model, {'x':x, 'y':y}, criterion, optimizer)
+	    #            test_loss.append(loss) 
+		#            #log.log_images(x, y, outputs,'<PATH>/{}_'.format(n_samples))
+        #    
+        #    # Logs after test
+		#    log.log_time('Test: {}\tTotal Loss: {:.6f}\tAvg Loss: {:.6f}'
+        #    .format(n_samples, np.sum(test_loss), np.average(test_loss)))
             
 
 		# Checkpoint
