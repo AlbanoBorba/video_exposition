@@ -121,7 +121,7 @@ class SingleVideoDataset(Dataset):
 
     def change_gamma(self, f, gamma):
         f = transforms.functional.to_pil_image(f)
-        f = transforms.functional.adjust_gamma(f, 0.1)
+        f = transforms.functional.adjust_gamma(f, 0.4)
 
         return f
 
