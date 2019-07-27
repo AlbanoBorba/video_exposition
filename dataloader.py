@@ -37,9 +37,10 @@ class BddDaloaderFactory():
     def __init__(self, csv_path, exposure, batch_size, n_videos='total', n_samples=40, window_size=3):
 
         if exposure == 'under':
-            self.gamma = [0.1, 0.2, 0.4]
-        elif exposure == 'over':
             self.gamma = [2.5, 5, 10]
+        elif exposure == 'over':
+            self.gamma = [0.1, 0.2, 0.4]
+            
         else:
             sys.exit("O tipo de exposiçao deve ser 'under' ou 'over'!")
 
@@ -121,7 +122,7 @@ class SingleVideoDataset(Dataset):
 
     def change_gamma(self, f, gamma):
         f = transforms.functional.to_pil_image(f)
-        f = transforms.functional.adjust_gamma(f, 0.4)
+        f = transforms.functional.adjust_gamma(f, 2.5)
 
         return f
 
