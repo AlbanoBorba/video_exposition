@@ -72,7 +72,7 @@ for epoch in range(EPOCHS):
             # Train model with sample
             _, loss = train_model(
                 model, {'x': x, 'y': y}, criterion, optimizer)
-            print(loss)
+            #print(loss)
             video_loss.append(float(loss))
 
         # Logs per video
@@ -86,7 +86,7 @@ for epoch in range(EPOCHS):
             test_loss = []
 
             # Device clear
-            torch.cuda.empty_cache()
+            #torch.cuda.empty_cache()
 
             # Iterate over videos.
             for video_step, video_loader in test_loader.iterate():
@@ -98,7 +98,7 @@ for epoch in range(EPOCHS):
 
                     # Test model with sample
                     outputs, loss = test_model(
-                        model, {'x': x, 'y': y}, criterion, optimizer)
+                        model, {'x': x, 'y': y}, criterion)
                     test_loss.append(loss)
                     log.log_images(x, y, outputs, '{}{}/{}_'
                                    .format(RESULTS_PATH, RUN_NAME, n_samples))

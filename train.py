@@ -2,12 +2,12 @@ import time
 import datetime
 import torch
 
-def test_model(model, data, criterion, optimizer):
+def test_model(model, data, criterion):
 	
-	model.eval() # Set model to training mode
+	model.eval() # Set model to test mode
 
 	# zero the parameter gradients
-	optimizer.zero_grad()
+	#optimizer.zero_grad()
 
 	# forward
 	outputs = model(data['x'])

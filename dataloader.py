@@ -96,7 +96,7 @@ class SingleVideoDataset(Dataset):
         #frame_gt = ndimage.rotate(frame_gt, 90, reshape=True)      
         frame_gt = transforms.functional.to_pil_image(frame_gt)      
         frame_gt = self.transform(frame_gt)
-        utils.save_image(frame_gt, './results/teste/gt_{}.png'.format(idx))
+        #utils.save_image(frame_gt, './results/teste/gt_{}.png'.format(idx))
 
 
         # Preprocess window
@@ -110,7 +110,7 @@ class SingleVideoDataset(Dataset):
 
             window.append(frame)
 
-        window = torch.stack(window, dim=0)
+        window = torch.stack(window, dim=1)
 
         # Set sampleW
         sample = {
