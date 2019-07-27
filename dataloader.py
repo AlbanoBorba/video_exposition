@@ -19,7 +19,7 @@ def transforms_list():
         transforms.Resize((400, 720)),
         transforms.CenterCrop((400, 400)),
         transforms.ToTensor(),
-        transforms.Lambda(lambda x: rescale(x)),
+        transforms.Lambda(lambda x: rotate(x)),
         transforms.Normalize(mean=(0.279, 0.293, 0.290), std=(0.197, 0.198, 0.201))
         #transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
     ]
