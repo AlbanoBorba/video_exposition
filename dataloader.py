@@ -12,7 +12,7 @@ from torchvision import transforms, utils
 import imageio
 
 def rotate(frame):
-    return ndimage.rotate(frame, -90, reshape=True)   
+    return ndimage.rotate(frame, 90, reshape=True)   
 
 def transforms_list():
     return [
@@ -122,7 +122,7 @@ class SingleVideoDataset(Dataset):
 
     def change_gamma(self, f, gamma):
         f = transforms.functional.to_pil_image(f)
-        f = transforms.functional.adjust_gamma(f, 2.5)
+        f = transforms.functional.adjust_gamma(f, gamma)
 
         return f
 
