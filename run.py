@@ -76,7 +76,7 @@ for epoch in range(EPOCHS):
             video_loss.append(float(loss))
 
         # Logs per video
-        log.log_time('Video: {}Total Loss: {:.6f}Avg Loss: {:.6f}'
+        log.log_time('Video: {} Total Loss: {:.6f} Avg Loss: {:.6f}'
                      .format(n_samples, np.sum(video_loss), np.average(video_loss)))
 
         # Test model
