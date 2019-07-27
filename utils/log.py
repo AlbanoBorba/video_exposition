@@ -2,6 +2,7 @@ import torch
 from torchvision import utils
 import time
 import datetime
+import numpy as np
 
 def log_time(msg):
 	print(msg)
