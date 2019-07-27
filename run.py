@@ -16,8 +16,8 @@ from utils import log
 RUN_NAME = 'experiment_refactory_load_image'
 RESULTS_PATH = 'results/'
 SEED = 12
-BATCH_SIZE = 8
-EPOCHS = 100
+BATCH_SIZE = 7
+EPOCHS = 10
 TRAIN_FILE_PATH = 'data_utils/csv_loaders/bdd_day[90-110]_train_5k_40.csv'
 TEST_FILE_PATH = 'data_utils/csv_loaders/bdd_day[90-110]_test_5k_40.csv'
 EXPOSURE = 'under'
