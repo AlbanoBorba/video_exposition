@@ -70,8 +70,9 @@ for epoch in range(EPOCHS):
             y, x = sample['y'].to(device), sample['x'].to(device)
 
             # Train model with sample
-            _, loss = train_model(model, {'x': x, 'y': y}, criterion, optimizer)
-			print(loss)
+            _, loss = train_model(
+                model, {'x': x, 'y': y}, criterion, optimizer)
+            print(loss)
             video_loss.append(float(loss))
 
         # Logs per video
