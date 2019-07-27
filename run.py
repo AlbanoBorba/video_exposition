@@ -71,7 +71,8 @@ for epoch in range(EPOCHS):
 
             # Train model with sample
             _, loss = train_model(model, {'x': x, 'y': y}, criterion, optimizer)
-            video_loss.append(loss)
+			print(loss)
+            video_loss.append(float(loss))
 
         # Logs per video
         log.log_time('Video: {}\tTotal Loss: {:.6f}\tAvg Loss: {:.6f}'
