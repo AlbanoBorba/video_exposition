@@ -85,8 +85,8 @@ for epoch in range(EPOCHS):
         if video_step % TEST_INTERVAL == 0:
             test_loss = []
 
-			# Device clear
-			torch.cuda.empty_cache()
+            # Device clear
+            torch.cuda.empty_cache()
 
             # Iterate over videos.
             for video_step, video_loader in test_loader.iterate():
