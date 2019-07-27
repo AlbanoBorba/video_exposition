@@ -99,7 +99,7 @@ for epoch in range(EPOCHS):
                     # Test model with sample
                     outputs, loss = test_model(
                         model, {'x': x, 'y': y}, criterion)
-                    test_loss.append(loss)
+                    test_loss.append(float(loss))
                     log.log_images(x, y, outputs, '{}{}/{}_'
                                    .format(RESULTS_PATH, RUN_NAME, n_samples))
 
