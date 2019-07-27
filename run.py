@@ -55,8 +55,8 @@ criterion = LossFunction().to(device)
 log.log_model_params(model)
 
 n_samples = 0
-for epoch in range(num_epochs):
-    log.log_time('Epoch {}/{}'.format(epoch, num_epochs - 1))
+for epoch in range(EPOCHS):
+    log.log_time('Epoch {}/{}'.format(epoch, EPOCHS - 1))
 
     # Iterate over videos.
     for video_step, video_loader in enumerate(train_loader):
