@@ -9,6 +9,7 @@ import cv2
 from scipy import ndimage, misc
 from torch.utils.data import Dataset, DataLoader
 from torchvision import transforms, utils
+import imageio
 
 def rotate(frame):
     return ndimage.rotate(frame, 90, reshape=True)   
@@ -91,7 +92,7 @@ class SingleVideoDataset(Dataset):
 
         count = 0
         for frame in frames:
-            misc.imsave('./results/teste/item_{}_{}.png'.format(idx, count), frame)
+            imageio.imwrite('./results/teste/item_{}_{}.png'.format(idx, count), frame)
             count += 1
 
         # Preprocess ground-truth
