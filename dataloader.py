@@ -101,12 +101,12 @@ class SingleVideoDataset(Dataset):
 
         # Preprocess window
         window = []
-        count = 0
+        #count = 0
         for frame in frames:
             frame = self.change_gamma(frame, self.gamma)
             frame = self.transform(frame)
-            utils.save_image(frame, './results/teste/item_{}_{}.png'.format(idx, count))
-            count += 1
+            #utils.save_image(frame, './results/teste/item_{}_{}.png'.format(idx, count))
+            #count += 1
 
             window.append(frame)
 
