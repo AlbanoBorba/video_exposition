@@ -89,6 +89,11 @@ class SingleVideoDataset(Dataset):
         # Get window_size frames
         frames = self.sample_loader.get_sample()
 
+        count = 0
+        for frame in frames:
+            utils.save_image(frame, './results/teste/item_{}_{}.png'.format(idx, count))
+            count += 1
+
         # Preprocess ground-truth
         frame_gt = frames[int(len(frames)/2)]
         #frame_gt = ndimage.rotate(frame_gt, 90, reshape=True)      
