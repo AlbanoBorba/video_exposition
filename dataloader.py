@@ -91,7 +91,7 @@ class SingleVideoDataset(Dataset):
 
         count = 0
         for frame in frames:
-            utils.save_image(frame, './results/teste/item_{}_{}.png'.format(idx, count))
+            misc.imsave('./results/teste/item_{}_{}.png'.format(idx, count), frame)
             count += 1
 
         # Preprocess ground-truth
