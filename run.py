@@ -22,7 +22,7 @@ TRAIN_FILE_PATH = 'data_utils/csv_loaders/bdd_day[90-110]_train_5k_40.csv'
 TEST_FILE_PATH = 'data_utils/csv_loaders/bdd_day[90-110]_test_5k_40.csv'
 EXPOSURE = 'under'
 TEST_INTERVAL = 500  # video unit
-CHECKPOINT_INTERVAL = 500  # video unit
+CHECKPOINT_INTERVAL = 1000  # video unit
 
 # Set host or device
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -104,7 +104,7 @@ for epoch in range(EPOCHS):
                                    .format(RESULTS_PATH, RUN_NAME, n_samples))
 
             # Logs after test
-            log.log_time('Test: {}Total Loss: {:.6f}Avg Loss: {:.6f}'
+            log.log_time('Test: {} Total Loss: {:.6f} Avg Loss: {:.6f}'
                          .format(n_samples, np.sum(test_loss), np.average(test_loss)))
 
         # Checkpoint
