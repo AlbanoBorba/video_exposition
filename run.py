@@ -87,19 +87,21 @@ for epoch in range(num_epochs):
                # Iterate over frames.
                for _, sample in  enumerate(video_loader):
                    
-                   # Send data to device
-                   y, x = sample['y'].to(device), sample['x'].to(device)
-                   
-                   # Test model with sample
-                   outputs, loss = test_model(model, {'x':x, 'y':y}, criterion, optimizer)
-	               test_loss.append(loss) 
-		           log.log_images(x, y, outputs,'{}{}/{}_'.format(RESULTS_PATH, RUN_NAME, n_samples))
+                    # Send data to device
+                    y, x = sample['y'].to(device), sample['x'].to(device)
+                    
+                    # Test model with sample
+                    outputs, loss = test_model(model, {'x':x, 'y':y}, criterion, optimizer)
+                    test_loss.append(loss) 
+                    log.log_images(x, y, outputs,'{}{}/{}_'
+                        .format(RESULTS_PATH, RUN_NAME, n_samples))
            
            # Logs after test
 		   log.log_time('Test: {}\tTotal Loss: {:.6f}\tAvg Loss: {:.6f}'
-           .format(n_samples, np.sum(test_loss), np.average(test_loss)))
+            .format(n_samples, np.sum(test_loss), np.average(test_loss)))
 
 
 		# Checkpoint
         if video_step % CHECKPOINT_INTERVAL == 0:   
-		    torch.save(model.state_dict(), '{}{}/3dcnn_weigths_{}_{}.pth'.format(RESULTS_PATH, RUN_NAME, epoch, video_step))
+		    torch.save(model.state_dict(), '{}{}/3dcnn_weigths_{}_{}.pth'
+                .format(RESULTS_PATH, RUN_NAME, epoch, video_step))
