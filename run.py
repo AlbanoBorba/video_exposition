@@ -21,8 +21,8 @@ EPOCHS = 10
 TRAIN_FILE_PATH = 'data_utils/csv_loaders/bdd_day[90-110]_train_5k_40.csv'
 TEST_FILE_PATH = 'data_utils/csv_loaders/bdd_day[90-110]_test_5k_40.csv'
 EXPOSURE = 'under'
-TEST_INTERVAL = 500  # video unit
-CHECKPOINT_INTERVAL = 1000  # video unit
+TEST_INTERVAL = 40 * 500  # sample unit
+CHECKPOINT_INTERVAL = 40 * 1000  # sample unit
 
 # Set host or device
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -82,7 +82,7 @@ for epoch in range(EPOCHS):
         # Test model
         # NOTE: len(train_loader) must be >> len(test_loader)
 
-        if video_step % TEST_INTERVAL == 0:
+        if n_samples % TEST_INTERVAL == 0:
             test_loss = []
 
             # Device clear
@@ -108,6 +108,6 @@ for epoch in range(EPOCHS):
                          .format(n_samples, np.sum(test_loss), np.average(test_loss)))
 
         # Checkpoint
-        if video_step % CHECKPOINT_INTERVAL == 0:
+        if n_samples % CHECKPOINT_INTERVAL == 0:
             torch.save(model.state_dict(), '{}{}/3dcnn_weigths_{}_{}.pth'
                        .format(RESULTS_PATH, RUN_NAME, epoch, video_step))
