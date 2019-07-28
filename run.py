@@ -21,8 +21,8 @@ EPOCHS = 10
 TRAIN_FILE_PATH = 'data_utils/csv_loaders/bdd_day[90-110]_train_5k_40.csv'
 TEST_FILE_PATH = 'data_utils/csv_loaders/bdd_day[90-110]_test_5k_40.csv'
 EXPOSURE = 'under'
-TEST_INTERVAL = 5 * 500  # sample unit
-CHECKPOINT_INTERVAL = 5 * 1000  # sample unit
+TEST_INTERVAL = 500  # sample unit
+CHECKPOINT_INTERVAL = 1000  # sample unit
 
 # Set host or device
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -52,11 +52,12 @@ criterion = LossFunction().to(device)
 
 # Log model configurations
 # log.log_model_eval(model)
-log.log_model_params(model)
+#log.log_model_params(model)
 
 n_samples = 0
 for epoch in range(EPOCHS):
-    log.log_time('Epoch {}/{}'.format(epoch, EPOCHS - 1))
+    #log.log_time('Epoch {}/{}'.format(epoch, EPOCHS - 1))
+    print('Video TotalLoss AvgLoss')
 
     # Iterate over videos.
     for video_step, video_loader in train_loader.iterate():
@@ -76,7 +77,7 @@ for epoch in range(EPOCHS):
             video_loss.append(float(loss))
 
         # Logs per video
-        log.log_time('Video: {} Total Loss: {:.6f} Avg Loss: {:.6f}'
+        print('{} {:.6f} {:.6f}'
                      .format(n_samples, np.sum(video_loss), np.average(video_loss)))
 
         # Test model
@@ -84,9 +85,6 @@ for epoch in range(EPOCHS):
 
         if n_samples % TEST_INTERVAL == 0:
             test_loss = []
-
-            # Device clear
-            #torch.cuda.empty_cache()
 
             # Iterate over videos.
             for video_step, video_loader in test_loader.iterate():
@@ -104,7 +102,7 @@ for epoch in range(EPOCHS):
                                    .format(RESULTS_PATH, RUN_NAME, n_samples))
 
             # Logs after test
-            log.log_time('Test: {} Total Loss: {:.6f} Avg Loss: {:.6f}'
+            print('{} {:.6f} {:.6f}'
                          .format(n_samples, np.sum(test_loss), np.average(test_loss)))
 
         # Checkpoint
