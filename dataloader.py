@@ -22,7 +22,7 @@ def transforms_list():
         transforms.Lambda(lambda x: rotate(x)),
         transforms.ToTensor(),
         #transforms.Normalize(mean=(0.279, 0.293, 0.290), std=(0.197, 0.198, 0.201))
-        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+        #transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
     ]
 
 def custom_collate(batch):
@@ -38,8 +38,10 @@ class BddDaloaderFactory():
 
         if exposure == 'under':
             self.gamma = [2.5, 5, 10]
+            #self.gamma = [4, 6, 8]
         elif exposure == 'over':
             self.gamma = [0.1, 0.2, 0.4]
+            #self.gamma = [1/4, 1/6, 1/8]
             
         else:
             sys.exit("O tipo de exposiçao deve ser 'under' ou 'over'!")
