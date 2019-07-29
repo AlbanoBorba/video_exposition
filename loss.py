@@ -7,7 +7,7 @@ class LossFunction(nn.Module):
         super().__init__()
 
         #self.weight = weight
-        #self.vgg = Vgg16(requires_grad=False)
+        self.vgg = Vgg16(requires_grad=False)
         self.mse = nn.MSELoss()
         
 
