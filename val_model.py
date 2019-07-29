@@ -16,7 +16,7 @@ RUN_NAME = ''
 BATCH_SIZE = 4
 VAL_FILE_PATH = './data_utils/csv_loaders/bdd_day[90-110]_train_5k_40.csv'
 MODEL_STATE_PATH = './results/experiment_refactory_load_image/weights/3dcnn_weigths_40k.pth'
-SAVE_IMAGES_PATH = './results/experiment_refactory_load_image/val_images/'
+SAVE_IMAGES_PATH = './results/experiment_refactory_load_image/val_images/40k/'
 EXPOSURE = 'under'
 
 # Set host or device
@@ -48,7 +48,7 @@ for video_step, video_loader in val_loader.iterate():
         y, x = sample['y'].to(device), sample['x'].to(device)
 
         # Test model with sample
-        outputs, loss = test_model(model, {'x': x, 'y': y}, criterion, optimizer)
+        outputs, loss = test_model(model, {'x': x, 'y': y}, criterion)
         val_loss.append(loss)
         print('{} {}'.format(loss, video_step))
 
