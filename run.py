@@ -38,7 +38,7 @@ torch.backends.cudnn.deterministic = True
 
 # Set dataloaders
 train_loader = BddDaloaderFactory(TRAIN_FILE_PATH, EXPOSURE, BATCH_SIZE)
-test_loader = BddDaloaderFactory(TEST_FILE_PATH, EXPOSURE, BATCH_SIZE, n_videos=1, n_samples=1)
+test_loader = BddDaloaderFactory(TEST_FILE_PATH, EXPOSURE, BATCH_SIZE, n_videos=5, n_samples=1)
 
 # Set model
 model = UNet3D(3, 3).to(device)

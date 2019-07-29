@@ -15,14 +15,15 @@ from utils import log
 RUN_NAME = ''
 BATCH_SIZE = 4
 VAL_FILE_PATH = './data_utils/csv_loaders/bdd_day[90-110]_train_5k_40.csv'
-MODEL_STATE_PATH = './results/3dcnn_weigths_5.pth'
+MODEL_STATE_PATH = './results/experiment_refactory_load_image/weights/3dcnn_weigths_40k.pth'
+SAVE_IMAGES_PATH = './results/experiment_refactory_load_image/val_images/'
 EXPOSURE = 'under'
 
 # Set host or device
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 # Set dataloaders
-val_loader = BddDaloaderFactory(VAL_FILE_PATH, EXPOSURE, BATCH_SIZE, n_videos=5)
+val_loader = BddDaloaderFactory(VAL_FILE_PATH, EXPOSURE, BATCH_SIZE, n_videos=10, n_samples=1)
 
 # Set model and lod weights
 model = UNet3D(3, 3).to(device)
@@ -36,6 +37,8 @@ optimizer = torch.optim.SGD(model.parameters(), lr=0.1, momentum=0.9)
 criterion = LossFunction().to(device)
 
 val_loss = []
+print('Video Loss')
+
 # Iterate over videos.
 for video_step, video_loader in val_loader.iterate():
     # Iterate over frames.
@@ -47,10 +50,9 @@ for video_step, video_loader in val_loader.iterate():
         # Test model with sample
         outputs, loss = test_model(model, {'x': x, 'y': y}, criterion, optimizer)
         val_loss.append(loss)
-        #print(loss)
+        print('{} {}'.format(loss, video_step))
 
-        if sample_step == 0:
-            log.log_images(x, y, outputs,'./results/')
+        log.log_images(x, y, outputs, '{}{}'.format(SAVE_IMAGES_PATH, video_step))
 
 # Logs after test
 #log.log_time('Total Loss: {:.6f}\tAvg Loss: {:.6f}'.format(np.sum(val_loss), np.average(val_loss)))
