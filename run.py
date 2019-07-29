@@ -13,8 +13,8 @@ from loss import LossFunction
 from utils import log
 
 # Hiperparameters and configurations
-RUN_NAME = 'experiment_refactory_load_image'
-RESULTS_PATH = 'results/'
+RUN_NAME = 'with_vgg'
+RESULTS_PATH = 'results/with_vgg/'
 SEED = 12
 BATCH_SIZE = 8
 EPOCHS = 10
@@ -29,7 +29,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 # torch.cuda.empty_cache()
 
 # Create a fodler for results
-os.mkdir(RESULTS_PATH+RUN_NAME)
+#os.mkdir(RESULTS_PATH+RUN_NAME)
 
 # Set seeds
 torch.manual_seed(SEED)
@@ -99,7 +99,7 @@ for epoch in range(EPOCHS):
                         model, {'x': x, 'y': y}, criterion)
                     test_loss.append(float(loss))
                     log.log_images(x, y, outputs, '{}{}/{}_'
-                                   .format(RESULTS_PATH, RUN_NAME, n_samples))
+                                   .format(RESULTS_PATH, 'test_images', n_samples))
 
             # Logs after test
             print('{} {:.6f} {:.6f}'
@@ -108,4 +108,4 @@ for epoch in range(EPOCHS):
         # Checkpoint
         if n_samples % CHECKPOINT_INTERVAL == 0:
             torch.save(model.state_dict(), '{}{}/3dcnn_weigths_{}_{}.pth'
-                       .format(RESULTS_PATH, RUN_NAME, epoch, video_step))
+                       .format(RESULTS_PATH, 'weights', epoch, video_step))

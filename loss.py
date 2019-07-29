@@ -17,12 +17,12 @@ class LossFunction(nn.Module):
         #print(x.shape)
         #print(y.shape)
         loss_mse = self.mse(x, y)
-        #x_vgg = self.vgg(x)
-        #y_vgg = self.vgg(y)
+        x_vgg = self.vgg(x)
+        y_vgg = self.vgg(y)
         #print(x_vgg.relu2_2.shape)
         #print(y_vgg.relu2_2.shape)
-        #loss_vgg = self.mse(x_vgg.relu2_2, y_vgg.relu2_2)
+        loss_vgg = self.mse(x_vgg.relu2_2, y_vgg.relu2_2)
 
-        #loss = loss_mse + loss_vgg #ajustar
+        loss = loss_mse + loss_vgg #ajustar
 
-        return loss_mse
+        return loss

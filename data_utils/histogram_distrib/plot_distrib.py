@@ -1,11 +1,12 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-f = open('all_distrib.txt', "r")
-means = f.read().split('\n')
-n = len(means)
+f = open('all_distrib_40f.txt', "r")
+values = f.read().split('\n')
+n = len(values)
 
-means = [float(x) for x in means]
+means = [float(x.split('\t')[0]) for x in values]
+stds = [float(x.split('\t')[1]) for x in values]
 
 plt.hist(means, color = 'blue', edgecolor = 'black', bins = 50)
 plt.title('Luminanica de todos os vídeos')
