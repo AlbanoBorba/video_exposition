@@ -16,7 +16,7 @@ from utils import log
 RUN_NAME = 'with_vgg'
 RESULTS_PATH = 'results/with_vgg/'
 SEED = 12
-BATCH_SIZE = 7
+BATCH_SIZE = 6
 EPOCHS = 10
 TRAIN_FILE_PATH = 'data_utils/csv_loaders/bdd_day[90-110]_train_5k_40.csv'
 TEST_FILE_PATH = 'data_utils/csv_loaders/bdd_day[90-110]_test_5k_40.csv'
