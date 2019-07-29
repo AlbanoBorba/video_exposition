@@ -16,14 +16,14 @@ RUN_NAME = ''
 BATCH_SIZE = 4
 VAL_FILE_PATH = './data_utils/csv_loaders/bdd_day[90-110]_train_5k_40.csv'
 MODEL_STATE_PATH = './results/experiment_refactory_load_image/weights/3dcnn_weigths_25k.pth'
-SAVE_IMAGES_PATH = './results/experiment_refactory_load_image/val_images/25k/'
+SAVE_IMAGES_PATH = './results/experiment_refactory_load_image/'
 EXPOSURE = 'under'
 
 # Set host or device
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 # Set dataloaders
-val_loader = BddDaloaderFactory(VAL_FILE_PATH, EXPOSURE, BATCH_SIZE, n_videos=10, n_samples=1)
+val_loader = BddDaloaderFactory(VAL_FILE_PATH, EXPOSURE, BATCH_SIZE, n_videos=1, n_samples=1)
 
 # Set model and lod weights
 model = UNet3D(3, 3).to(device)
