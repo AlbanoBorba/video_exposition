@@ -21,8 +21,8 @@ EPOCHS = 10
 TRAIN_FILE_PATH = 'data_utils/csv_loaders/bdd_day[90-110]_train_5k_40.csv'
 TEST_FILE_PATH = 'data_utils/csv_loaders/bdd_day[90-110]_test_5k_40.csv'
 EXPOSURE = 'under'
-TEST_INTERVAL = 500  # sample unit
-CHECKPOINT_INTERVAL = 1000  # sample unit
+TEST_INTERVAL = 2000  # sample unit
+CHECKPOINT_INTERVAL = 2000  # sample unit
 
 # Set host or device
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
