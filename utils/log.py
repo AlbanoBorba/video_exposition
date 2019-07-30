@@ -27,6 +27,15 @@ def log_images(x, y, out, path):
 		utils.save_image(grid, path + 'frame_{}.png'.format(count))
 		count += 1
 
+def log_images_vgg(x, y, path):
+	frames = [x, y]
+	
+	count = 0
+	for frame in frames:
+		grid = utils.make_grid(frame)
+		utils.save_image(grid, path + 'vgg_{}.png'.format(count))
+		count += 1
+
 def log_model_eval(model):
 	print('Model evaluation: ', model.eval())
 
