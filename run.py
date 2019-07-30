@@ -108,4 +108,4 @@ for epoch in range(EPOCHS):
         # Checkpoint
         if n_samples % CHECKPOINT_INTERVAL == 0:
             torch.save(model.state_dict(), '{}{}/3dcnn_weigths_{}_{}.pth'
-                       .format(RESULTS_PATH, 'weights', epoch, video_step))
+                       .format(RESULTS_PATH, 'weights', epoch, n_samples))
