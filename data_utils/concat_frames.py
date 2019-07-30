@@ -2,7 +2,7 @@ from skimage import io
 import numpy as np
 
 if __name__ == '__main__':	
-	path = 'results/experiment_refactory_load_image/val_images/25k/'
+	path = '../results/experiment_refactory_load_image/val_images/25k/'
 
     videos_tuple = []
 
