@@ -30,10 +30,10 @@ class LossFunction(nn.Module):
         #print(x_vgg.relu2_2.shape)
         #print(y_vgg.relu2_2.shape)
         loss_vgg = self.mse_vgg(x_vgg.relu2_2, y_vgg.relu2_2)
-        print('\nLoss vgg: ', loss_vgg)
+        #print('\nLoss vgg: ', loss_vgg)
 
-        loss = loss_mse + loss_vgg  # ajustar
-        print('\nLoss total: ', loss)
-        print('\n')
+        loss = loss_mse + (0.3 * loss_vgg)  # ajustar
+        #print('\nLoss total: ', loss)
+        #print('\n')
 
         return loss
