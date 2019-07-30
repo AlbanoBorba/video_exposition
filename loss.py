@@ -11,6 +11,8 @@ class LossFunction(nn.Module):
         #self.weight = weight
         self.vgg = Vgg16(requires_grad=False)
         self.mse = nn.MSELoss()
+        self.mse_vgg = nn.MSELoss()
+
 
     def forward(self, x, y):
 
@@ -24,10 +26,10 @@ class LossFunction(nn.Module):
 
         #log.log_images_vgg(x_vgg.relu2_2, y_vgg.relu2_2, './results/')
 
-        print('Shape vgg:')
-        print(x_vgg.relu1_2.shape)
-        print(y_vgg.relu1_2.shape)
-        loss_vgg = self.mse(x_vgg.relu2_2, y_vgg.relu2_2)
+        #print('Shape vgg:')
+        #print(x_vgg.relu2_2.shape)
+        #print(y_vgg.relu2_2.shape)
+        loss_vgg = self.mse_vgg(x_vgg.relu2_2, y_vgg.relu2_2)
         print('\nLoss vgg: ', loss_vgg)
 
         loss = loss_mse + loss_vgg  # ajustar
