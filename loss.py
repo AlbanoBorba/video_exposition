@@ -21,7 +21,7 @@ class LossFunction(nn.Module):
         loss_mse = self.mse(x, y)
         x_vgg = self.vgg(x)
         y_vgg = self.vgg(y)
-
+        print(x_vgg)
         log.log_images_vgg(x_vgg, y_vgg, './results/')
 
         print('Shape vgg:')
