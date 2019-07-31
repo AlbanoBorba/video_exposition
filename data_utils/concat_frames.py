@@ -22,8 +22,6 @@ for t in videos_tuple:
     except:
         images[key] = [t]
 
-print(images[0])
-
 # order by frame
 for i in images:
     i = i.sort(key=lambda x: x['path'])
