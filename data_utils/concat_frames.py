@@ -14,7 +14,7 @@ for root, dirs, files in os.walk(path):
 images = {}
 
 # split by sample
-for t in video_tuple:
+for t in videos_tuple:
     key = t['path'].split('_')[0]
     images[key] = t
 
