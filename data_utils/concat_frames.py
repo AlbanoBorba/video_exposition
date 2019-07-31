@@ -9,7 +9,7 @@ for root, dirs, files in os.walk(path):
     for f in files:
         if f.endswith('.png'):
             path = os.path.join(root, f)
-            videos_tuple.append({'path': path.split('/')[-1], 'image': 'image'})
+            videos_tuple.append({'path': path.split('/')[-1], 'image': io.imread(path)})
 
 images = {}
 
