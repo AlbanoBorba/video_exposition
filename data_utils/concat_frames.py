@@ -3,13 +3,14 @@ import numpy as np
 
 if __name__ == '__main__':
 	path = '../results/experiment_refactory_load_image/val_images/25k/'
-    videos_tuple=[]
+    
+
     # get all image path
     for root, dirs, files in os.walk(path):
 		for f in files:
             if f.endswith('.png'):
                 path = os.path.join(root,f)
-				paths.append({'path': path, 'image': io.imread(path)})
+				videos_tuple.append({'path': path, 'image': io.imread(path)})
 
     images = {}
 
