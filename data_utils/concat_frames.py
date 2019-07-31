@@ -9,7 +9,7 @@ for root, dirs, files in os.walk(path):
     for f in files:
         if f.endswith('.png'):
             path = os.path.join(root, f)
-            videos_tuple.append({'path': path.split('/')[-1], 'image': io.imread(path)})
+            videos_tuple.append({'path': path.split('/')[-1], 'image': 'image'})
 
 images = {}
 
@@ -22,9 +22,10 @@ for t in videos_tuple:
     except:
         images[key] = [t]
 
+print(images)
+
 # order by frame
 for i in images:
-    print(i)
     i = i.sort(key=lambda x: x['path'])
     i = (x['image'] for x in i)
 
