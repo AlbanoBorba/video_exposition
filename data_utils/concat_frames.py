@@ -19,12 +19,12 @@ for t in videos_tuple:
     images[key] = t
 
 # order by frame
-for i in image:
+for i in images:
     i = i.sort(key=lambda x: x['path'])
     i = (x['image'] for x in i)
 
 # horizontal concat
-grid = (np.concatenate(i, axis=1) for i in image)
+grid = (np.concatenate(i, axis=1) for i in images)
 
 # vertical concat
 grid = np.concatenate(i, axis=0)
