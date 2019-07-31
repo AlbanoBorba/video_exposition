@@ -24,13 +24,14 @@ for t in videos_tuple:
 
 print(images)
 
+frames = []
 # order by frame
-for i in images:
-    i = i.sort(key=lambda x: x['path'])
-    i = (x['image'] for x in i)
+for _, value in images.items():
+    aux = value.sort(key=lambda x: value['path'])
+    frames.append((x['image'] for x in i))
 
 # horizontal concat
-grid = (np.concatenate(i, axis=1) for i in images)
+grid = (np.concatenate(f, axis=1) for f in frames)
 
 # vertical concat
 grid = np.concatenate(i, axis=0)
