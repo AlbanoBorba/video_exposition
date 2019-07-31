@@ -1,7 +1,7 @@
 from skimage import io
 import numpy as np
 
-if __name__ == '__main__':	
+if __name__ == '__main__':
 	path = '../results/experiment_refactory_load_image/val_images/25k/'
 
     videos_tuple = []
@@ -31,7 +31,7 @@ if __name__ == '__main__':
     # vertical concat
     grid = np.concatenate(i, axis=0)
 
-    #save image
+    # save image
     io.imsave('path'+'grid.png',grid)
 
     
