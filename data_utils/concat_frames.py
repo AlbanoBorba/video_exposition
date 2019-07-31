@@ -16,7 +16,11 @@ images = {}
 # split by sample
 for t in videos_tuple:
     key = t['path'].split('_')[0]
-    images[key] = t
+    
+    try:
+        images[key].append(t)
+    except:
+        images[key] = [t]
 
 # order by frame
 for i in images:
