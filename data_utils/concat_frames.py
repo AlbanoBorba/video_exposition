@@ -32,7 +32,7 @@ for _, value in images.items():
 grid = (np.concatenate(f, axis=1) for f in frames)
 
 # vertical concat
-grid = np.concatenate(i, axis=0)
+grid = np.concatenate(grid, axis=0)
 
 # save image
 io.imsave('path'+'grid.png', grid)
