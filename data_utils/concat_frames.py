@@ -24,6 +24,7 @@ for t in videos_tuple:
 
 # order by frame
 for i in images:
+    print(i)
     i = i.sort(key=lambda x: x['path'])
     i = (x['image'] for x in i)
 
