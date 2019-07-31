@@ -31,6 +31,8 @@ for _, value in images.items():
 # horizontal concat
 grid = (np.concatenate(f, axis=1) for f in frames)
 
+print(grid)
+
 # vertical concat
 grid = np.concatenate(grid, axis=0)
 
