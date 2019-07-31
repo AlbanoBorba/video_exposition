@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 from loss_utils.vgg import Vgg16
 from utils import log
-from torchvision import transforms.functional as F
+from torchvision.transforms import functional as F
 
 
 class LossFunction(nn.Module):
