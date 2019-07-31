@@ -22,7 +22,7 @@ for t in videos_tuple:
     except:
         images[key] = [t]
 
-print(images[0])
+print(images['1'])
 
 # order by frame
 for i in images:
