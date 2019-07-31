@@ -2,14 +2,14 @@ from skimage import io
 import numpy as np
 import os
 
-path = '../results/experiment_refactory_load_image/val_images/25k/'
+path = '../results/experiment_refactory_load_image/val_images/40k/'
 videos_tuple = []
 # get all image path
 for root, dirs, files in os.walk(path):
     for f in files:
         if f.endswith('.png'):
-            path = os.path.join(root, f)
-            videos_tuple.append({'path': path.split('/')[-1], 'image': io.imread(path)})
+            aux = os.path.join(root, f)
+            videos_tuple.append({'path': aux.split('/')[-1], 'image': io.imread(aux)})
 
 images = {}
 
@@ -38,4 +38,4 @@ grid = [np.concatenate(f, axis=1) for f in frames]
 grid = np.concatenate(grid, axis=0)
 
 # save image
-io.imsave('path'+'grid.png', grid)
+io.imsave(path+'grid.png', grid)
