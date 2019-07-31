@@ -27,7 +27,7 @@ frames = []
 for _, value in images.items():
     value.sort(key=lambda x: x['path'])
     frames.append((x['image'] for x in value))
-W
+
 # horizontal concat
 grid = (np.concatenate(f, axis=1) for f in frames)
 
