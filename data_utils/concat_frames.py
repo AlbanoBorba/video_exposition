@@ -26,11 +26,11 @@ frames = []
 # order by frame
 for _, value in images.items():
     value.sort(key=lambda x: x['path'])
-    frames.append((x['image'] for x in value))
+    frames.append([x['image'] for x in value])
 
 print(frames)
 # horizontal concat
-grid = (np.concatenate(f, axis=1) for f in frames)
+grid = [np.concatenate(f, axis=1) for f in frames]
 
 print(grid)
 
