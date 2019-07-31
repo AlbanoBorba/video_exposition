@@ -22,13 +22,11 @@ for t in videos_tuple:
     except:
         images[key] = [t]
 
-print(images)
-
 frames = []
 # order by frame
 for _, value in images.items():
-    aux = value.sort(key=lambda x: value['path'])
-    frames.append((x['image'] for x in i))
+    aux = value.sort(key=lambda x: x['path'])
+    frames.append((x['image'] for x in aux))
 
 # horizontal concat
 grid = (np.concatenate(f, axis=1) for f in frames)
