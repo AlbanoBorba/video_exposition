@@ -37,7 +37,7 @@ class BddDaloaderFactory():
     def __init__(self, csv_path, exposure, batch_size, n_videos='total', n_samples=30, window_size=3):
 
         if exposure == 'under':
-            self.gamma = [2.5, 5, 10]
+            self.gamma = [2, 4, 6]
             #self.gamma = [4, 6, 8]
         elif exposure == 'over':
             self.gamma = [0.1, 0.2, 0.4]

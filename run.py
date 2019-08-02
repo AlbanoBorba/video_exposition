@@ -13,8 +13,8 @@ from loss import LossFunction
 from utils import log
 
 # Hiperparameters and configurations
-RUN_NAME = 'with_vgg'
-RESULTS_PATH = 'results/with_vgg/'
+RUN_NAME = 'new_gamma_vgg'
+RESULTS_PATH = 'results/new_gamma_vgg/'
 SEED = 12
 BATCH_SIZE = 6
 EPOCHS = 10

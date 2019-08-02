@@ -78,7 +78,7 @@ if __name__ == '__main__':
 		for f in files:
 			if f.endswith('.mov') and f[0] == 'd':
 				video_length, video_avg = read_video(os.path.join(root,f))
-				if 90 <= video_avg <= 110:
+				if 90 <= video_avg <= 110: # optical_flow > x
 					#insert_video_samples_in_csv(out_path, os.path.join(root,f), video_length, fixe_window=True)
 					write_video_path(out_path, os.path.join(root,f))
 					if count == max_videos: break
