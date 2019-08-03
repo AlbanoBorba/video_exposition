@@ -13,10 +13,10 @@ from loss import LossFunction
 from utils import log
 
 # Hiperparameters and configurations
-RUN_NAME = 'new_gamma_vgg'
-RESULTS_PATH = 'results/new_gamma_vgg/'
+RUN_NAME = 'loss_with_yuv_and_vgg'
+RESULTS_PATH = 'results/loss_with_yuv_and_vgg/'
 SEED = 12
-BATCH_SIZE = 6
+BATCH_SIZE = 8
 EPOCHS = 10
 TRAIN_FILE_PATH = 'data_utils/csv_loaders/bdd_day[90-110]_train_5k_40.csv'
 TEST_FILE_PATH = 'data_utils/csv_loaders/bdd_day[90-110]_test_5k_40.csv'
@@ -108,4 +108,4 @@ for epoch in range(EPOCHS):
         # Checkpoint
         if n_samples % CHECKPOINT_INTERVAL == 0:
             torch.save(model.state_dict(), '{}{}/{}_{}_{}.pth'
-                       .format(RESULTS_PATH, 'weigths', RUN_NAME, epoch, n_samples))
+                       .format(RESULTS_PATH, 'weights', RUN_NAME, epoch, n_samples))
