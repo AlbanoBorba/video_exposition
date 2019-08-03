@@ -3,7 +3,7 @@ import torch.nn as nn
 from loss_utils.vgg import Vgg16
 from utils import log
 from torchvision import transforms
-import pytorch_colors as colors
+#import pytorch_colors as colors
 
 class LossFunction(nn.Module):
     def __init__(self, weight=1):
@@ -17,8 +17,8 @@ class LossFunction(nn.Module):
     def forward(self, x, y):
 
         # change colorspace
-        x = colors.rgb_to_yuv(x)
-        y = colors.rgb_to_yuv(y)
+        #x = colors.rgb_to_yuv(x)
+        #y = colors.rgb_to_yuv(y)
         
         # mse loss
         loss_mse = self.mse(x, y)
