@@ -13,8 +13,6 @@ class LossFunction(nn.Module):
         self.vgg = Vgg16(requires_grad=False)
         self.mse = nn.MSELoss()
         self.mse_vgg = nn.MSELoss()
-        self.transform = transforms.Compose(transform_list())
-
 
     def forward(self, x, y):
 
