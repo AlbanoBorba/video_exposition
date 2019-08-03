@@ -107,5 +107,5 @@ for epoch in range(EPOCHS):
 
         # Checkpoint
         if n_samples % CHECKPOINT_INTERVAL == 0:
-            torch.save(model.state_dict(), '{}{}/3dcnn_weigths_{}_{}.pth'
-                       .format(RESULTS_PATH, 'weights', epoch, n_samples))
+            torch.save(model.state_dict(), '{}{}/{}_{}_{}.pth'
+                       .format(RESULTS_PATH, 'weigths', RUN_NAME, epoch, n_samples))
