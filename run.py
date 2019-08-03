@@ -68,7 +68,7 @@ for epoch in range(EPOCHS):
             n_samples += 1
 
             # Send data to device
-            y, x = sample['y'].to(device), sample['x'].to(device)
+            y, x = sample['y'].to(device=device, dtype=torch.float), sample['x'].to(device=device, dtype=torch.float)
 
             # Train model with sample
             _, loss = train_model(
@@ -92,7 +92,7 @@ for epoch in range(EPOCHS):
                 for _, sample in enumerate(video_loader):
 
                     # Send data to device
-                    y, x = sample['y'].to(device), sample['x'].to(device)
+                    y, x = sample['y'].to(device=device, dtype=torch.float), sample['x'].to(device=device, dtype=torch.float)
 
                     # Test model with sample
                     outputs, loss = test_model(
