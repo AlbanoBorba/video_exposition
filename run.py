@@ -16,7 +16,7 @@ from utils import log
 RUN_NAME = 'loss_with_yuv_and_vgg'
 RESULTS_PATH = 'results/loss_with_yuv_and_vgg/'
 SEED = 12
-BATCH_SIZE = 8
+BATCH_SIZE = 7
 EPOCHS = 10
 TRAIN_FILE_PATH = 'data_utils/csv_loaders/bdd_day[90-110]_train_5k_40.csv'
 TEST_FILE_PATH = 'data_utils/csv_loaders/bdd_day[90-110]_test_5k_40.csv'
@@ -37,8 +37,8 @@ torch.cuda.manual_seed(SEED)
 torch.backends.cudnn.deterministic = True
 
 # Set dataloaders
-train_loader = BddDaloaderFactory(TRAIN_FILE_PATH, EXPOSURE, BATCH_SIZE)
-test_loader = BddDaloaderFactory(TEST_FILE_PATH, EXPOSURE, BATCH_SIZE, n_videos=5, n_samples=1)
+train_loader = BddDaloaderFactory(TRAIN_FILE_PATH, EXPOSURE, BATCH_SIZE, n_samples=35)
+test_loader = BddDaloaderFactory(TEST_FILE_PATH, EXPOSURE, BATCH_SIZE, n_videos=2, n_samples=1)
 
 # Set model
 model = UNet3D(3, 3).to(device)
@@ -102,8 +102,8 @@ for epoch in range(EPOCHS):
                                    .format(RESULTS_PATH, 'test_images', n_samples))
 
             # Logs after test
-            print('{} {:.6f} {:.6f}'
-                         .format(n_samples, np.sum(test_loss), np.average(test_loss)))
+            print('Test {:.6f} {:.6f}'
+                         .format(np.sum(test_loss), np.average(test_loss)))
 
         # Checkpoint
         if n_samples % CHECKPOINT_INTERVAL == 0:
