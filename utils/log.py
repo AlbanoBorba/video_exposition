@@ -10,12 +10,12 @@ def log_time(msg):
 	print('Datetime: {}'.format(datetime.datetime.now()), end='\n')
 
 def log_images(x, y, out, path):
-	frames = torch.split(x.cpu(), 1, dim=2)
+	frames = torch.split(x), 1, dim=2)
 	frames = [frame.squeeze(dim=2) for frame in frames]
-	frames.append(out.cpu())
-	frames.append(y.cpu())
+	frames.append(out)
+	frames.append(y)
 	
-	frames = np.concatenate(frames, axis=1)
+	frames = torch.cat(frames, dim=3)
 	grid = utils.make_grid(frames)
 	utils.save_image(grid, path + 'sample.png')
 
