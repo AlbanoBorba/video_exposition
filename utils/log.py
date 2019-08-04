@@ -3,6 +3,7 @@ from torchvision import utils
 import time
 import datetime
 import numpy as np
+from skimage import color
 
 def log_time(msg):
 	print(msg)
@@ -10,14 +11,18 @@ def log_time(msg):
 	print('Datetime: {}'.format(datetime.datetime.now()), end='\n')
 
 def log_images(x, y, out, path):
-	frames = torch.split(x, 1, dim=2)
-	frames = [frame.squeeze(dim=2) for frame in frames]
-	frames.append(out)
-	frames.append(y)
 	
-	frames = torch.cat(frames, dim=3)
-	grid = utils.make_grid(frames)
-	utils.save_image(grid, path + 'sample.png')
+	with torch.no_grad():
+		frames = torch.split(x, 1, dim=2)
+		frames = [frame.squeeze(dim=2) for frame in frames]
+		frames.append(out)
+		frames.append(y)
+		
+		#frames = torch.cat(frames, dim=3)
+		frames = [color.yuv2rgb(f) for f in frames]
+
+		grid = utils.make_grid(frames)
+		utils.save_image(grid, path + 'sample.png')
 
 def log_model_eval(model):
 	print('Model evaluation: ', model.eval())

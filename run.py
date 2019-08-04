@@ -38,7 +38,7 @@ torch.backends.cudnn.deterministic = True
 
 # Set dataloaders
 train_loader = BddDaloaderFactory(TRAIN_FILE_PATH, EXPOSURE, BATCH_SIZE, n_samples=35)
-test_loader = BddDaloaderFactory(TEST_FILE_PATH, EXPOSURE, BATCH_SIZE, n_videos=2, n_samples=1)
+test_loader = BddDaloaderFactory(TEST_FILE_PATH, EXPOSURE, BATCH_SIZE, n_videos=1, n_samples=1)
 
 # Set model
 model = UNet3D(3, 3).to(device)
@@ -87,9 +87,9 @@ for epoch in range(EPOCHS):
             test_loss = []
 
             # Iterate over videos.
-            for video_step, video_loader in test_loader.iterate():
+            for test_step, test_loader in test_loader.iterate():
                     # Iterate over frames.
-                for _, sample in enumerate(video_loader):
+                for _, sample in enumerate(test_loader):
 
                     # Send data to device
                     y, x = sample['y'].to(device=device, dtype=torch.float), sample['x'].to(device=device, dtype=torch.float)
@@ -98,6 +98,7 @@ for epoch in range(EPOCHS):
                     outputs, loss = test_model(
                         model, {'x': x, 'y': y}, criterion)
                     test_loss.append(float(loss))
+                    
                     log.log_images(x, y, outputs, '{}{}/{}_'
                                    .format(RESULTS_PATH, 'test_images', n_samples))
 
