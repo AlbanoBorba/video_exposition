@@ -83,7 +83,7 @@ for epoch in range(EPOCHS):
         # Test model
         # NOTE: len(train_loader) must be >> len(test_loader)
 
-        if n_samples % TEST_INTERVAL == 0:
+        if n_samples % TEST_INTERVAL == 0 or n_samples == 0:
             test_loss = []
 
             # Iterate over videos.
@@ -98,7 +98,7 @@ for epoch in range(EPOCHS):
                     outputs, loss = test_model(
                         model, {'x': x, 'y': y}, criterion)
                     test_loss.append(float(loss))
-                    
+
                     log.log_images(x, y, outputs, '{}{}/{}_'
                                    .format(RESULTS_PATH, 'test_images', n_samples))
 
