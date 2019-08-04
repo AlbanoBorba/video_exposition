@@ -3,7 +3,7 @@ from torchvision import utils
 import time
 import datetime
 import numpy as np
-from skimage import color
+import pytorch_colors as colors
 
 def log_time(msg):
 	print(msg)
@@ -19,7 +19,7 @@ def log_images(x, y, out, path):
 		frames.append(y)
 		
 		#frames = torch.cat(frames, dim=3)
-		frames = [color.yuv2rgb(f.cpu().squeeze(dim=0)) for f in frames]
+		frames = [colors.yuv_to_rgb(f.cpu()) for f in frames]
 
 		grid = utils.make_grid(frames)
 		utils.save_image(grid, path + 'sample.png')
