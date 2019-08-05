@@ -17,9 +17,6 @@ def log_images(x, y, out, path):
 		frames = [frame.squeeze(dim=2) for frame in frames]
 		frames.append(out)
 		frames.append(y)
-
-		for frame in frames:
-			print(frame.shape)
 		
 		#frames = torch.cat(frames, dim=3)
 		frames = [colors.yuv_to_rgb(f.cpu().squeeze()) for f in frames]

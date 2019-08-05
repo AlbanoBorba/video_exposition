@@ -21,7 +21,7 @@ EPOCHS = 10
 TRAIN_FILE_PATH = 'data_utils/csv_loaders/bdd_day[90-110]_train_5k_40.csv'
 TEST_FILE_PATH = 'data_utils/csv_loaders/bdd_day[90-110]_test_5k_40.csv'
 EXPOSURE = 'under'
-TEST_INTERVAL = 2000  # sample unit
+TEST_INTERVAL = 200  # sample unit
 CHECKPOINT_INTERVAL = 2000  # sample unit
 
 # Set host or device
@@ -83,7 +83,7 @@ for epoch in range(EPOCHS):
         # Test model
         # NOTE: len(train_loader) must be >> len(test_loader)
 
-        if n_samples % TEST_INTERVAL == 0 or True:
+        if n_samples % TEST_INTERVAL == 0 or n_samples % 210 == 0:
             test_loss = []
 
             # Iterate over videos.

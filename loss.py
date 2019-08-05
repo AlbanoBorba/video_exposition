@@ -10,9 +10,9 @@ class LossFunction(nn.Module):
         super().__init__()
 
         #self.weight = weight
-        self.vgg = Vgg16(requires_grad=False)
+        #self.vgg = Vgg16(requires_grad=False)
         self.mse = nn.MSELoss()
-        self.mse_vgg = nn.MSELoss()
+        #self.mse_vgg = nn.MSELoss()
 
     def forward(self, x, y):
 
@@ -24,10 +24,10 @@ class LossFunction(nn.Module):
         loss_mse = self.mse(x, y)
         
         # feature loss
-        x_vgg = self.vgg(x)
-        y_vgg = self.vgg(y)
-        loss_vgg = self.mse_vgg(x_vgg.relu2_2, y_vgg.relu2_2)
+        #x_vgg = self.vgg(x)
+        #y_vgg = self.vgg(y)
+        #loss_vgg = self.mse_vgg(x_vgg.relu2_2, y_vgg.relu2_2)
         
-        loss = loss_mse + (0.3 * loss_vgg)  # ajustar
+        loss = loss_mse# + (0.3 * loss_vgg)  # ajustar
         
         return loss
