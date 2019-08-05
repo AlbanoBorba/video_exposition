@@ -87,9 +87,9 @@ for epoch in range(EPOCHS):
             test_loss = []
 
             # Iterate over videos.
-            for test_step, test_loader in test_loader.iterate():
+            for video_test_step, video_test_loader in test_loader.iterate():
                     # Iterate over frames.
-                for _, sample in enumerate(test_loader):
+                for _, sample in enumerate(video_test_loader):
 
                     # Send data to device
                     y, x = sample['y'].to(device=device, dtype=torch.float), sample['x'].to(device=device, dtype=torch.float)
