@@ -22,7 +22,7 @@ def log_images(x, y, out, path):
 			print(frame.shape)
 
 		#frames = torch.cat(frames, dim=3)
-		frames = [colors.hsv_to_rgb(f.cpu().squeeze()) for f in frames]
+		frames = [colors.hsv_to_rgb(f.cpu()).squeeze() for f in frames]
 
 		grid = utils.make_grid(frames)
 		utils.save_image(grid, path + 'sample.png')
