@@ -26,7 +26,7 @@ class LossFunction(nn.Module):
         # feature loss
         #x_vgg = self.vgg(x)
         #y_vgg = self.vgg(y)
-        l#oss_vgg = self.mse_vgg(x_vgg.relu2_2, y_vgg.relu2_2)
+        #loss_vgg = self.mse_vgg(x_vgg.relu2_2, y_vgg.relu2_2)
         
         loss = loss_mse# + (0.1 * loss_vgg)  # ajustar
         
