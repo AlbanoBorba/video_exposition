@@ -147,11 +147,11 @@ class SampleLoader():
         if self.index == 0:
             for i in range(self.window_size):
                 _, frame = self.cap.read()
-                self.frames.append(cv2.cvtColor(frame, cv2.COLOR_BGR2HSV))
+                self.frames.append(cv2.cvtColor(frame, cv2.COLOR_BGR2YUV))
             self.index = 1
         else:
             self.frames.pop(0)
             _, frame = self.cap.read()
-            self.frames.append(cv2.cvtColor(frame, cv2.COLOR_BGR2HSV))
+            self.frames.append(cv2.cvtColor(frame, cv2.COLOR_BGR2YUV))
 
         return self.frames
