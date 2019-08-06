@@ -20,7 +20,7 @@ def log_images(x, y, out, path):
 		frames.append(y.cpu())
 
 		#frames = torch.cat(frames, dim=3)
-		frames = [cv2.cvtColor(f.reshape(400,400,3), cv2.COLOR_YUV2BGR) for f in frames]
+		frames = [cv2.cvtColor(f.reshape(400,400,3).numpy(), cv2.COLOR_YUV2RGB) for f in frames]
 
 		grid = utils.make_grid(frames)
 		utils.save_image(grid, path + 'sample.png')
