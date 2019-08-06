@@ -22,8 +22,11 @@ def log_images(x, y, out, path):
 		#frames = torch.cat(frames, dim=3)
 		frames = [cv2.cvtColor(f.reshape(400,400,3).numpy(), cv2.COLOR_YUV2RGB) for f in frames]
 
-		grid = utils.make_grid(frames)
-		utils.save_image(grid, path + 'sample.png')
+		#grid = utils.make_grid(frames)
+		#utils.save_image(grid, path + 'sample.png')
+
+		grid = np.concatenate(frames, axis=1)
+		cv2.imwrite(path + 'sample.png', grid)
 
 def log_model_eval(model):
 	print('Model evaluation: ', model.eval())
