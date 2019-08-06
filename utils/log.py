@@ -30,7 +30,7 @@ def log_images(x, y, out, path):
 		#grid = utils.make_grid(frames)
 		#utils.save_image(grid, path + 'sample.png')
 
-		grid = np.concatenate(frames, axis=0)
+		grid = np.concatenate(frames, axis=1)
 		imsave(path + 'sample.png', grid)
 
 def log_model_eval(model):
