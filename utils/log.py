@@ -5,6 +5,7 @@ import datetime
 import numpy as np
 #import pytorch_colors as colors
 from skimage.color import yuv2rgb
+from skimage.io import imsave
 
 def log_time(msg):
 	print(msg)
@@ -26,8 +27,11 @@ def log_images(x, y, out, path):
 		# for frame in frames:
 		# 	print(frame.shape)
 
-		grid = utils.make_grid(frames)
-		utils.save_image(grid, path + 'sample.png')
+		#grid = utils.make_grid(frames)
+		#utils.save_image(grid, path + 'sample.png')
+
+		grid = np.concatenate(frames, axis=0)
+		imsave(path + 'sample.png', grid)
 
 def log_model_eval(model):
 	print('Model evaluation: ', model.eval())
