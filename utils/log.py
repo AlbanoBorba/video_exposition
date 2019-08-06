@@ -3,8 +3,7 @@ from torchvision import utils
 import time
 import datetime
 import numpy as np
-#import pytorch_colors as colors
-import cv2
+import pytorch_colors as colors
 
 def log_time(msg):
 	print(msg)
@@ -14,19 +13,20 @@ def log_time(msg):
 def log_images(x, y, out, path):
 	
 	with torch.no_grad():
-		frames = torch.split(x.cpu(), 1, dim=2)
+		frames = torch.split(x, 1, dim=2)
 		frames = [frame.squeeze(dim=2) for frame in frames]
-		frames.append(out.cpu())
-		frames.append(y.cpu())
+		frames.append(out)
+		frames.append(y)
 
+		
 		#frames = torch.cat(frames, dim=3)
-		frames = [cv2.cvtColor(f.reshape(400,400,3).numpy(), cv2.COLOR_YUV2RGB) for f in frames]
+		frames = [colors.yuv_to_rgb(f.cpu().squeeze()) for f in frames]
 
-		#grid = utils.make_grid(frames)
-		#utils.save_image(grid, path + 'sample.png')
-
-		grid = np.concatenate(frames, axis=1)
-		cv2.imwrite(path + 'sample.png', grid)
+		for frame in frames:
+			print(frame.shape)
+			
+		grid = utils.make_grid(frames)
+		utils.save_image(grid, path + 'sample.png')
 
 def log_model_eval(model):
 	print('Model evaluation: ', model.eval())
