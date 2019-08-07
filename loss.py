@@ -16,7 +16,7 @@ class LossFunction(nn.Module):
         #self.mse_vgg = nn.MSELoss()
 
     def to_yuv(self, x):
-        out = np.zeros(x.shape)
+        out = torch.zeros(x.shape)
 
         out[0] =  0.299*x[0] + 0.587*x[1] + 0.114*x[3]
         out[1] = -0.147*x[0] + 0.289*x[1] + 0.436*x[3]
