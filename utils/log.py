@@ -3,9 +3,9 @@ from torchvision import utils
 import time
 import datetime
 import numpy as np
-#import pytorch_colors as colors
-from skimage.color import yuv2rgb
-from skimage.io import imsave
+import pytorch_colors as colors
+# from skimage.color import yuv2rgb
+# from skimage.io import imsave
 
 def log_time(msg):
 	print(msg)
@@ -22,7 +22,7 @@ def log_images(x, y, out, path):
 
 		
 		#frames = torch.cat(frames, dim=3)
-		frames = [f.squeeze() for f in frames]
+		frames = [colors.yuv_to_rgb(f.squeeze()) for f in frames]
 
 		# for frame in frames:
 		# 	print(frame.shape)
