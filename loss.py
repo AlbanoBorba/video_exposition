@@ -30,7 +30,7 @@ class LossFunction(nn.Module):
         #y = colors.rgb_to_yuv(y)
         
         # mse loss
-        loss_mse = self.mse(to_yuv(x), to_yuv(y))
+        loss_mse = self.mse(self.to_yuv(x), self.to_yuv(y))
         
         # feature loss
         #x_vgg = self.vgg(x)
