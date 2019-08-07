@@ -14,6 +14,15 @@ class LossFunction(nn.Module):
         self.mse = nn.MSELoss()
         #self.mse_vgg = nn.MSELoss()
 
+    def to_yuv(self, x):
+        out = np.zeros(x.shape)
+
+        out[0] =  0.299*x[0] + 0.587*x[1] + 0.114*x[3]
+        out[1] = -0.147*x[0] + 0.289*x[1] + 0.436*x[3]
+        out[2] =  0.615*x[0] + 0.515*x[1] + 0.100*x[3]
+
+        return out
+        
     def forward(self, x, y):
 
         # change colorspace
@@ -21,7 +30,7 @@ class LossFunction(nn.Module):
         #y = colors.rgb_to_yuv(y)
         
         # mse loss
-        loss_mse = self.mse(x, y)
+        loss_mse = self.mse(to_yuv(x), to_yuv(y))
         
         # feature loss
         #x_vgg = self.vgg(x)
