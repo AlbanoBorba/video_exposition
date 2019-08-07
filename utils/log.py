@@ -22,7 +22,7 @@ def log_images(x, y, out, path):
 
 		
 		#frames = torch.cat(frames, dim=3)
-		frames = [yuv2rgb(f.squeeze().permute(1,2,0)).permute(2,0,1) for f in frames]
+		frames = [yuv2rgb(f.squeeze().permute(1,2,0)).reshape((3,400,400)) for f in frames]
 
 		# for frame in frames:
 		# 	print(frame.shape)

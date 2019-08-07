@@ -21,7 +21,7 @@ EPOCHS = 10
 TRAIN_FILE_PATH = 'data_utils/csv_loaders/bdd_day[90-110]_train_5k_40.csv'
 TEST_FILE_PATH = 'data_utils/csv_loaders/bdd_day[90-110]_test_5k_40.csv'
 EXPOSURE = 'under'
-TEST_INTERVAL = 200  # sample unit
+TEST_INTERVAL = 100  # sample unit
 CHECKPOINT_INTERVAL = 2000  # sample unit
 
 # Set host or device
