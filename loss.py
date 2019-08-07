@@ -15,14 +15,15 @@ class LossFunction(nn.Module):
         self.mse = nn.MSELoss()
         #self.mse_vgg = nn.MSELoss()
 
-    def to_yuv(self, x):
-        out = torch.zeros(x.shape)
+    def to_yuv(self, in_tensor):
+        out_tensor = torch.zeros(in_tensor.shape)
 
-        out[0] =  0.299*x[0] + 0.587*x[1] + 0.114*x[3]
-        out[1] = -0.147*x[0] + 0.289*x[1] + 0.436*x[3]
-        out[2] =  0.615*x[0] + 0.515*x[1] + 0.100*x[3]
+        for i, o in zip(in_tensor, out_tensor):
+            o[0] =  0.299*i[0] + 0.587*i[1] + 0.114*i[3]
+            o[1] = -0.147*i[0] + 0.289*i[1] + 0.436*i[3]
+            o[2] =  0.615*i[0] + 0.515*i[1] + 0.100*i[3]
 
-        return out
+        return out_tensor
         
     def forward(self, x, y):
 
