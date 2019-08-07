@@ -3,6 +3,7 @@ import torch.nn as nn
 from loss_utils.vgg import Vgg16
 from utils import log
 from torchvision import transforms
+import numpy as np
 #import pytorch_colors as colors
 
 class LossFunction(nn.Module):
