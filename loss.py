@@ -19,9 +19,9 @@ class LossFunction(nn.Module):
         out_tensor = torch.zeros(in_tensor.shape)
 
         for i, o in zip(in_tensor, out_tensor):
-            o[0] =  0.299*i[0] + 0.587*i[1] + 0.114*i[3]
-            o[1] = -0.147*i[0] + 0.289*i[1] + 0.436*i[3]
-            o[2] =  0.615*i[0] + 0.515*i[1] + 0.100*i[3]
+            o[0] =  0.299*i[0] + 0.587*i[1] + 0.114*i[2]
+            o[1] = -0.147*i[0] + 0.289*i[1] + 0.436*i[2]
+            o[2] =  0.615*i[0] + 0.515*i[1] + 0.100*i[2]
 
         return out_tensor
         
