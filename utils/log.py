@@ -22,16 +22,13 @@ def log_images(x, y, out, path):
 
 		
 		#frames = torch.cat(frames, dim=3)
-		frames = [yuv2rgb(f.squeeze().permute(1,2,0)).reshape((3,400,400)) for f in frames]
+		frames = [f.squeeze() for f in frames]
 
 		# for frame in frames:
 		# 	print(frame.shape)
 
-		#grid = utils.make_grid(frames)
-		#utils.save_image(grid, path + 'sample.png')
-
-		grid = np.concatenate(frames, axis=1)
-		imsave(path + 'sample.png', grid)
+		grid = utils.make_grid(frames)
+		utils.save_image(grid, path + 'sample.png')
 
 def log_model_eval(model):
 	print('Model evaluation: ', model.eval())
