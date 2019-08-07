@@ -24,7 +24,7 @@ def transforms_list():
         transforms.Resize((400, 720)),
         transforms.CenterCrop((400, 400)),
         transforms.Lambda(lambda x: rotate(x)),
-        #transforms.Lambda(lambda x: to_yuv(x)),
+        transforms.Lambda(lambda x: to_yuv(x)),
         transforms.ToTensor(),
         #transforms.Normalize(mean=(0.279, 0.293, 0.290), std=(0.197, 0.198, 0.201))
         #transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
@@ -147,11 +147,11 @@ class SampleLoader():
         if self.index == 0:
             for i in range(self.window_size):
                 _, frame = self.cap.read()
-                self.frames.append(cv2.cvtColor(frame, cv2.COLOR_BGR2YUV))
+                self.frames.append(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
             self.index = 1
         else:
             self.frames.pop(0)
             _, frame = self.cap.read()
-            self.frames.append(cv2.cvtColor(frame, cv2.COLOR_BGR2YUV))
+            self.frames.append(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
 
         return self.frames
