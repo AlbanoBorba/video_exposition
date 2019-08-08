@@ -6,7 +6,7 @@ from torchvision import transforms, utils
 import os
 
 # My imports
-from models import UNet3D
+from model import UNet3D
 from dataloader import BddDaloaderFactory
 from train import train_model, test_model
 from loss import LossFunction
