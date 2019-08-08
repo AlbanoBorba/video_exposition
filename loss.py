@@ -24,7 +24,7 @@ class LossFunction(nn.Module):
             o[1] = -0.147*i[0] + 0.289*i[1] + 0.436*i[2]
             o[2] =  0.615*i[0] + 0.515*i[1] + 0.100*i[2]
 
-        return out_tensor
+        return out_tensor 
         
     def forward(self, x, y):
 
@@ -33,8 +33,8 @@ class LossFunction(nn.Module):
         #y = colors.rgb_to_yuv(y)
         
         # mse loss
-        loss_mse_yuv = self.mse_yuv(self.to_yuv(x), self.to_yuv(y))
         loss_mse = self.mse(x, y)
+        loss_mse_yuv = self.mse_yuv(self.to_yuv(x), self.to_yuv(y))
         
         # feature loss
         #x_vgg = self.vgg(x)
