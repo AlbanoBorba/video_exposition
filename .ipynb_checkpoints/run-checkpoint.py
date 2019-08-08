@@ -13,8 +13,8 @@ from loss import LossFunction
 from utils import log
 
 # Hiperparameters and configurations
-RUN_NAME = 'perceptual_loss'
-RESULTS_PATH = 'results/perceptual_loss/'
+RUN_NAME = 'loss_with_yuv'
+RESULTS_PATH = 'results/loss_with_yuv/'
 SEED = 12
 BATCH_SIZE = 7
 EPOCHS = 10
