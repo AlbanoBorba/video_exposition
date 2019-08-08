@@ -19,7 +19,7 @@ from tqdm import tqdm
 from IPython import embed
 
 from . import networks_basic as networks
-import main as util
+from loss_utils.models.main import *
 
 class DistModel(BaseModel):
     def name(self):
@@ -180,9 +180,9 @@ class DistModel(BaseModel):
     def get_current_visuals(self):
         zoom_factor = 256/self.var_ref.data.size()[2]
 
-        ref_img = util.tensor2im(self.var_ref.data)
-        p0_img = util.tensor2im(self.var_p0.data)
-        p1_img = util.tensor2im(self.var_p1.data)
+        ref_img = tensor2im(self.var_ref.data)
+        p0_img = tensor2im(self.var_p0.data)
+        p1_img = tensor2im(self.var_p1.data)
 
         ref_img_vis = zoom(ref_img,[zoom_factor, zoom_factor, 1],order=0)
         p0_img_vis = zoom(p0_img,[zoom_factor, zoom_factor, 1],order=0)
@@ -279,6 +279,6 @@ def score_jnd_dataset(data_loader, func, name=''):
 
     precs = TPs/(TPs+FPs)
     recs = TPs/(TPs+FNs)
-    score = util.voc_ap(recs,precs)
+    score = voc_ap(recs,precs)
 
     return(score, dict(ds=ds,sames=sames))
