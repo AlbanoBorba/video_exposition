@@ -1,0 +1,2 @@
+Video TotalLoss AvgLoss
+Video TotalLoss AvgLoss
