@@ -24,7 +24,8 @@ class LossFunction(nn.Module):
             o[1] = -0.147*i[0] + 0.289*i[1] + 0.436*i[2]
             o[2] =  0.615*i[0] + 0.515*i[1] + 0.100*i[2]
 
-        return out_tensor 
+        in_tensor = out_tensor.to(cuda)
+        return in_tensor 
         
     def forward(self, x, y):
 

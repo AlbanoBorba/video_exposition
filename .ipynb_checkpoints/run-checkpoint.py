@@ -57,7 +57,6 @@ criterion = LossFunction().to(device)
 n_samples = 0
 for epoch in range(EPOCHS):
     #log.log_time('Epoch {}/{}'.format(epoch, EPOCHS - 1))
-    print(device)
     print('Video TotalLoss AvgLoss')
 
     # Iterate over videos.

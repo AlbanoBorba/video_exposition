@@ -1,0 +1,2 @@
+cuda
+Video TotalLoss AvgLoss
