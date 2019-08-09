@@ -3,6 +3,7 @@ import numpy as np
 from skimage import io, transform
 import cv2
 import matplotlib.pyplot as plt
+import csv
 
 def write_video_path(out_file, video_path):
 	with open(out_file, mode='a') as outfile:
