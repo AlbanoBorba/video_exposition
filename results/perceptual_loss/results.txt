@@ -1,0 +1,4 @@
+Setting up Perceptual loss...
+...[net [vgg]] initialized
+...Done
+Video TotalLoss AvgLoss
