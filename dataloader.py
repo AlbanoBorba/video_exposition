@@ -12,72 +12,73 @@ from torch.utils.data import Dataset, DataLoader
 from torchvision import transforms, utils
 import imageio
 
-def rotate(frame):
-    return ndimage.rotate(frame, 90, reshape=True) 
-
-def to_yuv(frame):
-    return color.rgb2yuv(frame)
-
-def transforms_list():
-    return [
-        #transforms.ToPILImage(),
-        transforms.Resize((400, 720)),
-        transforms.CenterCrop((400, 400)),
-        transforms.Lambda(lambda x: rotate(x)),
-        #transforms.Lambda(lambda x: to_yuv(x)),
-        transforms.ToTensor(),
-        #transforms.Normalize(mean=(0.279, 0.293, 0.290), std=(0.197, 0.198, 0.201))
-        #transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
-    ]
+def BddDataloader(dataset, batch_size, num_workers):
+    
+    return dataloader = DataLoader(dataset=dataset,
+                                batch_size=self.batch_size,
+                                num_workers=num_workers,
+                                collate_fn=custom_collate)
 
 def custom_collate(batch):
     data = torch.stack([item['x'] for item in batch], dim=0)
     target = torch.stack([item['y'] for item in batch], dim=0)
 
-    return {'x':data, 'y':target}
+    return {'x': data, 'y': target}
 
 
 class BddDaloaderFactory():
 
-    def __init__(self, csv_path, exposure, batch_size, n_videos='total', n_samples=40, window_size=3):
+    """
+    Attributes
+    ----------
+    csv_path : str (required)
+        csv with video url's
+    exposure : ('under' or 'over') (required)
+        exposition type
+    batch_size : int (required)
+        batch_size
+    window_size : int
+        size of the temporal window
+    causality : bool
+        target frame in the middle of the temporal window if False, else at the end
+    offset: int
+        offset in the temporal window
+    sparsity : bool
+        if true, progressive increase offset 
+    """
+
+    def __init__(self, csv_path, exposure, batch_size, window_size=3, causality=False, offset=0, sparsity=False):
 
         if exposure == 'under':
-            self.gamma = [2, 4, 6]
-            #self.gamma = [4, 6, 8]
+            self.gamma = [2, 4, 6] # [4, 6, 8]
         elif exposure == 'over':
-            self.gamma = [0.1, 0.2, 0.4]
-            #self.gamma = [1/4, 1/6, 1/8]
-            
+            self.gamma = [0.1, 0.2, 0.4] # [1/4, 1/6, 1/8]
         else:
-            sys.exit("O tipo de exposiçao deve ser 'under' ou 'over'!")
+            sys.exit("Exposition type must be 'under' ou 'over'!")
 
         self.batch_size = batch_size
-        self.n_samples = n_samples
         self.window_size = window_size
-        self.video_loader = pd.read_csv(csv_path)
+        self.video_url_loader = pd.read_csv(csv_path)
+        self.n_videos = len(video_url_loader.index)
 
-        if (n_videos == 'total'): self.n_videos = len(self.video_loader.index)
-        else: self.n_videos = n_videos
+    def __len__(self):
+        return self.n_videos
 
-    #def __len__(self):
-    #    if self.n_videos == 'total':
-    #        return len(self.video_loader.index)
-    #    return self.n_videos
+    def __getitem__(self, idx):
 
-    #def __getitem__(self, idx):
-    def iterate(self):
-        for i in range(self.n_videos):
-            random_video = self.video_loader.sample(n=1)
-            video_path = random_video['video_path'].tolist()[0] # str
+        video_url = self.video_url_loader.iloc[idx, :]
 
-            dataset = SingleVideoDataset(video_path, self.n_samples, self.window_size, random.choice(self.gamma))
+        
+    def get_sample(transform=transforms.Compose(transforms_list())):
+        
 
-            dataloader = DataLoader(dataset=dataset, 
-                                    batch_size=self.batch_size, 
-                                    num_workers=0,
-                                    collate_fn=custom_collate)
-
-            yield i, dataloader
+    def transforms_list(self):
+        return [
+            transforms.Resize((400, 720)),
+            transforms.CenterCrop((400, 400)),
+            transforms.Lambda(lambda x: ndimage.rotate(x, 90, reshape=True)),
+            transforms.ToTensor(),
+        ]
 
 
 class SingleVideoDataset(Dataset):
@@ -91,7 +92,7 @@ class SingleVideoDataset(Dataset):
 
     def __len__(self):
         return self.n_samples
-    
+
     # Enumerate call
     def __getitem__(self, idx):
 
@@ -100,11 +101,10 @@ class SingleVideoDataset(Dataset):
 
         # Preprocess ground-truth
         frame_gt = frames[int(len(frames)/2)]
-        #frame_gt = ndimage.rotate(frame_gt, 90, reshape=True)      
-        frame_gt = transforms.functional.to_pil_image(frame_gt)      
+        #frame_gt = ndimage.rotate(frame_gt, 90, reshape=True)
+        frame_gt = transforms.functional.to_pil_image(frame_gt)
         frame_gt = self.transform(frame_gt)
         #utils.save_image(frame_gt, './results/teste/gt_{}.png'.format(idx))
-
 
         # Preprocess window
         window = []
@@ -133,6 +133,7 @@ class SingleVideoDataset(Dataset):
 
         return f
 
+
 class SampleLoader():
 
     def __init__(self, video_path, window_size):
@@ -141,7 +142,6 @@ class SampleLoader():
         self.index = 0
         self.frames = []
 
-    
     def get_sample(self):
 
         if self.index == 0:
