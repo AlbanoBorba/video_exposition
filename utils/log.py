@@ -3,9 +3,6 @@ from torchvision import utils
 import time
 import datetime
 import numpy as np
-import pytorch_colors as colors
-# from skimage.color import yuv2rgb
-# from skimage.io import imsave
 
 def log_time(msg):
 	print(msg)
@@ -20,12 +17,8 @@ def log_images(x, y, out, path):
 		frames.append(out.cpu())
 		frames.append(y.cpu())
 
-		
 		#frames = torch.cat(frames, dim=3)
 		frames = [f.squeeze() for f in frames]
-
-		# for frame in frames:
-		# 	print(frame.shape)
 
 		grid = utils.make_grid(frames)
 		utils.save_image(grid, path + 'sample.png')
@@ -37,3 +30,10 @@ def log_model_params(model):
 	model_parameters = filter(lambda p: p.requires_grad, model.parameters())
 	params = sum([np.prod(p.size()) for p in model_parameters])
 	print('Model trainable parameters: ', params)
+
+def log_config(save_path, **kwargs):
+	
+	with open('{}config.txt', "w") as file:
+		file.write('Datetime: {}'.format(datetime.datetime.now()), end='\n\n')
+		for key, value kwargs.items():
+			file.write('{}: {}'.format(key, value))

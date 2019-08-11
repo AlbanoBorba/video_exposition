@@ -1,26 +1,30 @@
 # Libs import
+import sys
+import os
 import numpy as np
 import torch
 import torch.nn as nn
 from torchvision import transforms, utils
-import os
 
 # My imports
 from model import UNet3D
-from dataloader import BddDaloaderFactory
+from dataloader import BddDataset, BddDataloader
 from train import train_model, test_model
 from loss import LossFunction
 from utils import log
 
 # Hiperparameters and configurations
 RUN_NAME = 'perceptual_loss'
-RESULTS_PATH = 'results/perceptual_loss/'
+RESULTS_PATH = 'results/'
+RUN_PATH = RESULTS_PATH+RUN_NAME+'/'
 SEED = 12
 BATCH_SIZE = 7
 EPOCHS = 10
 TRAIN_FILE_PATH = 'data_utils/csv_loaders/bdd_day[90-110]_train_5k_40.csv'
 TEST_FILE_PATH = 'data_utils/csv_loaders/bdd_day[90-110]_test_5k_40.csv'
 EXPOSURE = 'under'
+WINDOW_SIZE = 3
+LOG_INTERVAL = 100  # sample unit
 TEST_INTERVAL = 100  # sample unit
 CHECKPOINT_INTERVAL = 2000  # sample unit
 
@@ -29,7 +33,16 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 # torch.cuda.empty_cache()
 
 # Create a fodler for results
-#os.mkdir(RESULTS_PATH+RUN_NAME)
+try:
+    os.mkdir(RUN_PATH)
+    os.mkdir(RUN_PATH+'/test_images')
+    os.mkdir(RUN_PATH+'/val_images')
+    os.mkdir(RUN_PATH+'/weights')
+except:
+    sys.exit("Reset result folder: {}", RUN_PATH)
+
+# Log in file
+sys.stdout = open('{}results.csv'.format(RUN_PATH), 'w')
 
 # Set seeds
 torch.manual_seed(SEED)
@@ -37,8 +50,13 @@ torch.cuda.manual_seed(SEED)
 torch.backends.cudnn.deterministic = True
 
 # Set dataloaders
-train_loader = BddDaloaderFactory(TRAIN_FILE_PATH, EXPOSURE, BATCH_SIZE, n_samples=35)
-test_loader = BddDaloaderFactory(TEST_FILE_PATH, EXPOSURE, BATCH_SIZE, n_videos=1, n_samples=1)
+train_dataset = BddDataset(TRAIN_FILE_PATH, EXPOSURE,
+                           BATCH_SIZE, window_size=WINDOW_SIZE)
+train_loader = BddDataloader(train_dataset, BATCH_SIZE, num_workers=4)
+
+test_dataset = BddDataset(TEST_FILE_PATH, EXPOSURE,
+                          BATCH_SIZE, window_size=WINDOW_SIZE)
+test_loader = BddDataloader(test_dataset, BATCH_SIZE, num_workers=4)
 
 # Set model
 model = UNet3D(3, 3).to(device)
@@ -52,60 +70,59 @@ criterion = LossFunction().to(device)
 
 # Log model configurations
 # log.log_model_eval(model)
-#log.log_model_params(model)
+# log.log_model_params(model)
 
 n_samples = 0
+
+print('Video TotalLoss AvgLoss')
 for epoch in range(EPOCHS):
     #log.log_time('Epoch {}/{}'.format(epoch, EPOCHS - 1))
-    print('Video TotalLoss AvgLoss')
 
-    # Iterate over videos.
-    for video_step, video_loader in train_loader.iterate():
-        video_loss = []
+    loss = []
+    # Iterate over train loader
+    for _, sample in enumerate(train_loader):
 
-        # Iterate over frames.
-        for _, sample in enumerate(video_loader):
-            n_samples += 1
+        n_samples += 1
 
-            # Send data to device
-            y, x = sample['y'].to(device=device, dtype=torch.float), sample['x'].to(device=device, dtype=torch.float)
+        # Send data to device
+        x = sample['x'].to(device=device, dtype=torch.float)
+        y = sample['y'].to(device=device, dtype=torch.float)
 
-            # Train model with sample
-            _, loss = train_model(model, {'x': x, 'y': y}, criterion, optimizer)
-            #print(loss)
-            video_loss.append(float(loss))
+        # Train model with sample
+        _, loss = train_model(model, {'x': x, 'y': y}, criterion, optimizer)
 
-        # Logs per video
-        print('{} {:.6f} {:.6f}'
-                     .format(n_samples, np.sum(video_loss), np.average(video_loss)))
+        video_loss.append(float(loss))
+
+        # Log loss
+        if n_samples % LOG_INTERVAL == 0:
+
+            print('{} {:.6f} {:.6f}'
+                  .format(n_samples, np.sum(video_loss), np.average(video_loss)))
 
         # Test model
-        # NOTE: len(train_loader) must be >> len(test_loader)
-
         if n_samples % TEST_INTERVAL == 0:
             test_loss = []
 
-            # Iterate over videos.
-            for video_test_step, video_test_loader in test_loader.iterate():
-                    # Iterate over frames.
-                for _, sample in enumerate(video_test_loader):
+            for test_step, sample in enumerate(test_loader):
 
-                    # Send data to device
-                    y, x = sample['y'].to(device=device, dtype=torch.float), sample['x'].to(device=device, dtype=torch.float)
+                # Send data to device
+                x = sample['x'].to(device=device, dtype=torch.float)
+                y = sample['y'].to(device=device, dtype=torch.float)
 
-                    # Test model with sample
-                    outputs, loss = test_model(
-                        model, {'x': x, 'y': y}, criterion)
-                    test_loss.append(float(loss))
+                # Test model with sample
+                outputs, loss = test_model(model, {'x': x, 'y': y}, criterion)
+                test_loss.append(float(loss))
 
+                # Save first test sample
+                if test_step == 0:
                     log.log_images(x, y, outputs, '{}{}/{}_'
-                                   .format(RESULTS_PATH, 'test_images', n_samples))
+                                    .format(RUN_PATH, 'test_images', n_samples))
 
             # Logs after test
             print('Test {:.6f} {:.6f}'
-                         .format(np.sum(test_loss), np.average(test_loss)))
+                  .format(np.sum(test_loss), np.average(test_loss)))
 
         # Checkpoint
         if n_samples % CHECKPOINT_INTERVAL == 0:
-            torch.save(model.state_dict(), '{}{}/{}_{}_{}.pth'
-                       .format(RESULTS_PATH, 'weights', RUN_NAME, epoch, n_samples))
+            torch.save(model.state_dict(), '{}{}/{}_{}.pth'
+                       .format(RESULTS_PATH, 'weights', RUN_NAME, n_samples))
