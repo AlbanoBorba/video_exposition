@@ -7,7 +7,7 @@ import torch.nn as nn
 from torchvision import transforms, utils
 
 # My imports
-from model import UNet3D
+from architectures import UNet3D
 from dataloader import BddDataset, BddDataloader
 from train import train_model, test_model
 from loss import LossFunction
@@ -59,7 +59,7 @@ test_dataset = BddDataset(TEST_FILE_PATH, EXPOSURE,
 test_loader = BddDataloader(test_dataset, BATCH_SIZE, num_workers=4)
 
 # Set model
-model = UNet3D(3, 3).to(device)
+model = UNet3D.UNet3D(3, 3).to(device)
 
 # Set optimizer
 optimizer = torch.optim.SGD(model.parameters(), lr=0.1, momentum=0.9)
