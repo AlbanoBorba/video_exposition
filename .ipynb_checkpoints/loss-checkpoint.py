@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 from loss_utils.vgg import Vgg16
+from loss_utils.models import main as PerceptualLoss
 from utils import log
 from torchvision import transforms
 import numpy as np
@@ -9,11 +10,12 @@ import numpy as np
 class LossFunction(nn.Module):
     def __init__(self, weight=1):
         super().__init__()
+        
 
         #self.weight = weight
         #self.vgg = Vgg16(requires_grad=False)
-        self.mse = nn.MSELoss()
-        self.mse_yuv = nn.MSELoss()
+        #self.mse = nn.MSELoss()
+        self.perceptual = PerceptualLoss.PerceptualLoss(model='net', net='vgg')
         #self.mse_vgg = nn.MSELoss()
 
     def to_yuv(self, in_tensor):
@@ -34,14 +36,17 @@ class LossFunction(nn.Module):
         #y = colors.rgb_to_yuv(y)
         
         # mse loss
-        loss_mse = self.mse(x, y)
-        loss_mse_yuv = self.mse_yuv(self.to_yuv(x), self.to_yuv(y))
+        #loss_mse = self.mse(self.to_yuv(x), self.to_yuv(y))
         
         # feature loss
         #x_vgg = self.vgg(x)
         #y_vgg = self.vgg(y)
         #loss_vgg = self.mse_vgg(x_vgg.relu2_2, y_vgg.relu2_2)
         
-        loss = loss_mse + (0.2 * loss_mse_yuv)  # ajustar
+        #loss = loss_mse# + (0.3 * loss_vgg)  # ajustar
+
+        
+        loss = self.perceptual(y, x)
+
         
         return loss

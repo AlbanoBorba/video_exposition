@@ -45,7 +45,7 @@ if __name__ == '__main__':
     max_videos = 10000
     
     video_df = pd.read_csv(csv_path)
-
-    for i in range(max_videos):
-        video_path = video_df.sample(n=1, replace=False)
-        read_video(video_path.values[0][0])
+    random_sample = video_df.sample(n=max_videos)
+    
+    for index, row in random_sample.iterrows():
+        read_video(row.values[0])

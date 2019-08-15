@@ -10,6 +10,7 @@ import numpy as np
 class LossFunction(nn.Module):
     def __init__(self, weight=1):
         super().__init__()
+        
 
         #self.weight = weight
         #self.vgg = Vgg16(requires_grad=False)
