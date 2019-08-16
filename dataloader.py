@@ -69,7 +69,7 @@ class BddDataset(Dataset):
         window_config = self._get_random_window_index()
 
         # get a random video url
-        video_path = self.video_path_loader.iloc[idx, :]
+        video_path = self.video_path_loader.iloc[idx, :] 
 
         # get sample
         sample = self._get_sample(video_path, window_config)
