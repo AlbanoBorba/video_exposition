@@ -14,7 +14,7 @@ from loss import LossFunction
 from utils import log
 
 # Hiperparameters and configurations
-RUN_NAME = 'max_v3_loss'
+RUN_NAME = 'max_loss_v3'
 RESULTS_PATH = 'results/'
 RUN_PATH = RESULTS_PATH+RUN_NAME+'/'
 SEED = 12
