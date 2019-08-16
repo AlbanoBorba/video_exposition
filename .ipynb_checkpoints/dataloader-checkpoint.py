@@ -75,7 +75,7 @@ class BddDataset(Dataset):
         video_path = self.video_path_loader.iloc[idx, :] 
 
         # get sample
-        sample = self._get_sample(data_path+video_path, window_config)
+        sample = self._get_sample(self.data_path+video_path, window_config)
 
         return sample
 
