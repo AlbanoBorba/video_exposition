@@ -6,12 +6,12 @@ import torch
 import random
 import cv2
 import skimage
-from torch.utils.data import Dataset, DataLoader
 from torchvision import transforms, utils
+from torch.utils.data import Dataset, DataLoader
 
 def BddDataloader(dataset, batch_size, num_workers):
     
-    return dataloader = DataLoader(dataset=dataset,
+    return DataLoader(dataset=dataset,
                                 batch_size=batch_size,
                                 num_workers=num_workers,
                                 collate_fn=_custom_collate)
@@ -73,7 +73,7 @@ class BddDataset(Dataset):
         video_path = self.video_path_loader.iloc[idx, :] 
 
         # get sample
-        sample = self._get_sample(data_path+'/'+video_path, window_config)
+        sample = self._get_sample(data_path+video_path, window_config)
 
         return sample
 
@@ -91,7 +91,7 @@ class BddDataset(Dataset):
         if self.causality == True: # target in the end of the window
             offset = (self.window_size - 1)
             target = random.randrange(0+offset, self.max_video)
-            for i in range(target-offset, target+1)
+            for i in range(target-offset, target+1):
                 window.append(i)
 
         return {'target': target, 'aux': window}

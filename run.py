@@ -14,15 +14,15 @@ from loss import LossFunction
 from utils import log
 
 # Hiperparameters and configurations
-RUN_NAME = 'perceptual_loss'
+RUN_NAME = 'max_v3_loss'
 RESULTS_PATH = 'results/'
 RUN_PATH = RESULTS_PATH+RUN_NAME+'/'
 SEED = 12
 BATCH_SIZE = 7
 EPOCHS = 10
-TRAIN_FILE_PATH = 'data_utils/csv_loaders/bdd_day[90-110]_train_5k_40.csv'
-TEST_FILE_PATH = 'data_utils/csv_loaders/bdd_day[90-110]_test_5k_40.csv'
-DATA_PATH = ''
+DATA_PATH = 'Documents/bdd_images/'
+TRAIN_FILE_PATH = DATA_PATH + 'bdd_day_train.csv'
+TEST_FILE_PATH = DATA_PATH + 'bdd_day_test.csv'
 EXPOSURE = 'under'
 WINDOW_SIZE = 3
 LOG_INTERVAL = 100  # sample unit

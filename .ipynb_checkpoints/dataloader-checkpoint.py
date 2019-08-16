@@ -1,4 +1,3 @@
-from __future__ import print_function, division
 import os
 import sys
 import numpy as np
@@ -6,152 +5,135 @@ import pandas as pd
 import torch
 import random
 import cv2
-from skimage import color
-from scipy import ndimage, misc
-from torch.utils.data import Dataset, DataLoader
+import skimage
 from torchvision import transforms, utils
-import imageio
+from torch.utils.data import Dataset, DataLoader
 
-def rotate(frame):
-    return ndimage.rotate(frame, 90, reshape=True) 
+def BddDataloader(dataset, batch_size, num_workers):
+    
+    return DataLoader(dataset=dataset,
+                                batch_size=batch_size,
+                                num_workers=num_workers,
+                                collate_fn=_custom_collate)
 
-def to_yuv(frame):
-    return color.rgb2yuv(frame)
-
-def transforms_list():
-    return [
-        #transforms.ToPILImage(),
-        transforms.Resize((400, 720)),
-        transforms.CenterCrop((400, 400)),
-        transforms.Lambda(lambda x: rotate(x)),
-        #transforms.Lambda(lambda x: to_yuv(x)),
-        transforms.ToTensor(),
-        #transforms.Normalize(mean=(0.279, 0.293, 0.290), std=(0.197, 0.198, 0.201))
-        #transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
-    ]
-
-def custom_collate(batch):
+def _custom_collate(batch):
     data = torch.stack([item['x'] for item in batch], dim=0)
     target = torch.stack([item['y'] for item in batch], dim=0)
 
-    return {'x':data, 'y':target}
+    return {'x': data, 'y': target}
 
 
-class BddDaloaderFactory():
+class BddDataset(Dataset):
 
-    def __init__(self, csv_path, exposure, batch_size, n_videos='total', n_samples=40, window_size=3):
+    """
+    Attributes
+    ----------
+    csv_path : str (required)
+        csv with video url's
+    exposure : ('under' or 'over') (required)
+        exposition type
+    batch_size : int (required)
+        batch_size
+    window_size : int
+        size of the temporal window
+    frames_per_video: int
+        number of frames per video
+    causality : bool
+        target frame in the middle of the temporal window if False, else at the end
+    offset: int
+        offset in the temporal window
+    sparsity : bool
+        if true, progressive increase offset 
+    """
+
+    def __init__(self, csv_path, data_path, exposure, batch_size, window_size=3, frames_per_video=50, causality=False, offset=0, sparsity=False):
 
         if exposure == 'under':
-            self.gamma = [2, 4, 6]
-            #self.gamma = [4, 6, 8]
+            self.gamma = [2, 4, 6] # [4, 6, 8]
         elif exposure == 'over':
-            self.gamma = [0.1, 0.2, 0.4]
-            #self.gamma = [1/4, 1/6, 1/8]
-            
+            self.gamma = [0.1, 0.2, 0.4] # [1/4, 1/6, 1/8]
         else:
-            sys.exit("O tipo de exposiçao deve ser 'under' ou 'over'!")
+            sys.exit("Exposition type must be 'under' ou 'over'!")
 
+        self.data_path = data_path
         self.batch_size = batch_size
-        self.n_samples = n_samples
         self.window_size = window_size
-        self.video_loader = pd.read_csv(csv_path)
-
-        if (n_videos == 'total'): self.n_videos = len(self.video_loader.index)
-        else: self.n_videos = n_videos
-
-    #def __len__(self):
-    #    if self.n_videos == 'total':
-    #        return len(self.video_loader.index)
-    #    return self.n_videos
-
-    #def __getitem__(self, idx):
-    def iterate(self):
-        for i in range(self.n_videos):
-            random_video = self.video_loader.sample(n=1)
-            video_path = random_video['video_path'].tolist()[0] # str
-
-            dataset = SingleVideoDataset(video_path, self.n_samples, self.window_size, random.choice(self.gamma))
-
-            dataloader = DataLoader(dataset=dataset, 
-                                    batch_size=self.batch_size, 
-                                    num_workers=0,
-                                    collate_fn=custom_collate)
-
-            yield i, dataloader
-
-
-class SingleVideoDataset(Dataset):
-
-    def __init__(self, video_path, n_samples, window_size, gamma, transform=transforms.Compose(transforms_list())):
-
-        self.sample_loader = SampleLoader(video_path, window_size)
-        self.n_samples = n_samples
-        self.gamma = gamma
-        self.transform = transform
+        self.video_path_loader = pd.read_csv(csv_path)
+        self.n_videos = len(video_url_loader.index)
 
     def __len__(self):
-        return self.n_samples
-    
-    # Enumerate call
+        return self.n_videos
+
     def __getitem__(self, idx):
+        
+        # calculate a random temporal window
+        window_config = self._get_random_window_index()
 
-        # Get window_size frames
-        frames = self.sample_loader.get_sample()
+        # get a random video url
+        video_path = self.video_path_loader.iloc[idx, :] 
 
-        # Preprocess ground-truth
-        frame_gt = frames[int(len(frames)/2)]
-        #frame_gt = ndimage.rotate(frame_gt, 90, reshape=True)      
-        frame_gt = transforms.functional.to_pil_image(frame_gt)      
-        frame_gt = self.transform(frame_gt)
-        #utils.save_image(frame_gt, './results/teste/gt_{}.png'.format(idx))
+        # get sample
+        sample = self._get_sample(data_path+video_path, window_config)
 
+        return sample
 
-        # Preprocess window
-        window = []
-        #count = 0
-        for frame in frames:
-            frame = self.change_gamma(frame, self.gamma)
-            frame = self.transform(frame)
-            #utils.save_image(frame, './results/teste/item_{}_{}.png'.format(idx, count))
-            #count += 1
+    def _get_random_window_index(self):
+        
+        target = 0  # target frame
+        window = [] # auxiliary frames
+        
+        if self.causality == False: # target in the middle of the window
+            offset = int(self.window_size/2)
+            target = random.randrange(0+offset, self.max_video-offset)
+            for i in range(target-offset, target+offset+1):
+                window.append(i)
 
-            window.append(frame)
+        if self.causality == True: # target in the end of the window
+            offset = (self.window_size - 1)
+            target = random.randrange(0+offset, self.max_video)
+            for i in range(target-offset, target+1):
+                window.append(i)
 
-        window = torch.stack(window, dim=1)
+        return {'target': target, 'aux': window}
 
-        # Set sampleW
+    def _get_sample(self, video_path, window):
+    
+        # set transformations
+        transform = transforms.Compose(self._transforms_list())
+        gamma_value = random.choice(self.gamma)
+        
+        # load images
+        window_paths = ['{}/{:02d}.png'.format(video_path, x) for x in window['aux']]
+        auxiliaries = skimage.io.imread_collection(window_paths)
+        gt = frames[frames.index(window['target'])]
+        
+        # transform ground-truth
+        gt = transforms.functional.to_pil_image(gt) # to image
+        gt = transform(gt) # to tensor transformed
+
+        # transform auxiliaries
+        auxiliaries = [self._change_gamma(aux, gamma_value) for aux in auxiliaries] # change gamma value (exposition)
+        auxiliaries = [transform(aux) for aux in auxiliaries] # to tensor transformed
+        auxiliaries = torch.stack(auxiliaries, dim=1)# to 3d tensor
+
+        # set sample
         sample = {
-            'x': window,
-            'y': frame_gt
+            'x': auxiliaries,
+            'y': gt
         }
 
         return sample
 
-    def change_gamma(self, f, gamma):
+    def _transforms_list(self):
+        return [
+            transforms.Resize((400, 720)),
+            transforms.CenterCrop((400, 400)),
+            transforms.Lambda(lambda x: skimage.transform.rotate(x, 90, resize=True)),
+            transforms.ToTensor(),
+        ]
+
+    def _change_gamma(self, f, gamma):
         f = transforms.functional.to_pil_image(f)
         f = transforms.functional.adjust_gamma(f, gamma)
 
         return f
-
-class SampleLoader():
-
-    def __init__(self, video_path, window_size):
-        self.cap = cv2.VideoCapture(video_path)
-        self.window_size = window_size
-        self.index = 0
-        self.frames = []
-
-    
-    def get_sample(self):
-
-        if self.index == 0:
-            for i in range(self.window_size):
-                _, frame = self.cap.read()
-                self.frames.append(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
-            self.index = 1
-        else:
-            self.frames.pop(0)
-            _, frame = self.cap.read()
-            self.frames.append(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
-
-        return self.frames

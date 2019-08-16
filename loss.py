@@ -1,7 +1,6 @@
 import torch
 import torch.nn as nn
 from loss_utils.vgg import Vgg16
-from loss_utils.models import main as PerceptualLoss
 from utils import log
 from torchvision import transforms
 import numpy as np
