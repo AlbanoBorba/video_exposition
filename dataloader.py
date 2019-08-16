@@ -59,7 +59,7 @@ class BddDataset(Dataset):
         self.batch_size = batch_size
         self.window_size = window_size
         self.video_path_loader = pd.read_csv(csv_path)
-        self.n_videos = len(video_url_loader.index)
+        self.n_videos = len(self.video_path_loader.index)
 
     def __len__(self):
         return self.n_videos
