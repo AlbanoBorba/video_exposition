@@ -20,7 +20,7 @@ RUN_PATH = RESULTS_PATH+RUN_NAME+'/'
 SEED = 12
 BATCH_SIZE = 7
 EPOCHS = 10
-DATA_PATH = 'Documents/bdd_images/'
+DATA_PATH = '~/Documents/bdd_images/'
 TRAIN_FILE_PATH = DATA_PATH + 'bdd_day_train.csv'
 TEST_FILE_PATH = DATA_PATH + 'bdd_day_test.csv'
 EXPOSURE = 'under'
@@ -40,7 +40,7 @@ try:
     os.mkdir(RUN_PATH+'/val_images')
     os.mkdir(RUN_PATH+'/weights')
 except:
-    sys.exit("Reset result folder: {}", RUN_PATH)
+    sys.exit("Reset result folder: {}".format(RUN_PATH))
 
 # Log in file
 sys.stdout = open('{}results.csv'.format(RUN_PATH), 'w')

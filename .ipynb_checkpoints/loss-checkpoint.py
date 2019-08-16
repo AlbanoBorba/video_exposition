@@ -4,7 +4,7 @@ from loss_utils.vgg import Vgg16
 from utils import log
 from torchvision import transforms
 import numpy as np
-import pytorch_msssim as torch_msssim
+from loss_utils import pytorch_msssim as torch_msssim
 
 def loss_mix_v3(y_true, y_pred):
     
