@@ -22,6 +22,7 @@ BATCH_SIZE = 7
 EPOCHS = 10
 TRAIN_FILE_PATH = 'data_utils/csv_loaders/bdd_day[90-110]_train_5k_40.csv'
 TEST_FILE_PATH = 'data_utils/csv_loaders/bdd_day[90-110]_test_5k_40.csv'
+DATA_PATH = ''
 EXPOSURE = 'under'
 WINDOW_SIZE = 3
 LOG_INTERVAL = 100  # sample unit
@@ -50,11 +51,11 @@ torch.cuda.manual_seed(SEED)
 torch.backends.cudnn.deterministic = True
 
 # Set dataloaders
-train_dataset = BddDataset(TRAIN_FILE_PATH, EXPOSURE,
+train_dataset = BddDataset(TRAIN_FILE_PATH, DATA_PATH, EXPOSURE,
                            BATCH_SIZE, window_size=WINDOW_SIZE)
 train_loader = BddDataloader(train_dataset, BATCH_SIZE, num_workers=4)
 
-test_dataset = BddDataset(TEST_FILE_PATH, EXPOSURE,
+test_dataset = BddDataset(TEST_FILE_PATH, DATA_PATH, EXPOSURE,
                           BATCH_SIZE, window_size=WINDOW_SIZE)
 test_loader = BddDataloader(test_dataset, BATCH_SIZE, num_workers=4)
 

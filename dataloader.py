@@ -46,7 +46,7 @@ class BddDataset(Dataset):
         if true, progressive increase offset 
     """
 
-    def __init__(self, csv_path, exposure, batch_size, window_size=3, frames_per_video=50, causality=False, offset=0, sparsity=False):
+    def __init__(self, csv_path, data_path, exposure, batch_size, window_size=3, frames_per_video=50, causality=False, offset=0, sparsity=False):
 
         if exposure == 'under':
             self.gamma = [2, 4, 6] # [4, 6, 8]
@@ -55,6 +55,7 @@ class BddDataset(Dataset):
         else:
             sys.exit("Exposition type must be 'under' ou 'over'!")
 
+        self.data_path = data_path
         self.batch_size = batch_size
         self.window_size = window_size
         self.video_path_loader = pd.read_csv(csv_path)
@@ -72,7 +73,7 @@ class BddDataset(Dataset):
         video_path = self.video_path_loader.iloc[idx, :] 
 
         # get sample
-        sample = self._get_sample(video_path, window_config)
+        sample = self._get_sample(data_path+'/'+video_path, window_config)
 
         return sample
 
