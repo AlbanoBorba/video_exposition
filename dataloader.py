@@ -58,6 +58,8 @@ class BddDataset(Dataset):
         self.data_path = data_path
         self.batch_size = batch_size
         self.window_size = window_size
+        self.max_video = frames_per_video
+        self.causality = causality
         self.video_path_loader = pd.read_csv(csv_path)
         self.n_videos = len(self.video_path_loader.index)
 
