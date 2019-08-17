@@ -107,7 +107,7 @@ class BddDataset(Dataset):
         # load images
         window_paths = ['{}/{:02d}.png'.format(video_path, x) for x in window['aux']]
         auxiliaries = skimage.io.imread_collection(window_paths)
-        gt = frames[frames.index(window['target'])]
+        gt = auxiliaries[auxiliaries.index(window['target'])]
         
         # transform ground-truth
         gt = transforms.functional.to_pil_image(gt) # to image
