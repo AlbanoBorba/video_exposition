@@ -9,7 +9,7 @@ def log_time(msg):
 	print('\t', end='')
 	print('Datetime: {}'.format(datetime.datetime.now()), end='\n')
 
-def log_images(x, y, out, path):
+def log_images(x, y, out, path, batch_size):
 	
 	with torch.no_grad():
 		frames = torch.split(x.cpu(), 1, dim=2)
@@ -17,10 +17,17 @@ def log_images(x, y, out, path):
 		frames.append(out.cpu())
 		frames.append(y.cpu())
 
-		#frames = torch.cat(frames, dim=3)
-		frames = [f.squeeze() for f in frames]
+		# make a single list with all frames
+		to_log = []
+		for i in range(batch_size):
+			for f in frames:
+				to_log.append(f[i])
 
-		grid = utils.make_grid(frames)
+		# concat all in one dimension
+		to_log = torch.stack(to_log)
+
+		# make a grid, where each row is a sample (5 frames)
+		grid = utils.make_grid(to_log, nrow=5)
 		utils.save_image(grid, path + 'sample.png')
 
 def log_model_eval(model):

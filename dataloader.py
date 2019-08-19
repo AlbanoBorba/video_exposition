@@ -132,7 +132,7 @@ class BddDataset(Dataset):
         return [
             transforms.Resize((400, 720)),
             transforms.CenterCrop((400, 400)),
-            transforms.Lambda(lambda x: ndimage.rotate(x, 90, reshape=True)),
+            #transforms.Lambda(lambda x: ndimage.rotate(x, 90, reshape=True)),
             transforms.ToTensor(),
         ]
 

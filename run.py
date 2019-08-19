@@ -18,7 +18,7 @@ RUN_NAME = 'max_loss_v3'
 RESULTS_PATH = 'results/'
 RUN_PATH = RESULTS_PATH+RUN_NAME+'/'
 SEED = 12
-BATCH_SIZE = 8
+BATCH_SIZE = 7
 EPOCHS = 10
 DATA_PATH = '~/Documents/bdd_images/'
 TRAIN_FILE_PATH = DATA_PATH + 'bdd_day_train.csv'
@@ -26,7 +26,7 @@ TEST_FILE_PATH = DATA_PATH + 'bdd_day_test.csv'
 EXPOSURE = 'under'
 WINDOW_SIZE = 3
 LOG_INTERVAL = 100  # sample unit
-TEST_INTERVAL = 100  # sample unit
+TEST_INTERVAL = 1  # sample unit
 CHECKPOINT_INTERVAL = 2000  # sample unit
 
 # Set host or device
@@ -118,7 +118,7 @@ for epoch in range(EPOCHS):
                 # Save first test sample
                 if test_step == 0:
                     log.log_images(x, y, outputs, '{}{}/{}_'
-                                    .format(RUN_PATH, 'test_images', n_samples))
+                                    .format(RUN_PATH, 'test_images', n_samples), BATCH_SIZE)
 
             # Logs after test
             print('Test {:.6f} {:.6f}'
