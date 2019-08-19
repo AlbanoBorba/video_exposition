@@ -6,15 +6,18 @@ import torch
 import random
 import cv2
 import skimage
+from scipy import ndimage, misc
 from torchvision import transforms, utils
 from torch.utils.data import Dataset, DataLoader
 
 def BddDataloader(dataset, batch_size, num_workers):
     
-    return DataLoader(dataset=dataset,
-                                batch_size=batch_size,
-                                num_workers=num_workers,
-                                collate_fn=_custom_collate)
+    return DataLoader(
+        dataset=dataset,
+        batch_size=batch_size,
+        num_workers=num_workers,
+        collate_fn=_custom_collate,
+        shuffle=True)
 
 def _custom_collate(batch):
     data = torch.stack([item['x'] for item in batch], dim=0)
@@ -107,16 +110,11 @@ class BddDataset(Dataset):
         # load images
         window_paths = ['{}/{:02d}.png'.format(video_path, x) for x in window['aux']]
         auxiliaries = skimage.io.imread_collection(window_paths)
-        auxiliaries = [aux for aux in auxiliaries]
+        #auxiliaries = [aux for aux in auxiliaries]
         gt = auxiliaries[window['aux'].index(window['target'])]
         
         # transform ground-truth
-        #gt = transforms.functional.to_pil_image(gt) # to image
-        
-        print('---')
-        print(gt.shape)
-        print(type(gt))
-        
+        gt = transforms.functional.to_pil_image(gt) # to image
         gt = transform(gt) # to tensor transformed
 
         # transform auxiliaries
@@ -135,8 +133,8 @@ class BddDataset(Dataset):
     def _transforms_list(self):
         return [
             transforms.Resize((400, 720)),
-            #transforms.CenterCrop((400, 400)),
-            transforms.Lambda(lambda x: skimage.transform.rotate(x, 90, resize=True)),
+            transforms.CenterCrop((400, 400)),
+            #transforms.Lambda(lambda x: ndimage.rotate(x, 90, reshape=True)),
             transforms.ToTensor(),
         ]
 
