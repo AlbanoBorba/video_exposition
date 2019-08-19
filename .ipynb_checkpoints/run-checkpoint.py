@@ -43,7 +43,7 @@ except:
     sys.exit("Reset result folder: {}".format(RUN_PATH))
 
 # Log in file
-sys.stdout = open('{}results.csv'.format(RUN_PATH), 'w')
+#sys.stdout = open('{}results.csv'.format(RUN_PATH), 'w')
 
 # Set seeds
 torch.manual_seed(SEED)

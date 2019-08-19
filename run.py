@@ -18,7 +18,7 @@ RUN_NAME = 'max_loss_v3'
 RESULTS_PATH = 'results/'
 RUN_PATH = RESULTS_PATH+RUN_NAME+'/'
 SEED = 12
-BATCH_SIZE = 7
+BATCH_SIZE = 8
 EPOCHS = 10
 DATA_PATH = '~/Documents/bdd_images/'
 TRAIN_FILE_PATH = DATA_PATH + 'bdd_day_train.csv'
@@ -43,7 +43,7 @@ except:
     sys.exit("Reset result folder: {}".format(RUN_PATH))
 
 # Log in file
-sys.stdout = open('{}results.csv'.format(RUN_PATH), 'w')
+#sys.stdout = open('{}results.csv'.format(RUN_PATH), 'w')
 
 # Set seeds
 torch.manual_seed(SEED)
@@ -79,7 +79,7 @@ print('Video TotalLoss AvgLoss')
 for epoch in range(EPOCHS):
     #log.log_time('Epoch {}/{}'.format(epoch, EPOCHS - 1))
 
-    loss = []
+    train_loss = []
     # Iterate over train loader
     for _, sample in enumerate(train_loader):
 
@@ -92,13 +92,14 @@ for epoch in range(EPOCHS):
         # Train model with sample
         _, loss = train_model(model, {'x': x, 'y': y}, criterion, optimizer)
 
-        video_loss.append(float(loss))
+        train_loss.append(float(loss))
 
         # Log loss
         if n_samples % LOG_INTERVAL == 0:
 
             print('{} {:.6f} {:.6f}'
-                  .format(n_samples, np.sum(video_loss), np.average(video_loss)))
+                  .format(n_samples, np.sum(train_loss), np.average(train_loss)))
+            train_loss = []
 
         # Test model
         if n_samples % TEST_INTERVAL == 0:

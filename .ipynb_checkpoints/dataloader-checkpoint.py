@@ -72,10 +72,10 @@ class BddDataset(Dataset):
         window_config = self._get_random_window_index()
 
         # get a random video url
-        video_path = self.video_path_loader.iloc[idx, :] 
+        video_name = self.video_path_loader.iloc[idx, :].values[0]
 
         # get sample
-        sample = self._get_sample(self.data_path+video_path, window_config)
+        sample = self._get_sample(self.data_path+video_name, window_config)
 
         return sample
 
@@ -103,21 +103,27 @@ class BddDataset(Dataset):
         # set transformations
         transform = transforms.Compose(self._transforms_list())
         gamma_value = random.choice(self.gamma)
-        
+                
         # load images
         window_paths = ['{}/{:02d}.png'.format(video_path, x) for x in window['aux']]
         auxiliaries = skimage.io.imread_collection(window_paths)
-        gt = auxiliaries[auxiliaries.index(window['target'])]
+        auxiliaries = [aux for aux in auxiliaries]
+        gt = auxiliaries[window['aux'].index(window['target'])]
         
         # transform ground-truth
-        gt = transforms.functional.to_pil_image(gt) # to image
+        #gt = transforms.functional.to_pil_image(gt) # to image
+        
+        print('---')
+        print(gt.shape)
+        print(type(gt))
+        
         gt = transform(gt) # to tensor transformed
 
         # transform auxiliaries
         auxiliaries = [self._change_gamma(aux, gamma_value) for aux in auxiliaries] # change gamma value (exposition)
         auxiliaries = [transform(aux) for aux in auxiliaries] # to tensor transformed
         auxiliaries = torch.stack(auxiliaries, dim=1)# to 3d tensor
-
+        
         # set sample
         sample = {
             'x': auxiliaries,
@@ -129,7 +135,7 @@ class BddDataset(Dataset):
     def _transforms_list(self):
         return [
             transforms.Resize((400, 720)),
-            transforms.CenterCrop((400, 400)),
+            #transforms.CenterCrop((400, 400)),
             transforms.Lambda(lambda x: skimage.transform.rotate(x, 90, resize=True)),
             transforms.ToTensor(),
         ]
