@@ -1,4 +1,5 @@
 *.pth
 *.png
 *.pyc
+*.csv
 __pycache__/

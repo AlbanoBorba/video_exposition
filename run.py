@@ -14,12 +14,12 @@ from loss import LossFunction
 from utils import log
 
 # Hiperparameters and configurations
-RUN_NAME = 'max_loss_v3'
+RUN_NAME = 'max_loss_v3_new_gamma'
 RESULTS_PATH = 'results/'
 RUN_PATH = RESULTS_PATH+RUN_NAME+'/'
 SEED = 12
 BATCH_SIZE = 4
-EPOCHS = 10
+EPOCHS = 100
 DATA_PATH = '~/Documents/bdd_images/'
 TRAIN_FILE_PATH = DATA_PATH + 'bdd_day_train.csv'
 TEST_FILE_PATH = DATA_PATH + 'bdd_day_test.csv'
@@ -88,7 +88,7 @@ for epoch in range(EPOCHS):
         # Send data to device
         x = sample['x'].to(device=device, dtype=torch.float)
         y = sample['y'].to(device=device, dtype=torch.float)
-
+        
         # Train model with sample
         _, loss = train_model(model, {'x': x, 'y': y}, criterion, optimizer)
 

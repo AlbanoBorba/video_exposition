@@ -52,9 +52,9 @@ class BddDataset(Dataset):
     def __init__(self, csv_path, data_path, exposure, batch_size, window_size=3, frames_per_video=50, causality=False, offset=0, sparsity=False):
 
         if exposure == 'under':
-            self.gamma = [2, 4, 6] # [4, 6, 8]
+            self.gamma = [4, 6, 8]
         elif exposure == 'over':
-            self.gamma = [0.1, 0.2, 0.4] # [1/4, 1/6, 1/8]
+            self.gamma = [1/4, 1/6, 1/8]
         else:
             sys.exit("Exposition type must be 'under' ou 'over'!")
 
