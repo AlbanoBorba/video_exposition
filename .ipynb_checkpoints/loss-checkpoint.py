@@ -6,35 +6,34 @@ from torchvision import transforms
 import numpy as np
 from loss_utils import pytorch_msssim as torch_msssim
 
-def loss_mix_v3(y_true, y_pred):
-    
-    # weights
-    alpha = 0.2
-    l1_w = 1-alpha
-    msssim_w = alpha
-    
-    #l1 = K.mean(K.abs(y_pred - y_true)*K.abs(y_true - .5), axis=-1)
-    l1_value = torch.mean(torch.abs(y_pred - y_true) * torch.abs(y_true - 0.5))
-    #ms_ssim = tf.reduce_mean(1-tf.image.ssim_multiscale(y_pred, y_true, max_val = 1.0))
-    msssim_value = torch.mean(1-torch_msssim.msssim(y_pred, y_true)) # must be (0,1) rangee
-    
-    return (msssim_w*msssim_value) + (l1_w*l1_value)
 
 class LossFunction(nn.Module):
-    def __init__(self, weight=1):
+    def __init__(self):
         super().__init__()
 
-        #self.weight = weight
         #self.vgg = Vgg16(requires_grad=False)
         #self.mse_vgg = nn.MSELoss()
-        self.mse = nn.MSELoss()
+        #self.mse = nn.MSELoss()
         
+    def loss_mix_v3(self, y_true, y_pred):
+    
+        # weights
+        alpha = 0.2
+        l1_w = 1-alpha
+        msssim_w = alpha
+
+        l1_value = torch.mean(torch.abs(y_pred - y_true) * torch.abs(y_true - 0.5))
+        msssim_value = torch.mean(1-torch_msssim.msssim(y_pred, y_true)) # must be (0,1) rangee
+
+        return (msssim_w*msssim_value) + (l1_w*l1_value)
+
     def forward(self, x, y):
         
-        # mse loss
-        #loss_mse = self.mse(self.to_yuv(x), self.to_yuv(y))
+        # feature loss
+        #x_vgg = self.vgg(x).relu2_2
+        #y_vgg = self.vgg(y).relu2_2
         
-        # mix loss v3
-        loss = loss_mix_v3(y, x)
+        # mix loss v3 + feature loss
+        loss = self.loss_mix_v3(y, x)# * 0.8 + self.mse_vgg(y_vgg, x_vgg) * 0.2
 
         return loss

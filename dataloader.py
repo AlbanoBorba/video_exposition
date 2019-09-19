@@ -10,14 +10,14 @@ from scipy import ndimage, misc
 from torchvision import transforms, utils
 from torch.utils.data import Dataset, DataLoader
 
-def BddDataloader(dataset, batch_size, num_workers):
+def BddDataloader(dataset, batch_size, num_workers, shuffle=True):
     
     return DataLoader(
-        dataset=dataset,
-        batch_size=batch_size,
-        num_workers=num_workers,
-        collate_fn=_custom_collate,
-        shuffle=True)
+            dataset=dataset,
+            batch_size=batch_size,
+            num_workers=num_workers,
+            collate_fn=_custom_collate,
+            shuffle=shuffle)
 
 def _custom_collate(batch):
     data = torch.stack([item['x'] for item in batch], dim=0)
@@ -49,9 +49,11 @@ class BddDataset(Dataset):
         if true, progressive increase offset 
     """
 
-    def __init__(self, csv_path, data_path, exposure, batch_size, window_size=3, frames_per_video=50, causality=False, offset=0, sparsity=False):
+    def __init__(self, csv_path, data_path, exposure, batch_size, window_size=3, frames_per_video=50, causality=False, offset=0, sparsity=False, validation=False):
 
-        if exposure == 'under':
+        if validation:
+            self.gamma = exposure
+        elif exposure == 'under':
             self.gamma = [4, 6, 8]
         elif exposure == 'over':
             self.gamma = [1/4, 1/6, 1/8]
@@ -65,6 +67,7 @@ class BddDataset(Dataset):
         self.causality = causality
         self.video_path_loader = pd.read_csv(csv_path)
         self.n_videos = len(self.video_path_loader.index)
+        self.validation = validation
 
     def __len__(self):
         return self.n_videos
@@ -89,13 +92,13 @@ class BddDataset(Dataset):
         
         if self.causality == False: # target in the middle of the window
             offset = int(self.window_size/2)
-            target = random.randrange(0+offset, self.max_video-offset)
+            target = random.randrange(0+offset, self.max_video-offset) if self.validation == False else (0+offset)            
             for i in range(target-offset, target+offset+1):
                 window.append(i)
 
         if self.causality == True: # target in the end of the window
             offset = (self.window_size - 1)
-            target = random.randrange(0+offset, self.max_video)
+            target = random.randrange(0+offset, self.max_video) if self.validation == False else (0+offset)
             for i in range(target-offset, target+1):
                 window.append(i)
 
