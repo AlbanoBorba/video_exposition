@@ -6,8 +6,9 @@ import numpy as np
 import random
 
 files = [
-    #('mix_loss', 'results/mix_loss_v3_adam/val_images/eval_300000_under_4.csv'),
-    ('mix_plus_vgg', 'results/mix_plus_vgg/val_images/eval_406000_under_4.csv'),
+    ('mix_loss', 'results/mix_loss_v3_adam/val_images/eval_300000_under_4.csv'),
+    #('mix_plus_vgg', 'results/mix_plus_vgg/val_images/eval_300000_under_4.csv'),
+    ('mix_loss', 'results/mix_loss_v3_adam/val_images/eval_170000_under_4.csv'),
 ]
 
 print('Name;ssim_avg;ssim_std;psnr_avg;psnr_std')
