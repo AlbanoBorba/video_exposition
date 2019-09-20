@@ -29,8 +29,8 @@ WINDOW_SIZE = 3
 OFFSET = 3
 LOG_INTERVAL = 100  # sample unit
 TEST_INTERVAL = 1000  # sample unit
-CHECKPOINT_INTERVAL = 2000  # sample unit
-MODEL_STATE_NAME = 86000
+CHECKPOINT_INTERVAL = 1000  # sample unit
+MODEL_STATE_NAME = 158000
 MODEL_STATE_PATH = '{}weights/{}_{}.pth'.format('results/mix_3_2/', 'mix_3_2', MODEL_STATE_NAME)
 
 # Set host or device
@@ -47,7 +47,7 @@ torch.cuda.empty_cache()
 #     sys.exit("Reset result folder: {}".format(RUN_PATH))
 
 # Log in file
-sys.stdout = open('{}results2.csv'.format(RUN_PATH), 'w')
+sys.stdout = open('{}results3.csv'.format(RUN_PATH), 'w')
 
 # Set seeds
 torch.manual_seed(SEED)

@@ -16,16 +16,16 @@ from loss import LossFunction
 from utils import log
 
 # Hiperparameters and configurations
-RUN_NAME = 'mix_plus_vgg'
+RUN_NAME = 'mix_loss_v3_adam'
 RESULTS_PATH = 'results/'
 RUN_PATH = RESULTS_PATH+RUN_NAME+'/val_images/'
 SEED = 12
 BATCH_SIZE = 8
 DATA_PATH = '~/Documents/bdd_images/'
 VAL_FILE_PATH = DATA_PATH + 'bdd_day_val.csv'
-EXPOSURE = [4]
+EXPOSURE = [8]
 WINDOW_SIZE = 3
-MODEL_STATE_NAME = '406000'
+MODEL_STATE_NAME = '300000'
 MODEL_STATE_PATH = RESULTS_PATH+RUN_NAME+'/weights/'+RUN_NAME+'_'+MODEL_STATE_NAME+'.pth'
 
 # Set host or device
@@ -52,7 +52,7 @@ model.load_state_dict(torch.load(MODEL_STATE_PATH))
 
 # Set optimizer
 #optimizer = torch.optim.SGD(model.parameters(), lr=0.1, momentum=0.9)
-#optimizer = torch.optim.Adam(model.parameters())
+optimizer = torch.optim.Adam(model.parameters())
 
 # Set criterion
 criterion = LossFunction().to(device)
@@ -68,7 +68,7 @@ for _, sample in enumerate(val_loader):
     x = torch.squeeze(x, 2) if WINDOW_SIZE == 1 else x
         
     # val model with sample
-    out, loss = val_model(model, {'x': x, 'y': y}, criterion)
+    out, loss = val_model(model, {'x': x, 'y': y}, criterion, optimizer)
 
     # swap axes, move to cpu, break gradient and cast to numpy array for metric calculation
     y = np.moveaxis(y.cpu().detach().numpy(), 1, -1)
