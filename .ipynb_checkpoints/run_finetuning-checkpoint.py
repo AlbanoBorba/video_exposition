@@ -15,7 +15,7 @@ from utils import log
 from utils.metrics import calc_metrics
 
 
-def run_train(run_name, results_path='results/', batch_size, max_samples, data_path, exposure, window_size, offset):
+def run_finetuning(run_name, results_path='results/', batch_size, max_samples, data_path, exposure, window_size, offset, model_name, model_state):
     # Hiperparameters and configurations
     params = {
         "RUN_NAME": run_name,
@@ -33,6 +33,8 @@ def run_train(run_name, results_path='results/', batch_size, max_samples, data_p
         "LOG_INTERVAL": 100,  # sample unit
         "TEST_INTERVAL": 1000,  # sample unit
         "CHECKPOINT_INTERVAL": 1000,  # sample unit
+        "MODEL_STATE_NAME": model_state,
+        "MODEL_STATE_PATH": 'results/{0}/weights/{0}_{1}.pth'.format(model_name, model_state)
     }
 
 
@@ -41,20 +43,20 @@ def run_train(run_name, results_path='results/', batch_size, max_samples, data_p
     torch.cuda.empty_cache()
 
     # Create a fodler for results
-    try:
-        os.mkdir(params['RUN_PATH'])
-        os.mkdir(params['RUN_PATH']+'/test_images')
-        os.mkdir(params['RUN_PATH']+'/val_images')
-        os.mkdir(params['RUN_PATH']+'/weights')
-    except:
-        sys.exit("Reset result folder: {}".format(params['RUN_PATH']))
+#     try:
+#         os.mkdir(RUN_PATH)
+#         os.mkdir(RUN_PATH+'/test_images')
+#         os.mkdir(RUN_PATH+'/val_images')
+#         os.mkdir(RUN_PATH+'/weights')
+#     except:
+#         sys.exit("Reset result folder: {}".format(params['RUN_PATH']))
 
     # Log in file
     sys.stdout = open('{}results3.csv'.format(params['RUN_PATH']), 'w')
 
     # Set seeds
-    torch.manual_seed(params['SEED'])
-    torch.cuda.manual_seed(params['SEED'])
+    torch.manual_seed(SEED)
+    torch.cuda.manual_seed(SEED)
     torch.backends.cudnn.deterministic = True
 
     # Set dataloaders
@@ -82,10 +84,10 @@ def run_train(run_name, results_path='results/', batch_size, max_samples, data_p
     # log.log_model_eval(model)
     # log.log_model_params(model)
 
-    n_samples = 0
+    n_samples = MODEL_STATE_NAME
 
     print('Batch;TotalLoss;AvgLoss;AvgSsim;AvgPsnr')
-    while (n_samples < params['MAX_SAMPLES']):
+    while (n_samples < MAX_SAMPLES):
 
         train_loss = []
         # Iterate over train loader
@@ -97,7 +99,7 @@ def run_train(run_name, results_path='results/', batch_size, max_samples, data_p
             x = sample['x'].to(device=device, dtype=torch.float)
             y = sample['y'].to(device=device, dtype=torch.float)
 
-            x = torch.squeeze(x, 2) if params['WINDOW_SIZE'] == 1 else x
+            x = torch.squeeze(x, 2) if WINDOW_SIZE == 1 else x
 
             # Train model with sample
             _, loss = train_model(model, {'x': x, 'y': y}, criterion, optimizer)
@@ -112,7 +114,7 @@ def run_train(run_name, results_path='results/', batch_size, max_samples, data_p
                 train_loss = []
 
             # Test model
-            if n_samples % params['TEST_INTERVAL'] == 0:
+            if n_samples % TEST_INTERVAL == 0:
                 test_loss = []
                 test_metrics = []
 
@@ -123,7 +125,7 @@ def run_train(run_name, results_path='results/', batch_size, max_samples, data_p
                         x = sample['x'].to(device=device, dtype=torch.float)
                         y = sample['y'].to(device=device, dtype=torch.float)
 
-                        x = torch.squeeze(x, 2) if params['WINDOW_SIZE'] == 1 else x
+                        x = torch.squeeze(x, 2) if WINDOW_SIZE == 1 else x
 
                         # Test model with sample
                         outputs, loss = test_model(model, {'x': x, 'y': y}, criterion, optimizer)
@@ -133,7 +135,7 @@ def run_train(run_name, results_path='results/', batch_size, max_samples, data_p
                         # Save first test sample
                         if test_step == 0:
                             log.log_images(x, y, outputs, '{}{}/{}_'
-                                            .format(params['RUN_PATH'], 'test_images', n_samples), params['BATCH_SIZE'], params['WINDOW_SIZE'])
+                                            .format(RUN_PATH, 'test_images', n_samples), BATCH_SIZE, WINDOW_SIZE)
 
                     #break
 
@@ -144,6 +146,6 @@ def run_train(run_name, results_path='results/', batch_size, max_samples, data_p
                               #np.average(test_metrics[0]), np.average(test_metrics[1])))
 
             # Checkpoint
-            if n_samples % params['CHECKPOINT_INTERVAL'] == 0:
+            if n_samples % CHECKPOINT_INTERVAL == 0:
                 torch.save(model.state_dict(), '{}{}/{}_{}.pth'
-                           .format(params['RUN_PATH'], 'weights', params['RUN_NAME'], n_samples))
+                           .format(RUN_PATH, 'weights', RUN_NAME, n_samples))
