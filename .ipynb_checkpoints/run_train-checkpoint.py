@@ -15,17 +15,17 @@ from utils import log
 from utils.metrics import calc_metrics
 
 # Hiperparameters and configurations
-RUN_NAME = 'mix_9_3'
+RUN_NAME = 'fc_mix_3_3'
 RESULTS_PATH = 'results/'
 RUN_PATH = RESULTS_PATH+RUN_NAME+'/'
 SEED = 12
-BATCH_SIZE = 2
-EPOCHS = 1000
-DATA_PATH = '/media/albano/bdd100k_images/bdd100k_images/'#'~/Documents/bdd_images/'
+BATCH_SIZE = 5
+MAX_SAMPLES = 300000
+DATA_PATH = '~/Documents/bdd_images/'
 TRAIN_FILE_PATH = DATA_PATH + 'bdd_day_train.csv'
 TEST_FILE_PATH = DATA_PATH + 'bdd_day_test.csv'
 EXPOSURE = 'under'
-WINDOW_SIZE = 9
+WINDOW_SIZE = 3
 OFFSET = 3
 LOG_INTERVAL = 100  # sample unit
 TEST_INTERVAL = 1000  # sample unit
@@ -83,7 +83,7 @@ criterion = LossFunction().to(device)
 n_samples = 0#MODEL_STATE_NAME
 
 print('Batch;TotalLoss;AvgLoss;AvgSsim;AvgPsnr')
-for epoch in range(EPOCHS):
+while n_samples < MAX_SAMPLES:
     #log.log_time('Epoch {}/{}'.format(epoch, EPOCHS - 1))
 
     train_loss = []
