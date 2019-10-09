@@ -15,7 +15,7 @@ from utils import log
 from utils.metrics import calc_metrics
 
 # Hiperparameters and configurations
-RUN_NAME = 'fc_mix_3_3'
+RUN_NAME = 'fc_mix_6_3'
 RESULTS_PATH = 'results/'
 RUN_PATH = RESULTS_PATH+RUN_NAME+'/'
 SEED = 12
@@ -30,8 +30,8 @@ OFFSET = 3
 LOG_INTERVAL = 100  # sample unit
 TEST_INTERVAL = 1000  # sample unit
 CHECKPOINT_INTERVAL = 1000  # sample unit
-#MODEL_STATE_NAME = 158000
-#MODEL_STATE_PATH = '{}weights/{}_{}.pth'.format('results/mix_3_2/', 'mix_3_2', MODEL_STATE_NAME)
+MODEL_STATE_NAME = 150000
+MODEL_STATE_PATH = '{}weights/{}_{}.pth'.format('results/fc_mix_3_3/', 'fc_mix_3_3', MODEL_STATE_NAME)
 
 # Set host or device
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
