@@ -15,23 +15,24 @@ from utils import log
 from utils.metrics import calc_metrics
 
 # Hiperparameters and configurations
-RUN_NAME = 'fc_mix_6_3'
+RUN_NAME = 'fc_mix_7_3'
 RESULTS_PATH = 'results/'
 RUN_PATH = RESULTS_PATH+RUN_NAME+'/'
 SEED = 12
-BATCH_SIZE = 5
-MAX_SAMPLES = 300000
-DATA_PATH = '~/Documents/bdd_images/'
+BATCH_SIZE = 2
+MAX_SAMPLES = 350000
+DATA_PATH = '/media/albano/bdd100k_images/bdd100k_images/'
 TRAIN_FILE_PATH = DATA_PATH + 'bdd_day_train.csv'
 TEST_FILE_PATH = DATA_PATH + 'bdd_day_test.csv'
 EXPOSURE = 'under'
-WINDOW_SIZE = 3
+WINDOW_SIZE = 7
 OFFSET = 3
 LOG_INTERVAL = 100  # sample unit
 TEST_INTERVAL = 1000  # sample unit
 CHECKPOINT_INTERVAL = 1000  # sample unit
-MODEL_STATE_NAME = 150000
-MODEL_STATE_PATH = '{}weights/{}_{}.pth'.format('results/fc_mix_3_3/', 'fc_mix_3_3', MODEL_STATE_NAME)
+#MODEL_STATE_NAME = 121000
+#MODEL_STATE_PATH = '{}weights/{}_{}.pth'.format('results/fc_mix_11_3/', 'fc_mix_11_3', MODEL_STATE_NAME)
+# MODEL_STATE_PATH = '{}{}_{}.pth'.format(RESULTS_PATH, 'fc_mix_11_3', MODEL_STATE_NAME)
 
 # Set host or device
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -47,7 +48,7 @@ except:
     sys.exit("Reset result folder: {}".format(RUN_PATH))
 
 # Log in file
-sys.stdout = open('{}results.csv'.format(RUN_PATH), 'w')
+sys.stdout = open('{}results2.csv'.format(RUN_PATH), 'w')
 
 # Set seeds
 torch.manual_seed(SEED)
@@ -67,7 +68,7 @@ test_loader = BddDataloader(test_dataset, BATCH_SIZE, num_workers=4, shuffle=Fal
 model = UNet3D.UNet3D(WINDOW_SIZE).to(device)
 # model = UNet.UNet(3, 3).to(device)
 # model = UNet2_5D.UNet3D(3,3).to(device)
-#model.load_state_dict(torch.load(MODEL_STATE_PATH))
+# model.load_state_dict(torch.load(MODEL_STATE_PATH))
 
 # Set optimizer
 #optimizer = torch.optim.SGD(model.parameters(), lr=0.1, momentum=0.9)
