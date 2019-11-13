@@ -49,7 +49,7 @@ except:
     sys.exit("Reset result folder: {}".format(RUN_PATH))
 
 # Log in file
-sys.stdout = open('{}results.csv'.format(RUN_PATH), 'w')
+sys.stdout = open('{}results2.csv'.format(RUN_PATH), 'w')
 
 # Set seeds
 torch.manual_seed(SEED)
@@ -69,7 +69,7 @@ test_loader = BddDataloader(test_dataset, BATCH_SIZE, num_workers=4, shuffle=Fal
 model = UNet3D.UNet3D(WINDOW_SIZE).to(device)
 # model = UNet.UNet(3, 3).to(device)
 # model = UNet2_5D.UNet3D(3,3).to(device)
-#model.load_state_dict(torch.load(MODEL_STATE_PATH))
+# model.load_state_dict(torch.load(MODEL_STATE_PATH))
 
 # Set optimizer
 #optimizer = torch.optim.SGD(model.parameters(), lr=0.1, momentum=0.9)
