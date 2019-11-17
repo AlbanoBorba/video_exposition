@@ -49,7 +49,7 @@ class BddDataset(Dataset):
         if true, progressive increase offset 
     """
 
-    def __init__(self, csv_path, data_path, exposure, batch_size, window_size=3, frames_per_video=50, causality=False, offset=0, sparsity=False, validation=False):
+    def __init__(self, csv_path, data_path, exposure, batch_size, window_size=3, frames_per_video=50, causality=False, dilatation=0, sparsity=False, validation=False):
 
         if validation:
             self.gamma = exposure
