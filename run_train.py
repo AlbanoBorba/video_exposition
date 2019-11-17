@@ -1,3 +1,5 @@
+#DATA_PATH = '~/Documents/bdd_images/'
+
 # Libs import
 import sys
 import os
@@ -15,24 +17,23 @@ from utils import log
 from utils.metrics import calc_metrics
 
 # Hiperparameters and configurations
-RUN_NAME = 'fc_mix_7_3'
+RUN_NAME = 'fc_mix_3_3_over'
 RESULTS_PATH = 'results/'
 RUN_PATH = RESULTS_PATH+RUN_NAME+'/'
 SEED = 12
-BATCH_SIZE = 2
-MAX_SAMPLES = 350000
-DATA_PATH = '/media/albano/bdd100k_images/bdd100k_images/'
+BATCH_SIZE = 4
+MAX_SAMPLES = 300000
+DATA_PATH = '~/Documents/bdd_images/'
 TRAIN_FILE_PATH = DATA_PATH + 'bdd_day_train.csv'
 TEST_FILE_PATH = DATA_PATH + 'bdd_day_test.csv'
-EXPOSURE = 'under'
-WINDOW_SIZE = 7
+EXPOSURE = 'over'
+WINDOW_SIZE = 3
 OFFSET = 3
 LOG_INTERVAL = 100  # sample unit
 TEST_INTERVAL = 1000  # sample unit
 CHECKPOINT_INTERVAL = 1000  # sample unit
-#MODEL_STATE_NAME = 121000
-#MODEL_STATE_PATH = '{}weights/{}_{}.pth'.format('results/fc_mix_11_3/', 'fc_mix_11_3', MODEL_STATE_NAME)
-# MODEL_STATE_PATH = '{}{}_{}.pth'.format(RESULTS_PATH, 'fc_mix_11_3', MODEL_STATE_NAME)
+# MODEL_STATE_NAME = 150000
+# MODEL_STATE_PATH = '{}weights/{}_{}.pth'.format('results/fc_mix_3_3/', 'fc_mix_3_3', MODEL_STATE_NAME)
 
 # Set host or device
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -60,7 +61,7 @@ train_dataset = BddDataset(TRAIN_FILE_PATH, DATA_PATH, EXPOSURE,
                            BATCH_SIZE, window_size=WINDOW_SIZE, offset=OFFSET)
 train_loader = BddDataloader(train_dataset, BATCH_SIZE, num_workers=4)
 
-test_dataset = BddDataset(TEST_FILE_PATH, DATA_PATH, [6],
+test_dataset = BddDataset(TEST_FILE_PATH, DATA_PATH, [1/6],
                           BATCH_SIZE, window_size=WINDOW_SIZE, validation=True, offset=OFFSET)
 test_loader = BddDataloader(test_dataset, BATCH_SIZE, num_workers=4, shuffle=False)
 
@@ -101,7 +102,8 @@ while n_samples < MAX_SAMPLES:
         
         # Train model with sample
         _, loss = train_model(model, {'x': x, 'y': y}, criterion, optimizer)
-
+        
+#         print('loss:', loss)
         train_loss.append(float(loss))
 
         # Log loss
